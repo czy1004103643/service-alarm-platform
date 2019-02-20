@@ -1,0 +1,10 @@
+server:
+  port: 8001
+
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  configuration:
+    # 下划线转驼峰
+    map-underscore-to-camel-case: true
+    default-fetch-size: 100
+    default-statement-timeout: 30
