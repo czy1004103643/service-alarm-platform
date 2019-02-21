@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.newegg.ec.tools</groupId>
-    <artifactId>monitor-platform</artifactId>
+    <artifactId>service-alarm-platform</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>monitor-platform</name>
-    <description>Newegg SH EC Monitor Platform</description>
+    <name>service-alarm-platform</name>
+    <description>Newegg SH EC Service Alarm Platform</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
