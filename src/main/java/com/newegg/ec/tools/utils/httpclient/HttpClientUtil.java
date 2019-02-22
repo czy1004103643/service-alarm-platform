@@ -31,6 +31,14 @@ import java.util.concurrent.TimeUnit;
  */
 public class HttpClientUtil {
 
+    private static final String CONNECTION = "Connection";
+
+    private static final String KEEP_ALIVE = "Keep-Alive";
+
+    private static final String ACCEPT = "Accept";
+
+    private static final String APPLICATION_JSON = "application/json";
+
     private static CloseableHttpClient httpclient;
 
     static {
