@@ -11,6 +11,7 @@
 
     <groupId>com.newegg.ec.tools</groupId>
     <artifactId>alarm-notify-wechat</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
 

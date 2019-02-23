@@ -3,15 +3,24 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>alarm-notify-extends</artifactId>
+        <artifactId>service-alarm-platform</artifactId>
         <groupId>com.newegg.ec.tools</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.newegg.ec.tools</groupId>
-    <artifactId>alarm-notify-wechat</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>alarm-notify-extends</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>alarm-notify-wechat</module>
+        <module>alarm-notify-dingtalk</module>
+    </modules>
+
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
 
 
 </project>
