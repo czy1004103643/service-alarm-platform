@@ -44,9 +44,6 @@ public class WechatAPI {
         if (StringUtils.isNotBlank(accessToken)) {
             return accessToken;
         }
-        String url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=" + cropId +"&corpsecret="+ corpSecret;
-        String entity = HttpClientUtil.getGetResponse(url, null);
-        String accessToken = JSONObject.parseObject(entity).getString(ACCESS_TOKEN);
         return accessToken;
     }
 
