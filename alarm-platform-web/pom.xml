@@ -12,6 +12,10 @@
     <groupId>com.newegg.ec.tools</groupId>
     <artifactId>alarm-platform-web</artifactId>
 
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
     <dependencies>
 
         <dependency>

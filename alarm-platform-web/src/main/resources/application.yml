@@ -1,6 +1,16 @@
 server:
   port: 8183
 
+spring:
+  application:
+      name: service-alarm-platform
+  datasource:
+      name: serverbase
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://10.16.50.209:3306/redis_manager?useUnicode=true&characterEncoding=utf-8
+      username: root
+      password: Newegg@1234
+
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
   configuration:
