@@ -22,7 +22,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>alarm-notify-extends</artifactId>
+            <artifactId>alarm-notify-wechat</artifactId>
             <groupId>com.newegg.ec.tools</groupId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
