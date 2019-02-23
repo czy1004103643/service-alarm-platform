@@ -23,7 +23,7 @@ public class WechatAPI {
     /**
      * 第一步获取到的公司的crodid
      */
-    private static String corpId = "";
+    private static String cropId = "";
 
     /**
      * 应用的id
@@ -33,10 +33,14 @@ public class WechatAPI {
     /**
      * 第一步创建应用后看到的Secret
      */
-    private static String corpSecret;
+    private static String corpSecret = "";
 
+    public static boolean checkResponse(JSONObject result){
+        Integer errorCode = result.getInteger("errorcode");
+        return errorCode == 0;
+    }
 
-    public static String getAccessToken(String cropId, String corpSecret) throws IOException {
+    public static String getAccessToken() throws IOException {
         if (StringUtils.isNotBlank(accessToken)) {
             return accessToken;
         }

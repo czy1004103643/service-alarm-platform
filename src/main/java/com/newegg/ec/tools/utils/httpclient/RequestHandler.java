@@ -3,7 +3,9 @@ package com.newegg.ec.tools.utils.httpclient;
 import org.apache.http.client.HttpClient;
 
 /**
- * Created by lf52 on 2018/5/26.
+ *
+ * @author lf52
+ * @date 2018/5/26
  */
 public interface RequestHandler<T> {
 

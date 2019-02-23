@@ -33,11 +33,15 @@ public class HttpClientUtil {
 
     private static final String CONNECTION = "Connection";
 
+    private static final String CONTENT_TYPE = "Content-Type";
+
     private static final String KEEP_ALIVE = "Keep-Alive";
 
     private static final String ACCEPT = "Accept";
 
     private static final String APPLICATION_JSON = "application/json";
+
+    private static final String UTF8 = "utf-8";
 
     private static CloseableHttpClient httpclient;
 
@@ -81,8 +85,12 @@ public class HttpClientUtil {
         idleConnectionMonitorThread.start();
     }
 
+    /**
+     * 设置代理及其他配置
+     * @return
+     */
     public static RequestConfig getRequestConfig() {
-        HttpHost proxy = new HttpHost("localhost", 3333);
+        HttpHost proxy = new HttpHost("10.16.46.161", 3333);
         RequestConfig requestConfig = RequestConfig.custom()
                 .setProxy(proxy)
                 .setConnectTimeout(10000)
@@ -121,12 +129,12 @@ public class HttpClientUtil {
      */
     private static HttpPost postForm(String url, JSONObject postJson) {
         HttpPost httpPost = new HttpPost(url);
-        httpPost.setHeader("Connection", "Keep-Alive");
-        httpPost.setHeader("Content-Type", "application/json");
-        httpPost.setHeader("Accept", "application/json");
+        httpPost.setHeader(CONNECTION, KEEP_ALIVE);
+        httpPost.setHeader(CONTENT_TYPE, APPLICATION_JSON);
+        httpPost.setHeader(ACCEPT, APPLICATION_JSON);
         try {
             //解决中文乱码问题
-            StringEntity entity = new StringEntity(postJson.toString(), "utf-8");
+            StringEntity entity = new StringEntity(postJson.toString(), UTF8);
             httpPost.setEntity(entity);
         } catch (Exception e) {
             e.printStackTrace();
@@ -159,8 +167,8 @@ public class HttpClientUtil {
         }
         HttpGet httpGet = new HttpGet(url);
         httpGet.setConfig(getRequestConfig());
-        httpGet.setHeader("Connection", "Keep-Alive");
-        httpGet.setHeader("Content-Type", "application/json");
+        httpGet.setHeader(CONNECTION, KEEP_ALIVE);
+        httpGet.setHeader(CONTENT_TYPE, APPLICATION_JSON);
         return httpGet;
     }
 
@@ -187,11 +195,11 @@ public class HttpClientUtil {
      */
     private static HttpPut putForm(String url, JSONObject putJson) {
         HttpPut httpPut = new HttpPut(url);
-        httpPut.setHeader("Connection", "Keep-Alive");
-        httpPut.setHeader("Content-Type", "application/json");
+        httpPut.setHeader(CONNECTION, KEEP_ALIVE);
+        httpPut.setHeader(CONTENT_TYPE, APPLICATION_JSON);
         try {
             //解决中文乱码问题
-            StringEntity entity = new StringEntity(putJson.toString(), "utf-8");
+            StringEntity entity = new StringEntity(putJson.toString(), UTF8);
             httpPut.setEntity(entity);
         } catch (Exception e) {
             e.printStackTrace();
@@ -220,8 +228,8 @@ public class HttpClientUtil {
             url = url + "/" + deleteJson;
         }
         HttpDelete httpDelete = new HttpDelete(url);
-        httpDelete.setHeader("Connection", "Keep-Alive");
-        httpDelete.setHeader("Content-Type", "application/json");
+        httpDelete.setHeader(CONNECTION, KEEP_ALIVE);
+        httpDelete.setHeader(CONTENT_TYPE, APPLICATION_JSON);
         return httpDelete;
     }
 

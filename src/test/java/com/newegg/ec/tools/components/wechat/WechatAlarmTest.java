@@ -8,7 +8,7 @@ public class WechatAlarmTest {
 
     @Test
     public void getAccessToken() throws IOException {
-        String accessToken = WechatAPI.getAccessToken("ww0f00cb4440ed3cf1", "Gd55K7N0q2WGEMob-PJ0oz3ePsk9zqndiDVgQyQPgk0");
+        String accessToken = WechatAPI.getAccessToken();
         System.err.println("\n" + accessToken);
     }
 }
