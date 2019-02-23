@@ -12,7 +12,8 @@
         <module>alarm-platform-common</module>
         <module>alarm-platform-web</module>
         <module>alarm-notify-extends</module>
-        <module>alarm-platform-component</module>
+        <module>alarm-platform-analysis</module>
+        <module>alarm-platform-backend</module>
     </modules>
 
     <name>service-alarm-platform</name>

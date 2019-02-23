@@ -19,7 +19,13 @@
     <dependencies>
 
         <dependency>
-            <artifactId>alarm-platform-component</artifactId>
+            <artifactId>alarm-platform-analysis</artifactId>
+            <groupId>com.newegg.ec.tools</groupId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>alarm-platform-backend</artifactId>
             <groupId>com.newegg.ec.tools</groupId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
@@ -32,6 +38,42 @@
 
 
     </dependencies>
+
+    <build>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.0</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+                <configuration>
+                    <excludes>
+                        <exclude>category/**</exclude>
+                        <exclude>web/**</exclude>
+                        <exclude>public/**</exclude>
+                        <exclude>tab/**</exclude>
+                        <exclude>templates/**</exclude>
+                        <exclude>*.conf</exclude>
+                        <exclude>*.properties</exclude>
+                        <exclude>*.yml</exclude>
+                        <exclude>*.xml</exclude>
+                        <exclude>test/**</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+
+    </build>
 
 
 
