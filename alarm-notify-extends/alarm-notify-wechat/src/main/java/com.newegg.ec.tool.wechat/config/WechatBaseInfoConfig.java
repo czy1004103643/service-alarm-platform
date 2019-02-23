@@ -1,65 +1,60 @@
 package com.newegg.ec.tool.wechat.config;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import com.newegg.ec.tool.wechat.entity.WechatAppInfo;
+import javafx.util.Pair;
+import org.apache.commons.lang3.StringUtils;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * 初始化基础资源 & 维护一个线程去定时更新所有的token
  * @author Jay.H.Zou
  * @date 2019/2/23
  */
-/*@Configuration
-@ConfigurationProperties(prefix = "wechat")
-@PropertySource("classpath:wechat.properties")*/
 public class WechatBaseInfoConfig {
 
-    private static final String CORP_ID = "corpid";
+    private WechatBaseInfoConfig() {}
 
-    static {
-        Properties properties = new Properties();
-        try {
-            properties.load(new FileInputStream("wechat.properties"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    public static final String CORP_ID = "corpid";
+
+    public static final String ACCESS_TOKEN = "access_token";
 
     /**
      * 企业ID
      */
-    private String corpId;
+    private static String corpId = "ww0f00cb4440ed3cf1";
 
     /**
-     *
+     * Map<String, Pair<String, String>>
+     *     appName      corpId  accessToken
      */
-    private String accessToken;
+    private static Map<String, WechatAppInfo> accessTokenMap = new ConcurrentHashMap<>();
 
-    public String getCorpId() {
+    static {
+        // TODO: 加载配置文件 & 初始化 accessTokenMap & 初始化后台线程
+        WechatAppInfo info = new WechatAppInfo("Gd55K7N0q2WGEMob-PJ0oz3ePsk9zqndiDVgQyQPgk0");
+        info.setAccessToken("tVJjpitkGTwSMR7B-ALy-ljcZRNUJueNGwqa2hSRCDd2v3sOXq2WMPJ8bsetvek7O6OTax2zJb0U214wHyoPhrkqH655861G6icaaTSGOywVMcWXLIdqQoLtV2QpnPsDAnBkoT4jWH5jJFQTgzsG7x3UOamg0XD_NX74sYxYAfokrVu36vh7y2lUpNpPvteGpXVzNF6aVk1zGVZLpLedng");
+        accessTokenMap.put("ItemService", info);
+    }
+
+    public static String getCorpId() {
         return corpId;
     }
 
-    public void setCorpId(String corpId) {
-        this.corpId = corpId;
+    public static WechatAppInfo getAppInfo(String appName) {
+        return accessTokenMap.get(appName);
     }
 
-    public String getAccessToken() {
-        return accessToken;
-    }
+    /*public static void setAccessToken(String appName, String accessToken) {
+        if (StringUtils.isNotBlank(accessToken) && StringUtils.isNotBlank(appName)) {
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-    }
+        } else {
+            // TODO: logger warn
+        }
+    }*/
 
-    @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer("WechatBaseInfoConfig{");
-        sb.append("corpId='").append(corpId).append('\'');
-        sb.append(", accessToken='").append(accessToken).append('\'');
-        sb.append('}');
-        return sb.toString();
-    }
+
+
+
 }

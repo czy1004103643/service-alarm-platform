@@ -114,7 +114,7 @@ public class HttpClientUtil {
             response = httpclient.execute(httpPost);
             HttpEntity entity = response.getEntity();
             if (entity != null) {
-                result = EntityUtils.toString(entity);
+                result = EntityUtils.toString(entity, UTF8);
             }
         } finally {
             httpPost.releaseConnection();
@@ -142,14 +142,14 @@ public class HttpClientUtil {
         return httpPost;
     }
 
-    public static String getGetResponse(String url, String getJson) throws IOException {
-        HttpGet httpGet = getForm(url, getJson);
+    public static String getGetResponse(String url) throws IOException {
+        HttpGet httpGet = getForm(url);
         HttpResponse response;
         try {
             response = httpclient.execute(httpGet);
             HttpEntity entity = response.getEntity();
             if (entity != null) {
-                return EntityUtils.toString(entity);
+                return EntityUtils.toString(entity, UTF8);
             }
         } finally {
             httpGet.releaseConnection();
@@ -161,76 +161,12 @@ public class HttpClientUtil {
      * @param url
      * @return
      */
-    private static HttpGet getForm(String url, String getJson) {
-        if (StringUtils.isNotEmpty(getJson)) {
-            url = url + "/" + getJson;
-        }
+    private static HttpGet getForm(String url) {
         HttpGet httpGet = new HttpGet(url);
         httpGet.setConfig(getRequestConfig());
         httpGet.setHeader(CONNECTION, KEEP_ALIVE);
         httpGet.setHeader(CONTENT_TYPE, APPLICATION_JSON);
         return httpGet;
-    }
-
-    public static String getPutResponse(String url, JSONObject putJson) throws IOException {
-        HttpPut httpPut = putForm(url, putJson);
-        HttpResponse response;
-        String result = null;
-        try {
-            response = httpclient.execute(httpPut);
-            HttpEntity entity = response.getEntity();
-            if (entity != null) {
-                result = EntityUtils.toString(entity);
-            }
-        } finally {
-            httpPut.releaseConnection();
-        }
-
-        return result;
-    }
-
-    /**
-     * @param url
-     * @return
-     */
-    private static HttpPut putForm(String url, JSONObject putJson) {
-        HttpPut httpPut = new HttpPut(url);
-        httpPut.setHeader(CONNECTION, KEEP_ALIVE);
-        httpPut.setHeader(CONTENT_TYPE, APPLICATION_JSON);
-        try {
-            //解决中文乱码问题
-            StringEntity entity = new StringEntity(putJson.toString(), UTF8);
-            httpPut.setEntity(entity);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return httpPut;
-    }
-
-    public static String getDeleteResponse(String url, String param) throws IOException {
-        HttpDelete httpDelete = deleteForm(url, param);
-        HttpResponse response;
-        String result = null;
-        try {
-            response = httpclient.execute(httpDelete);
-            HttpEntity entity = response.getEntity();
-            if (entity != null) {
-                result = EntityUtils.toString(entity);
-            }
-        } finally {
-            httpDelete.releaseConnection();
-        }
-        return result;
-    }
-
-    private static HttpDelete deleteForm(String url, String deleteJson) {
-        if (StringUtils.isNotEmpty(deleteJson)) {
-            url = url + "/" + deleteJson;
-        }
-        HttpDelete httpDelete = new HttpDelete(url);
-        httpDelete.setHeader(CONNECTION, KEEP_ALIVE);
-        httpDelete.setHeader(CONTENT_TYPE, APPLICATION_JSON);
-        return httpDelete;
     }
 
     /**
