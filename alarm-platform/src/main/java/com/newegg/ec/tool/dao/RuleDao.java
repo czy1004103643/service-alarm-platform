@@ -12,6 +12,7 @@ public interface RuleDao {
 
     List<Rule> selectRulesByUrlId(String urlId);
 
+    @Deprecated
     List<Rule> selectRulesByServiceId(String serviceId);
 
     int addRule(Rule rule);
