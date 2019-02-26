@@ -14,7 +14,7 @@ public abstract class AbstractWechatMessage {
 
     private String msgtype;
 
-    private String agentid;
+    private int agentid;
 
     private int safe = 0;
 
@@ -50,11 +50,11 @@ public abstract class AbstractWechatMessage {
         this.msgtype = msgtype;
     }
 
-    public String getAgentid() {
+    public int getAgentid() {
         return agentid;
     }
 
-    public void setAgentid(String agentid) {
+    public void setAgentid(int agentid) {
         this.agentid = agentid;
     }
 

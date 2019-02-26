@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ImportResource;
  * @date 2019/2/23
  */
 @SpringBootApplication
-@ImportResource("classpath:wechat.properties")
+//@ImportResource("classpath:wechat.properties")
 public class WechatApplication {
 
     public static void main(String[] args) {

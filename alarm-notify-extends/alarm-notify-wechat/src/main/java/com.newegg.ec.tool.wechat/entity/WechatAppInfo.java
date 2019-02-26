@@ -1,5 +1,7 @@
 package com.newegg.ec.tool.wechat.entity;
 
+import java.util.List;
+
 /**
  * @author Jay.H.Zou
  * @date 2019/2/23
@@ -13,6 +15,8 @@ public class WechatAppInfo {
     private String corpSecret;
 
     private String accessToken;
+
+    private List<String> userList;
 
     public WechatAppInfo() {}
 

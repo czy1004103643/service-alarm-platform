@@ -129,6 +129,7 @@ public class HttpClientUtil {
      */
     private static HttpPost postForm(String url, JSONObject postJson) {
         HttpPost httpPost = new HttpPost(url);
+        httpPost.setConfig(getRequestConfig());
         httpPost.setHeader(CONNECTION, KEEP_ALIVE);
         httpPost.setHeader(CONTENT_TYPE, APPLICATION_JSON);
         httpPost.setHeader(ACCEPT, APPLICATION_JSON);
