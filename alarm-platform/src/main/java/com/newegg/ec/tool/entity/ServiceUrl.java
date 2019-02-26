@@ -12,6 +12,8 @@ public class ServiceUrl {
 
     private String serviceId;
 
+    private String urlContent;
+
     /**
      * TODO: 定义枚举
      */
@@ -39,6 +41,14 @@ public class ServiceUrl {
 
     public void setServiceId(String serviceId) {
         this.serviceId = serviceId;
+    }
+
+    public String getUrlContent() {
+        return urlContent;
+    }
+
+    public void setUrlContent(String urlContent) {
+        this.urlContent = urlContent;
     }
 
     public String getUrlType() {

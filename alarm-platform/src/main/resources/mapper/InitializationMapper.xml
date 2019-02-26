@@ -10,7 +10,7 @@
             service_name varchar(255)  NOT NULL,
             alarm_route varchar(255) NOT NULL,
             description varchar(255) NOT NULL,
-            create_time datetime(0) NOT NULL,
+            update_time datetime(0) NOT NULL,
             PRIMARY KEY (service_id) USING BTREE
         ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
     </select>
@@ -19,6 +19,7 @@
         CREATE TABLE IF NOT EXISTS service_url (
             url_id varchar(10) NOT NULL,
             service_id varchar(10) NOT NULL,
+            url_content varchar(255) NOT NULL,
             url_type varchar(50) NOT NULL,
             param bigint(20) NOT NULL,
             body bigint(20) NOT NULL,
