@@ -1,0 +1,9 @@
+server:
+  port: 8184
+
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: com.newegg.ec.tool.dao
+  configuration:
+    # 下划线转驼峰
+    map-underscore-to-camel-case: true

@@ -5,4 +5,6 @@ package com.newegg.ec.tool.notify;
  * @date 2019/2/26
  */
 public interface AlarmNotifyInterface {
+
+
 }

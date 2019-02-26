@@ -10,6 +10,8 @@ public class MessageContent {
 
     private String content;
 
+    // TODO: add other fields
+
     public String getTitle() {
         return title;
     }

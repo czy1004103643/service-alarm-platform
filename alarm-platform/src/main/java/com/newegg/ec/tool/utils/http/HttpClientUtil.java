@@ -84,6 +84,7 @@ public class HttpClientUtil {
 
     /**
      * 设置代理及其他配置
+     *
      * @return
      */
     public static RequestConfig getRequestConfig() {
