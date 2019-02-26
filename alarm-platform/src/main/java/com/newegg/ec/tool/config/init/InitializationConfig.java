@@ -18,12 +18,12 @@ public class InitializationConfig implements ApplicationListener<ContextRefreshe
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        boolean initialization = this.initialization.initialization();
+        /*boolean initialization = this.initialization.initialization();
         if (initialization) {
             System.out.println("******************** init tables success ********************");
         } else {
             System.out.println("******************** init tables failed ********************");
-        }
+        }*/
     }
 
 }

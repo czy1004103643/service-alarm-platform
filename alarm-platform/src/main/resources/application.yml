@@ -7,3 +7,21 @@ mybatis:
   configuration:
     # 下划线转驼峰
     map-underscore-to-camel-case: true
+
+
+alarm:
+  notify:
+    wechat:
+      # 企业ID
+      corpId:
+      # users: 不填则默认 @all
+      appList:
+      - appName: HierarchyService
+        agentId: 1000003
+        corpSecret: _jUmcToZW--dPQeeGq3TrBD34
+        users:
+      - appName: ItemService
+        agentId: 1000002
+        corpSecret: -PJ0oz3ePsk9zqndiDVgQyQPgk0
+        users:
+    rocketchat:

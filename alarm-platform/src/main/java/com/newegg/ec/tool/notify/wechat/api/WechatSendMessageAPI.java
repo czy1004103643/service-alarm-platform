@@ -32,7 +32,7 @@ public class WechatSendMessageAPI {
         if (messageContent == null || StringUtils.isBlank(content)) {
             return false;
         }
-        Map<String, WechatAppInfo> wechatAppInfoMap = wechatBaseInfoConfig.getAppInfo();
+        Map<String, WechatAppInfo> wechatAppInfoMap = wechatBaseInfoConfig.getWechatAppInfoMap();
         if (wechatAppInfoMap == null) {
             return false;
         }
@@ -46,7 +46,6 @@ public class WechatSendMessageAPI {
         }
         int agentId = wechatAppInfo.getAgentId();
         WechatTextMessage textMessage = new WechatTextMessage();
-        textMessage.setTouser("@all");
         textMessage.setAgentid(agentId);
         textMessage.setText(messageContent);
         String url = URL_PREFIX + accessToken;

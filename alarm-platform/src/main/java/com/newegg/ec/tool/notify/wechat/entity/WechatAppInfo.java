@@ -1,6 +1,5 @@
 package com.newegg.ec.tool.notify.wechat.entity;
 
-import java.util.List;
 
 /**
  * @author Jay.H.Zou
@@ -16,19 +15,21 @@ public class WechatAppInfo {
 
     private String accessToken;
 
-    private List<String> userList;
+    private String users = "@all";
 
     public WechatAppInfo() {}
 
-    public WechatAppInfo(String corpSecret) {
-        this.corpSecret = corpSecret;
-    }
-
-    public WechatAppInfo(int agentId, String appName, String corpSecret, String accessToken) {
+    public WechatAppInfo(int agentId, String appName, String corpSecret, String users) {
         this.agentId = agentId;
         this.appName = appName;
         this.corpSecret = corpSecret;
+        this.users = users;
+    }
+
+    public WechatAppInfo(int agentId, String appName, String corpSecret, String accessToken, String users) {
+        this(agentId, appName, corpSecret, users);
         this.accessToken = accessToken;
+
     }
 
     public int getAgentId() {
@@ -63,13 +64,22 @@ public class WechatAppInfo {
         this.accessToken = accessToken;
     }
 
+    public String getUsers() {
+        return users;
+    }
+
+    public void setUsers(String users) {
+        this.users = users;
+    }
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("WechatAppInfo{");
-        sb.append("agentId='").append(agentId).append('\'');
+        sb.append("agentId=").append(agentId);
         sb.append(", appName='").append(appName).append('\'');
         sb.append(", corpSecret='").append(corpSecret).append('\'');
         sb.append(", accessToken='").append(accessToken).append('\'');
+        sb.append(", users='").append(users).append('\'');
         sb.append('}');
         return sb.toString();
     }
