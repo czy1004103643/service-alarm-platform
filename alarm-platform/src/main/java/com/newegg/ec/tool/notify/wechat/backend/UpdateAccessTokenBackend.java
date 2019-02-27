@@ -26,6 +26,8 @@ public class UpdateAccessTokenBackend implements ApplicationListener<ContextRefr
     @Autowired
     private WechatBaseInfoConfig wechatBaseInfoConfig;
 
+    private static boolean checkAccessToken = true;
+
     private static final ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
     @Override
@@ -66,4 +68,8 @@ public class UpdateAccessTokenBackend implements ApplicationListener<ContextRefr
         return wechatAppInfoMap;
     }
 
+    private boolean checkAccessToken() {
+        // TODO: check respone entity errcode
+        return false;
+    }
 }

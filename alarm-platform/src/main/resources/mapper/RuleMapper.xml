@@ -14,15 +14,40 @@
     </select>
 
     <insert id="addRule" parameterMap="Rule">
-
-
+        INSERT INTO
+            rule
+        VALUES (
+            rule_id = #{ruleId}
+            url_id = #{urlId}
+            formula = #{formula}
+            alias = #{alias}
+            update_time = #{updateTime}
+        )
     </insert>
-    <!--int addRule(Rule rule);
 
-    int updateRule(Rule rule);
+    <update id="updateRule" parameterType="Rule">
+        UPDATE
+            rule
+        SET
+            url_id = #{urlId}
+            formula = #{formula}
+            alias = #{alias}
+            update_time = #{updateTime}
+        WHERE
+            rule_id = #{ruleId}
+    </update>
 
-    int deleteRuleByRuleId(String ruleId);
+    <delete id="deleteRuleByRuleId" parameterType="java.lang.String">
+        DELETE FROM
+            rule
+        WHERE
+            rule_id = #{ruleId}
+    </delete>
 
-    int delteRulesByUrlId(String urlId);-->
-
+    <delete id="deleteRuleByRuleId" parameterType="java.lang.String">
+        DELETE FROM
+            rule
+        WHERE
+            url_id = #{urlId}
+    </delete>
 </mapper>
