@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.newegg.ec.tool.dao.ServiceDao">
 
-    <select id="selectServiceById" resultType="Service" parameterType="java.lang.String">
+    <select id="selectServiceById" resultType="com.newegg.ec.tool.entity.Service" parameterType="java.lang.String">
         SELECT
             *
         FROM
@@ -13,7 +13,7 @@
             service_id = #{serviceId}
     </select>
 
-    <select id="selectServiceByName" resultType="Service" parameterType="java.lang.String">
+    <select id="selectServiceByName" resultType="com.newegg.ec.tool.entity.Service" parameterType="java.lang.String">
         SELECT
             *
         FROM
@@ -22,11 +22,11 @@
             service_name = #{serviceName}
     </select>
 
-    <select id="selectAllService" resultType="Service">
+    <select id="selectAllService" resultType="com.newegg.ec.tool.entity.Service">
         SELECT * FROM service
     </select>
 
-    <insert id="addService" parameterType="Service">
+    <insert id="addService" parameterType="com.newegg.ec.tool.entity.Service">
         INSERT INTO
             service
         VALUES (
@@ -38,7 +38,7 @@
         )
     </insert>
 
-    <update id="updateService" parameterType="Service">
+    <update id="updateService" parameterType="com.newegg.ec.tool.entity.Service">
         UPDATE
             service
         SET

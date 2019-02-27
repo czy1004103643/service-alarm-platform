@@ -14,7 +14,6 @@ import java.io.IOException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = AlarmPlatformApplication.class)
-//@TestPropertySource("classpath:wechat.properties")
 public class WechatBaseInfoConfigTest {
 
     @Autowired

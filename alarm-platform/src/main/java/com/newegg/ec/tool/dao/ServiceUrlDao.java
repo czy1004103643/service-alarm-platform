@@ -18,7 +18,4 @@ public interface ServiceUrlDao {
 
     int deleteServiceUrlById(String urlId);
 
-    @Deprecated
-    int deleteServiceUrlsByServiceId(String serviceId);
-
 }

@@ -14,7 +14,7 @@ public class Rule {
 
     private String formula;
 
-    private String alias;
+    private String ruleAlias;
 
     private Timestamp updateTime;
 
@@ -42,12 +42,12 @@ public class Rule {
         this.formula = formula;
     }
 
-    public String getAlias() {
-        return alias;
+    public String getRuleAlias() {
+        return ruleAlias;
     }
 
-    public void setAlias(String alias) {
-        this.alias = alias;
+    public void setRuleAlias(String ruleAlias) {
+        this.ruleAlias = ruleAlias;
     }
 
     public Timestamp getUpdateTime() {

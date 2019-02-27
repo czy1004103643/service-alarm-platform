@@ -46,10 +46,6 @@ public class WechatBaseInfoConfig implements ApplicationListener<ContextRefreshe
         if (StringUtils.isBlank(corpId)) {
             throw new NullParamException("wechat param is null!");
         }
-
-        System.err.println(corpId);
-        System.err.println(appList);
-        System.err.println(wechatAppInfoMap);
     }
 
     public String getCorpId() {

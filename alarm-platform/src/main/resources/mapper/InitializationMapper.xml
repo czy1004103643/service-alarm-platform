@@ -34,7 +34,7 @@
             rule_id varchar(10) NOT NULL,
             url_id varchar(10) NOT NULL,
             formula varchar(255) NOT NULL,
-            alias varchar(50) NOT NULL,
+            rule_alias varchar(50) NOT NULL,
             update_time datetime(0) NOT NULL,
             PRIMARY KEY (rule_id) USING BTREE
         ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;

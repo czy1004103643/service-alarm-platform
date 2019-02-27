@@ -18,10 +18,10 @@ alarm:
       appList:
       - appName: HierarchyService
         agentId: 1000003
-        corpSecret: _jUmcToZW--dPQeeGq3TrBD34
+        corpSecret:
         users:
       - appName: ItemService
         agentId: 1000002
-        corpSecret: -PJ0oz3ePsk9zqndiDVgQyQPgk0
+        corpSecret:
         users:
     rocketchat:

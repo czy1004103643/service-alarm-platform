@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.newegg.ec.tool.dao.RuleDao">
 
-    <select id="selectRulesByUrlId" parameterMap="java.lang.String">
+    <select id="selectRulesByUrlId" parameterType="java.lang.String" resultType="com.newegg.ec.tool.entity.Rule">
         SELECT
           *
         FROM
@@ -13,25 +13,25 @@
           url_id = #{urlId}
     </select>
 
-    <insert id="addRule" parameterMap="Rule">
+    <insert id="addRule" parameterType="com.newegg.ec.tool.entity.Rule">
         INSERT INTO
             rule
         VALUES (
             rule_id = #{ruleId}
             url_id = #{urlId}
             formula = #{formula}
-            alias = #{alias}
+            rule_alias = #{ruleAlias}
             update_time = #{updateTime}
         )
     </insert>
 
-    <update id="updateRule" parameterType="Rule">
+    <update id="updateRule" parameterType="com.newegg.ec.tool.entity.Rule">
         UPDATE
             rule
         SET
             url_id = #{urlId}
             formula = #{formula}
-            alias = #{alias}
+            rule_alias = #{ruleAlias}
             update_time = #{updateTime}
         WHERE
             rule_id = #{ruleId}
@@ -44,7 +44,7 @@
             rule_id = #{ruleId}
     </delete>
 
-    <delete id="deleteRuleByRuleId" parameterType="java.lang.String">
+    <delete id="deleteRulesByUrlId" parameterType="java.lang.String">
         DELETE FROM
             rule
         WHERE
