@@ -1,7 +1,9 @@
 package com.newegg.ec.tool.notify.rocket;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.event.ContextRefreshedEvent;
 
 /**
  * @program: service-alarm-platform
@@ -11,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
  **/
 @Configuration
 @ConfigurationProperties(prefix = "alarm.notify.rocketchat", ignoreInvalidFields = true, ignoreUnknownFields = true)
-public class RocketConfig {
+public class RocketConfig  implements ApplicationListener<ContextRefreshedEvent> {
     private String token;
     private String userID;
     private String chanel;
@@ -38,5 +40,10 @@ public class RocketConfig {
 
     public void setChanel(String chanel) {
         this.chanel = chanel;
+    }
+
+    @Override
+    public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+        System.out.println(token + "====================");
     }
 }
