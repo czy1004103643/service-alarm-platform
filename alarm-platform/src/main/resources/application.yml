@@ -5,16 +5,16 @@ mybatis:
   mapper-locations: classpath*:mapper/*.xml
   type-aliases-package: com.newegg.ec.tool.dao
   configuration:
-    # ÏÂ»®Ïß×ªÍÕ·å
+    # ï¿½Â»ï¿½ï¿½ï¿½×ªï¿½Õ·ï¿½
     map-underscore-to-camel-case: true
 
 
 alarm:
   notify:
     wechat:
-      # ÆóÒµID
+      # ï¿½ï¿½ÒµID
       corpId: ww0f00cb4440ed3cf1
-      # users: ²»ÌîÔòÄ¬ÈÏ @all
+      # users: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¬ï¿½ï¿½ @all
       appList:
       - appName: HierarchyService
         agentId: 1000003
@@ -25,3 +25,5 @@ alarm:
         corpSecret: Gd55K7N0q2WGEMob-PJ0oz3ePsk9zqndiDVgQyQPgk0
         users:
     rocketchat:
+        token: -8Nt7c_lkiA-QFakZER6m09T1m4lYL-oQyHPp1jAbPC
+        userID: jAmcTfGvSzWoBzD7Q
