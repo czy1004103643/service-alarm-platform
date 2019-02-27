@@ -2,7 +2,7 @@ package com.newegg.ec.tool.notify.wechat.api;
 
 import com.alibaba.fastjson.JSONObject;
 import com.newegg.ec.tool.notify.wechat.config.WechatBaseInfoConfig;
-import com.newegg.ec.tool.notify.wechat.entity.MessageContent;
+import com.newegg.ec.tool.entity.MessageContent;
 import com.newegg.ec.tool.notify.wechat.entity.WechatAppInfo;
 import com.newegg.ec.tool.notify.wechat.entity.WechatConstant;
 import com.newegg.ec.tool.notify.wechat.entity.WechatTextMessage;
@@ -46,6 +46,7 @@ public class WechatSendMessageAPI {
         }
         int agentId = wechatAppInfo.getAgentId();
         WechatTextMessage textMessage = new WechatTextMessage();
+        textMessage.setTouser(wechatAppInfo.getUsers());
         textMessage.setAgentid(agentId);
         textMessage.setText(messageContent);
         String url = URL_PREFIX + accessToken;

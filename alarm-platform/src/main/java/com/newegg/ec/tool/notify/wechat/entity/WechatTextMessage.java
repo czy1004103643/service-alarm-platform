@@ -1,6 +1,7 @@
 package com.newegg.ec.tool.notify.wechat.entity;
 
 
+import com.newegg.ec.tool.entity.MessageContent;
 import com.newegg.ec.tool.notify.wechat.entity.message.AbstractWechatMessage;
 
 /**

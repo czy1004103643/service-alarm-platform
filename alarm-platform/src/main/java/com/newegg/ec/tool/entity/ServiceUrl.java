@@ -27,6 +27,19 @@ public class ServiceUrl {
 
     private Timestamp updateTime;
 
+    public ServiceUrl() {}
+
+    public ServiceUrl(String urlId, String serviceId, String urlContent, String urlType, String param, String body, String description, Timestamp updateTime) {
+        this.urlId = urlId;
+        this.serviceId = serviceId;
+        this.urlContent = urlContent;
+        this.urlType = urlType;
+        this.param = param;
+        this.body = body;
+        this.description = description;
+        this.updateTime = updateTime;
+    }
+
     public String getUrlId() {
         return urlId;
     }

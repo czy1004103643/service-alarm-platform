@@ -57,4 +57,16 @@ public class Rule {
     public void setUpdateTime(Timestamp updateTime) {
         this.updateTime = updateTime;
     }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Rule{");
+        sb.append("ruleId='").append(ruleId).append('\'');
+        sb.append(", urlId='").append(urlId).append('\'');
+        sb.append(", formula='").append(formula).append('\'');
+        sb.append(", ruleAlias='").append(ruleAlias).append('\'');
+        sb.append(", updateTime=").append(updateTime);
+        sb.append('}');
+        return sb.toString();
+    }
 }

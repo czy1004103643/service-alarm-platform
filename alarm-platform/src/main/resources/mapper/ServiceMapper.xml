@@ -32,6 +32,7 @@
         VALUES (
             service_id = #{serviceId},
             service_name = #{serviceName},
+            wechat_app_name = #{wechatAppName}
             alarm_route = #{alarmRoute}
             description = #{description}
             update_time = #{updateTime}
@@ -43,6 +44,7 @@
             service
         SET
             service_name = #{serviceName},
+            wechat_app_name = #{wechatAppName}
             alarm_route = #{alarmRoute},
             description = #{description},
             update_time = #{updateTime}

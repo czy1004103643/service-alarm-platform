@@ -12,6 +12,8 @@ public class Service {
 
     private String serviceName;
 
+    private String wechatAppName;
+
     private String alarmRoute;
 
     private String description;
@@ -32,6 +34,14 @@ public class Service {
 
     public void setServiceName(String serviceName) {
         this.serviceName = serviceName;
+    }
+
+    public String getWechatAppName() {
+        return wechatAppName;
+    }
+
+    public void setWechatAppName(String wechatAppName) {
+        this.wechatAppName = wechatAppName;
     }
 
     public String getAlarmRoute() {

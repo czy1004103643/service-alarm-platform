@@ -9,6 +9,7 @@
             service_id varchar(50) NOT NULL,
             service_name varchar(255)  NOT NULL,
             alarm_route varchar(255) NOT NULL,
+            wechat_app_name varchar(255) DEFAULT NULL,
             description varchar(255) NOT NULL,
             update_time datetime(0) NOT NULL,
             PRIMARY KEY (service_id) USING BTREE
@@ -17,12 +18,12 @@
 
     <select id="createServiceUrlTable">
         CREATE TABLE IF NOT EXISTS service_url (
-            url_id varchar(10) NOT NULL,
-            service_id varchar(10) NOT NULL,
+            url_id varchar(50) NOT NULL,
+            service_id varchar(50) NOT NULL,
             url_content varchar(255) NOT NULL,
             url_type varchar(50) NOT NULL,
-            param bigint(20) NOT NULL,
-            body bigint(20) NOT NULL,
+            param varchar(255) DEFAULT NULL,
+            body varchar(255) DEFAULT NULL,
             description varchar(255) NOT NULL,
             update_time datetime(0) NOT NULL,
             PRIMARY KEY (url_id) USING BTREE
@@ -31,8 +32,8 @@
 
     <select id="createRuleTable">
         CREATE TABLE IF NOT EXISTS rule (
-            rule_id varchar(10) NOT NULL,
-            url_id varchar(10) NOT NULL,
+            rule_id varchar(50) NOT NULL,
+            url_id varchar(50) NOT NULL,
             formula varchar(255) NOT NULL,
             key_path varchar(255) NOT NULL,
             rule_alias varchar(50) NOT NULL,
@@ -43,8 +44,8 @@
 
     <select id="createMonitorDataTable">
         CREATE TABLE IF NOT EXISTS monitor_data (
-            data_id varchar(10) NOT NULL,
-            url_id varchar(10) NOT NULL,
+            data_id varchar(50) NOT NULL,
+            url_id varchar(50) NOT NULL,
             data_content varchar(255) NOT NULL,
             update_time datetime(0) NOT NULL,
             PRIMARY KEY (data_id) USING BTREE

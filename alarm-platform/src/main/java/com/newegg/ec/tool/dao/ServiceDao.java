@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface ServiceDao {
 
-    int selectServiceById(String serviceId);
+    Service selectServiceById(String serviceId);
 
     int selectServiceByName(String serviceName);
 

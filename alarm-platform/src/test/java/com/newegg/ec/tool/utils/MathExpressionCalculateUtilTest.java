@@ -11,14 +11,14 @@ public class MathExpressionCalculateUtilTest {
 
     @Test
     public void checkRule() {
-        boolean result = MathExpressionCalculateUtil.checkRule("@{responseTime}>400");
+        boolean result = MathExpressionCalculateUtil.checkRule("@{response.time}>400");
         System.out.println(result);
         assertTrue(result);
     }
 
     @Test
     public void getRuleDataStr() {
-        String formula = "@{responseTime}/@{time}>50";
+        String formula = "@{responseTime}>50";
 
         String formula2 = "@{count}>500";
 

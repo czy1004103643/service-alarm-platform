@@ -15,8 +15,9 @@ import java.util.regex.Pattern;
  * 变量使用@{v1} 来表示
  */
 public class MathExpressionCalculateUtil {
-
-    public static final Pattern varPattern = Pattern.compile("(\\@\\{[\\w:]+\\})");
+// (\@\{[\w]+\})
+    //(\{([\w]\.)*[\w]\})
+    public static final Pattern varPattern = Pattern.compile("(\\@\\{([\\w]+\\.)*[\\w]+\\})");
     private static Map<String, Object> params = new HashMap<>();
 
     /**
@@ -33,7 +34,7 @@ public class MathExpressionCalculateUtil {
         params.put("expireKeys", 1);
         params.put("instantaneous_input_kbps", 1);
         params.put("instantaneous_output_kbps", 1);
-        params.put("responseTime", 1);
+        params.put("response.time", 1);
 
     }
 

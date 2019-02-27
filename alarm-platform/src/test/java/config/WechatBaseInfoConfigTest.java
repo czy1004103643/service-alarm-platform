@@ -3,7 +3,7 @@ package config;
 import com.newegg.ec.tool.AlarmPlatformApplication;
 import com.newegg.ec.tool.notify.wechat.api.WechatSendMessageAPI;
 import com.newegg.ec.tool.notify.wechat.config.WechatBaseInfoConfig;
-import com.newegg.ec.tool.notify.wechat.entity.MessageContent;
+import com.newegg.ec.tool.entity.MessageContent;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

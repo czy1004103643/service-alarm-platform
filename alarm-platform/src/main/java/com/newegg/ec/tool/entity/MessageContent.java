@@ -1,4 +1,4 @@
-package com.newegg.ec.tool.notify.wechat.entity;
+package com.newegg.ec.tool.entity;
 
 /**
  * @author Jay.H.Zou
@@ -11,6 +11,12 @@ public class MessageContent {
     private String content;
 
     // TODO: add other fields
+
+    public MessageContent() {}
+
+    public MessageContent(String content) {
+        this.content = content;
+    }
 
     public String getTitle() {
         return title;
