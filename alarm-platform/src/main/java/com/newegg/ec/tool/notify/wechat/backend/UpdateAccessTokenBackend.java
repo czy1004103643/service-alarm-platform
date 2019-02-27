@@ -56,7 +56,7 @@ public class UpdateAccessTokenBackend implements ApplicationListener<ContextRefr
             logger.info("wecaht app list: " + appList);
             logger.info("wechat wechatAppInfoMap: " + wechatAppInfoMapAfterUpdate);
             wechatBaseInfoConfig.setWechatAppInfoMap(wechatAppInfoMapAfterUpdate);
-        }, 0, 10, TimeUnit.HOURS);
+        }, 0, 10, TimeUnit.MINUTES);
     }
 
     private Map<String, WechatAppInfo> updateAccessToken(String corpId, List<WechatAppInfo> appList, Map<String, WechatAppInfo> wechatAppInfoMap) {

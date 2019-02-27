@@ -13,15 +13,15 @@ alarm:
   notify:
     wechat:
       # 企业ID
-      corpId:
+      corpId: ww0f00cb4440ed3cf1
       # users: 不填则默认 @all
       appList:
       - appName: HierarchyService
         agentId: 1000003
-        corpSecret:
+        corpSecret: _jUmcToZW-0BnJE9nAT4huTatCfn-dPQeeGq3TrBD34
         users:
       - appName: ItemService
         agentId: 1000002
-        corpSecret:
+        corpSecret: Gd55K7N0q2WGEMob-PJ0oz3ePsk9zqndiDVgQyQPgk0
         users:
     rocketchat:
