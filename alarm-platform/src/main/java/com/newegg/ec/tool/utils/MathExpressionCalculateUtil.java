@@ -7,7 +7,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- *
  * @author Jack.C.Ni
  * @date 2018/3/29
  * 支持 * / + - ( ) < <= == >= > 与 数字
@@ -42,6 +41,7 @@ public class MathExpressionCalculateUtil {
 
     /**
      * 检查匹配规则
+     *
      * @param formula
      * @return
      */

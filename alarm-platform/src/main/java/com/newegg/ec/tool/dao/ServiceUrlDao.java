@@ -10,6 +10,8 @@ import java.util.List;
  */
 public interface ServiceUrlDao {
 
+    ServiceUrl selectUrlById(String urlId);
+
     List<ServiceUrl> selectUrlByServiceId(String serviceId);
 
     int addServiceUrl(ServiceUrl serviceUrl);

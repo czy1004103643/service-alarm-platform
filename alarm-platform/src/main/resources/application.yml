@@ -5,16 +5,18 @@ mybatis:
   mapper-locations: classpath*:mapper/*.xml
   type-aliases-package: com.newegg.ec.tool.dao
   configuration:
-    # �»���ת�շ�
+    # user_name -> userName
     map-underscore-to-camel-case: true
 
+backend:
+  monitor: 0 0/2 * * * ?
 
 alarm:
   notify:
     wechat:
-      # ��ҵID
+      # company ID
       corpId: ww0f00cb4440ed3cf1
-      # users: ������Ĭ�� @all
+      # users: default @all
       appList:
       - appName: HierarchyService
         agentId: 1000003

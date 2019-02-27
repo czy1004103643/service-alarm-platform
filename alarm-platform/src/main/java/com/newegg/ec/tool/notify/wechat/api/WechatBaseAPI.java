@@ -2,10 +2,6 @@ package com.newegg.ec.tool.notify.wechat.api;
 
 import com.alibaba.fastjson.JSONObject;
 import com.newegg.ec.tool.notify.wechat.config.WechatBaseInfoConfig;
-import com.newegg.ec.tool.notify.wechat.entity.MessageContent;
-import com.newegg.ec.tool.notify.wechat.entity.WechatAppInfo;
-import com.newegg.ec.tool.notify.wechat.entity.WechatConstant;
-import com.newegg.ec.tool.notify.wechat.entity.WechatTextMessage;
 import com.newegg.ec.tool.utils.http.HttpClientUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -14,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.Map;
 
 import static com.newegg.ec.tool.notify.wechat.entity.WechatConstant.ACCESS_TOKEN;
 import static com.newegg.ec.tool.notify.wechat.entity.WechatConstant.ERRCODE;

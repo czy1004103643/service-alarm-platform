@@ -18,8 +18,9 @@ import java.io.IOException;
  * @create: 2019-02-27 14:46
  **/
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = RocketClientTest.class)
+@SpringBootTest(classes = AlarmPlatformApplication.class)
 public class RocketClientTest {
+
     @Autowired
     RocketConfig rocketConfig;
 

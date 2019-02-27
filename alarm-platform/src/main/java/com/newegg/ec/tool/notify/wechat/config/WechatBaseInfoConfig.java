@@ -1,18 +1,13 @@
 package com.newegg.ec.tool.notify.wechat.config;
 
-import com.alibaba.fastjson.JSONObject;
 import com.newegg.ec.tool.entity.exception.NullParamException;
 import com.newegg.ec.tool.notify.wechat.entity.WechatAppInfo;
-import com.newegg.ec.tool.utils.http.HttpClientUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;

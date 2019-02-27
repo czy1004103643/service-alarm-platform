@@ -37,14 +37,14 @@ public class DefaultRocketChatClient implements RocketChatClientInterface {
 
     private DefaultRocketChatClient(){
         httpClient = new OkHttpClient();
-        request = new Request.Builder()
+        /*request = new Request.Builder()
                 .url("wss://chat.newegg.org/")
                 .addHeader("Accept", "application/json")
                 .addHeader("Content-Type", "application/json")
                 .addHeader("X-Auth-Token",  rocketConfig.getToken())
                 .addHeader("X-User-Id", rocketConfig.getUserID())
                 .addHeader("cache-control", "no-cache")
-                .build();
+                .build();*/
     }
 
     public void configNew(String token,String userid){
