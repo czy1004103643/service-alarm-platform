@@ -5,7 +5,10 @@ import com.newegg.ec.tool.entity.MessageContent;
 import com.newegg.ec.tool.entity.ServiceModel;
 import com.newegg.ec.tool.notify.wechat.api.WechatSendMessageAPI;
 import com.newegg.ec.tool.service.INotifyService;
+import com.newegg.ec.tool.utils.CommonUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,8 @@ import java.util.List;
  */
 @Service
 public class NotifyClientService implements INotifyService {
+
+    private static final Logger logger = LoggerFactory.getLogger(NotifyClientService.class);
 
     @Autowired
     private WechatSendMessageAPI wechatSendMessageAPI;
@@ -32,11 +37,31 @@ public class NotifyClientService implements INotifyService {
             return;
         }
         String alarmWays = service.getAlarmWay();
+        List<String> alarmWayList = CommonUtils.stringToList(alarmWays);
+        for (String way : alarmWayList) {
+            String wechatAppName = service.getWechatAppName();
+            try {
+                boolean status = wechatSendMessageAPI.sendMessage(wechatAppName, messageContent);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+           /* switch (way) {
+                case "WECHAT":
+                    try {
 
-        try {
-            wechatSendMessageAPI.sendMessage("HierarchyService", messageContent);
-        } catch (IOException e) {
-            e.printStackTrace();
+                        if (!status) {
+                            logger.error("Send message to wecaht faild. WechatAppName: " + wechatAppName + ", MessageContent: " + messageContent);
+                        }
+                    } catch (IOException e) {
+                        logger.error("Send message to wecaht error.", e);
+                    }
+                    break;
+                case "ROCKETCHAT":
+
+                    break;
+                default:
+                    break;}*/
+
         }
     }
 

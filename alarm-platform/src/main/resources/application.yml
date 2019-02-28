@@ -9,7 +9,7 @@ mybatis:
     map-underscore-to-camel-case: true
 
 backend:
-  monitor: 0 */2 * * * ?
+  monitor: 0 */1 * * * ?
 
 alarm:
   notify:
