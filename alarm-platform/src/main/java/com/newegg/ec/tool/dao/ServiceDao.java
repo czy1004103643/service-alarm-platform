@@ -1,6 +1,6 @@
 package com.newegg.ec.tool.dao;
 
-import com.newegg.ec.tool.entity.Service;
+import com.newegg.ec.tool.entity.ServiceModel;
 
 import java.util.List;
 
@@ -10,15 +10,15 @@ import java.util.List;
  */
 public interface ServiceDao {
 
-    Service selectServiceById(String serviceId);
+    ServiceModel selectServiceById(String serviceId);
 
     int selectServiceByName(String serviceName);
 
-    List<Service> selectAllService();
+    List<ServiceModel> selectAllService();
 
-    int addService(Service service);
+    int addService(ServiceModel serviceModel);
 
-    int updateService(Service service);
+    int updateService(ServiceModel serviceModel);
 
     int deleteServiceById(String serviceId);
 }

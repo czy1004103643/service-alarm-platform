@@ -6,7 +6,7 @@ import java.sql.Timestamp;
  * @author Jay.H.Zou
  * @date 2019/2/26
  */
-public class Service {
+public class ServiceModel {
 
     private String serviceId;
 
@@ -14,11 +14,11 @@ public class Service {
 
     private String wechatAppName;
 
-    private String alarmRoute;
+    private String alarmWay;
 
     private String description;
 
-    private Timestamp createTime;
+    private Timestamp updateTime;
 
     public String getServiceId() {
         return serviceId;
@@ -44,12 +44,12 @@ public class Service {
         this.wechatAppName = wechatAppName;
     }
 
-    public String getAlarmRoute() {
-        return alarmRoute;
+    public String getAlarmWay() {
+        return alarmWay;
     }
 
-    public void setAlarmRoute(String alarmRoute) {
-        this.alarmRoute = alarmRoute;
+    public void setAlarmWay(String alarmWay) {
+        this.alarmWay = alarmWay;
     }
 
     public String getDescription() {
@@ -60,11 +60,11 @@ public class Service {
         this.description = description;
     }
 
-    public Timestamp getCreateTime() {
-        return createTime;
+    public Timestamp getUpdateTime() {
+        return updateTime;
     }
 
-    public void setCreateTime(Timestamp createTime) {
-        this.createTime = createTime;
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
     }
 }

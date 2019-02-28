@@ -11,7 +11,7 @@ public class MathExpressionCalculateUtilTest {
 
     @Test
     public void checkRule() {
-        boolean result = MathExpressionCalculateUtil.checkRule("@{response.time}>400");
+        boolean result = MathExpressionCalculateUtil.checkRule("@{response_a.time}>400");
         System.out.println(result);
         assertTrue(result);
     }

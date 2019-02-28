@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 public class MathExpressionCalculateUtil {
 // (\@\{[\w]+\})
     //(\{([\w]\.)*[\w]\})
-    public static final Pattern varPattern = Pattern.compile("(\\@\\{([\\w]+\\.)*[\\w]+\\})");
+    public static final Pattern varPattern = Pattern.compile("(\\@\\{(([\\w]|[\\w]_[\\w])+\\.)*([\\w]|[\\w]_[\\w])+\\})");
     private static Map<String, Object> params = new HashMap<>();
 
     /**
@@ -35,6 +35,8 @@ public class MathExpressionCalculateUtil {
         params.put("instantaneous_input_kbps", 1);
         params.put("instantaneous_output_kbps", 1);
         params.put("response.time", 1);
+        params.put("response_a.time",1);
+        params.put("response_.time",1);
 
     }
 

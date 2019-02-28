@@ -8,7 +8,7 @@
         CREATE TABLE IF NOT EXISTS service  (
             service_id varchar(50) NOT NULL,
             service_name varchar(255)  NOT NULL,
-            alarm_route varchar(255) NOT NULL,
+            alarm_way varchar(255) NOT NULL,
             wechat_app_name varchar(255) DEFAULT NULL,
             description varchar(255) NOT NULL,
             update_time datetime(0) NOT NULL,

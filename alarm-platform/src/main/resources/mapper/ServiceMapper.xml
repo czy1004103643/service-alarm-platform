@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.newegg.ec.tool.dao.ServiceDao">
 
-    <select id="selectServiceById" resultType="com.newegg.ec.tool.entity.Service" parameterType="java.lang.String">
+    <select id="selectServiceById" resultType="com.newegg.ec.tool.entity.ServiceModel" parameterType="java.lang.String">
         SELECT
             *
         FROM
@@ -13,7 +13,7 @@
             service_id = #{serviceId}
     </select>
 
-    <select id="selectServiceByName" resultType="com.newegg.ec.tool.entity.Service" parameterType="java.lang.String">
+    <select id="selectServiceByName" resultType="com.newegg.ec.tool.entity.ServiceModel" parameterType="java.lang.String">
         SELECT
             *
         FROM
@@ -22,30 +22,30 @@
             service_name = #{serviceName}
     </select>
 
-    <select id="selectAllService" resultType="com.newegg.ec.tool.entity.Service">
-        SELECT * FROM service
+    <select id="selectAllService" resultType="com.newegg.ec.tool.entity.ServiceModel">
+        SELECT * FROM serviceModel
     </select>
 
-    <insert id="addService" parameterType="com.newegg.ec.tool.entity.Service">
+    <insert id="addService" parameterType="com.newegg.ec.tool.entity.ServiceModel">
         INSERT INTO
             service
         VALUES (
             service_id = #{serviceId},
             service_name = #{serviceName},
             wechat_app_name = #{wechatAppName}
-            alarm_route = #{alarmRoute}
+            alarm_way = #{alarmWay}
             description = #{description}
             update_time = #{updateTime}
         )
     </insert>
 
-    <update id="updateService" parameterType="com.newegg.ec.tool.entity.Service">
+    <update id="updateService" parameterType="com.newegg.ec.tool.entity.ServiceModel">
         UPDATE
             service
         SET
             service_name = #{serviceName},
             wechat_app_name = #{wechatAppName}
-            alarm_route = #{alarmRoute},
+            alarm_way = #{alarmWay},
             description = #{description},
             update_time = #{updateTime}
         WHERE

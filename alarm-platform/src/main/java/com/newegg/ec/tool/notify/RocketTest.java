@@ -1,4 +1,4 @@
-package com.newegg.ec.tool.notify.wechat.api;
+package com.newegg.ec.tool.notify;
 
 import com.github.daniel_sc.rocketchat.modern_client.RocketChatClient;
 import com.github.daniel_sc.rocketchat.modern_client.response.ChatMessage;

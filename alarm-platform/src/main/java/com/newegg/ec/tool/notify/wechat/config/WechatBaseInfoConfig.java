@@ -1,8 +1,6 @@
 package com.newegg.ec.tool.notify.wechat.config;
 
-import com.newegg.ec.tool.entity.exception.NullParamException;
 import com.newegg.ec.tool.notify.wechat.entity.WechatAppInfo;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
@@ -38,9 +36,9 @@ public class WechatBaseInfoConfig implements ApplicationListener<ContextRefreshe
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        if (StringUtils.isBlank(corpId)) {
+        /*if (StringUtils.isBlank(corpId)) {
             throw new NullParamException("wechat param is null!");
-        }
+        }*/
     }
 
     public String getCorpId() {

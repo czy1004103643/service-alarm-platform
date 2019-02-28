@@ -9,22 +9,22 @@ mybatis:
     map-underscore-to-camel-case: true
 
 backend:
-  monitor: 0 */1 * * * ?
+  monitor: 0 */2 * * * ?
 
 alarm:
   notify:
     wechat:
       # company ID
-      corpId:
+      corpId: ww0f00cb4440ed3cf1
       # users: default @all
       appList:
       - appName: HierarchyService
         agentId: 1000003
-        corpSecret: _jUmcToZW--dPQeeGq3TrBD34
+        corpSecret: _jUmcToZW-0BnJE9nAT4huTatCfn-dPQeeGq3TrBD34
         users:
       - appName: ItemService
         agentId: 1000002
-        corpSecret: -PJ0oz3ePsk9zqndiDVgQyQPgk0
+        corpSecret: Gd55K7N0q2WGEMob-PJ0oz3ePsk9zqndiDVgQyQPgk0
         users:
     rocketchat:
         token: -8Nt7c_lkiA-QFakZER6m09T1m4lYL-oQyHPp1jAbPC

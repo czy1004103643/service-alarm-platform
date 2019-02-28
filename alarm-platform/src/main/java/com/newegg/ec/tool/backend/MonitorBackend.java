@@ -5,15 +5,15 @@ import com.newegg.ec.tool.dao.RuleDao;
 import com.newegg.ec.tool.dao.ServiceDao;
 import com.newegg.ec.tool.entity.MessageContent;
 import com.newegg.ec.tool.entity.Rule;
-import com.newegg.ec.tool.entity.Service;
+import com.newegg.ec.tool.entity.ServiceModel;
 import com.newegg.ec.tool.entity.ServiceUrl;
 import com.newegg.ec.tool.notify.wechat.api.WechatSendMessageAPI;
+import com.newegg.ec.tool.service.INotifyService;
 import com.newegg.ec.tool.utils.MathExpressionCalculateUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -64,6 +64,9 @@ public class MonitorBackend{
     private RuleDao ruleDao;
 
     @Autowired
+    private INotifyService notifyClientService;
+
+    @Autowired
     private WechatSendMessageAPI wechatSendMessageAPI;
 
     @Scheduled(cron = "${backend.monitor}")
@@ -74,39 +77,40 @@ public class MonitorBackend{
             // 获取 url 返回的监控数据
             Map<String, Object> realDataMap = getRealDataMap(urlId);
             List<Rule> ruleList = ruleDao.selectRulesByUrlId(urlId);
-            Rule temp = new Rule();
-            temp.setRuleId("r001");
-            temp.setUrlId("u001");
-            temp.setFormula("@{response.count}>100");
-            temp.setRuleAlias("请求量阈值");
-            temp.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-            ruleList.add(temp);
+
+            // TODO: delete
+            Rule tempRule = new Rule();
+            tempRule.setRuleId("r001");
+            tempRule.setUrlId("u001");
+            tempRule.setFormula("@{response.count}>100");
+            tempRule.setRuleAlias("请求量阈值");
+            tempRule.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+            ruleList.add(tempRule);
+            // TODO: delete
+
+            if (ruleList == null || ruleList.isEmpty()) {
+                continue;
+            }
             for (Rule rule : ruleList) {
                 // 判断规则是否成立
+                boolean calculate = false;
                 String formula = rule.getFormula();
-                try {
-                    boolean calculate = Boolean.parseBoolean(String.valueOf(MathExpressionCalculateUtil.calculate(formula, realDataMap)));
-                    // 如果满足，则获取其service对象
-                    if (calculate) {
-                        Service service = serviceDao.selectServiceById(url.getServiceId());
-                        // 获取其通知方式
-                        // String alarmRoute = service.getAlarmRoute();
-                        sendMessageService(null, new MessageContent(temp.toString()), service);
+                if (StringUtils.isNotBlank(formula)) {
+                    try {
+                        calculate = Boolean.parseBoolean(String.valueOf(MathExpressionCalculateUtil.calculate(formula, realDataMap)));
+                    } catch (Exception e) {
+                        logger.error("匹配规则出错", e);
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                }
+                // 如果满足，则获取其service对象
+                if (calculate) {
+                    ServiceModel serviceModel = serviceDao.selectServiceById(url.getServiceId());
+                    // 获取其通知方式
+                    // String alarmRoute = serviceModel.getAlarmRoute();
+                    //sendMessageService(null, new MessageContent(temp.toString()), serviceModel);
+                    notifyClientService.notifyClient(serviceModel, new MessageContent(tempRule.toString()));
                 }
             }
-        }
-    }
-
-    private boolean sendMessageService(String alarmRoute, MessageContent messageContent, Service service) {
-        // 先判断发送方式有哪些， wechat rocketchat 等
-        try {
-            return wechatSendMessageAPI.sendMessage("HierarchyService", messageContent);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
         }
     }
 

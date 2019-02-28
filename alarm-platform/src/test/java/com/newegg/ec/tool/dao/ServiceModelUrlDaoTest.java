@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = AlarmPlatformApplication.class)
-public class ServiceUrlDaoTest {
+public class ServiceModelUrlDaoTest {
 
     @Autowired
     private ServiceUrlDao serviceUrlDao;

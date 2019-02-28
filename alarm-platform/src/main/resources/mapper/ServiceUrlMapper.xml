@@ -54,7 +54,7 @@
 
     <delete id="deleteServiceUrlById" parameterType="java.lang.String">
         DELETE FROM
-            service
+            serviceModel
         WHERE
             url_id = #{urlId}
     </delete>
