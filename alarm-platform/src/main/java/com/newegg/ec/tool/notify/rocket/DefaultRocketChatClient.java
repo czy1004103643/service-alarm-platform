@@ -54,6 +54,21 @@ public class DefaultRocketChatClient implements RocketChatClientInterface, Appli
                 .addHeader("X-User-Id", rocketConfig.getUserID())
                 .addHeader("cache-control", "no-cache")
                 .build();
-
     }
+
+    public Response postNetMessage(String url,String data) throws IOException {
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body = RequestBody.create(mediaType, data);
+        Request request = new Request.Builder()
+                .url("http://10.1.54.179:8900/e4/api-logs/_search")
+                .post(body)
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("cache-control", "no-cache")
+                .build();
+        OkHttpClient client = new OkHttpClient();
+        Response response = client.newCall(request).execute();
+        return response;
+    }
+
 }

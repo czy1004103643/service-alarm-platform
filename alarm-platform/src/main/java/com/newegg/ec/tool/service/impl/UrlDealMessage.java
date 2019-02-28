@@ -46,7 +46,7 @@ public class UrlDealMessage implements DealMesage {
             ext.set(p, startTime);
             JsonPath p2 = JsonPath.compile("$.query.bool.must[0].range.RequestTime.gte");
             ext.set(p2, endTime);
-            Response response = defaultRocketChatClient.postMessage(serviceUrl.getUrlContent(), "8AkGjraxsWF7spNnu", ext.jsonString());
+            Response response = defaultRocketChatClient.postNetMessage(serviceUrl.getUrlContent(), ext.jsonString());
             String jsonStr = response.body().string();
             JSONArray valueArray = JsonPath.read(jsonStr, "aggregations.result.buckets");
             Map<String, Object> map = new HashMap<>();

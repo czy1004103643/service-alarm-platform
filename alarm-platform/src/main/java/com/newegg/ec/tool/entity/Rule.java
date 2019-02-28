@@ -6,6 +6,7 @@ import java.sql.Timestamp;
  * @author Jay.H.Zou
  * @date 2019/2/26
  */
+
 public class Rule {
 
     private String ruleId;
