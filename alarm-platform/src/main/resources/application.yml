@@ -21,7 +21,7 @@ alarm:
       - appName: HierarchyService
         agentId: 1000003
         corpSecret: _jUmcToZW-0BnJE9nAT4huTatCfn-dPQeeGq3TrBD34
-        users:
+        users: zouhuajian
       - appName: ItemService
         agentId: 1000002
         corpSecret: Gd55K7N0q2WGEMob-PJ0oz3ePsk9zqndiDVgQyQPgk0

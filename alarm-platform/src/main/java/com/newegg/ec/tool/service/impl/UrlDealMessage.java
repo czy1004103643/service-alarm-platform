@@ -57,9 +57,12 @@ public class UrlDealMessage implements DealMessage {
             ext.set(p2, endTime);
             Response response = defaultRocketChatClient.postNetMessage(serviceUrl.getUrlContent(), ext.jsonString());
             String jsonStr = response.body().string();
+            System.out.println(jsonStr);
             JSONArray valueArray = JsonPath.read(jsonStr, "aggregations.result.buckets");
+            System.out.println(valueArray);
             Map<String, Object> map = new HashMap<>();
             map.put("aggregations.result.buckets.doc_count", valueArray);
+            System.err.println(valueArray);
             return map;
         } catch (IOException e) {
             e.printStackTrace();

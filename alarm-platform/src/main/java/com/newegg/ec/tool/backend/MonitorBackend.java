@@ -53,7 +53,7 @@ public class MonitorBackend{
         ServiceUrl url1 = new ServiceUrl("u001", "s001", "https://www.github.com/", "GET", "param", "body", "test", new Timestamp(System.currentTimeMillis()));
         ServiceUrl url2 = new ServiceUrl("u002", "s001", "https://www.github.com/zouhuajian", "GET", "param", "body", "test", new Timestamp(System.currentTimeMillis()));
         serviceUrlList.add(url1);
-        serviceUrlList.add(url2);
+        //serviceUrlList.add(url2);
     }
 
     @Autowired
@@ -83,7 +83,7 @@ public class MonitorBackend{
             Rule tempRule = new Rule();
             tempRule.setRuleId("r001");
             tempRule.setUrlId("u001");
-            tempRule.setFormula("@{aggregations.result.buckets}>100");
+            tempRule.setFormula("@{aggregations.result.buckets.doc_count}>100");
             tempRule.setRuleAlias("请求量阈值");
             tempRule.setUpdateTime(new Timestamp(System.currentTimeMillis()));
             ruleList.add(tempRule);
@@ -94,10 +94,10 @@ public class MonitorBackend{
             }
             // 获取 url 返回的监控数据
             Map<String, Object> realDataMap = urlDealMessage.dealByUrl(urlId);
-            Map<String, Object> preprocesseDataForArray = preprocesseDataForArray(realDataMap);
+            Map<String, Object> preprocessDataForArray = processDataForArray(realDataMap);
 
             processRuleAndData(url, ruleList, realDataMap);
-            processRuleAndDataForArray(url, ruleList, preprocesseDataForArray);
+            processRuleAndDataForArray(url, ruleList, preprocessDataForArray);
         }
     }
 
@@ -143,14 +143,15 @@ public class MonitorBackend{
                     // 获取其通知方式
                     // String alarmRoute = serviceModel.getAlarmRoute();
                     //sendMessageService(null, new MessageContent(temp.toString()), serviceModel);
-                    notifyClientService.notifyClient(serviceModel, new MessageContent("假数据"));
+
+                    notifyClientService.notifyClient(serviceModel, new MessageContent("假数据========="));
                 }
             }
         }
     }
 
 
-    private Map<String, Object> preprocesseDataForArray(Map<String, Object> realDataMap){
+    private Map<String, Object> processDataForArray(Map<String, Object> realDataMap){
         Iterator<Map.Entry<String, Object>> iterator = realDataMap.entrySet().iterator();
         Map<String, Object> arrayDataMap = new HashMap<>();
         while (iterator.hasNext()) {

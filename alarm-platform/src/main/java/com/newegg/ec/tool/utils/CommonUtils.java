@@ -12,7 +12,7 @@ public class CommonUtils {
     private CommonUtils() {}
 
     public static List<String> stringToList(String items) {
-        String[] split = items.split("|");
+        String[] split = items.split("\\|");
         List<String> list = Arrays.asList(split);
         return list;
     }
