@@ -42,19 +42,24 @@ public class UrlDealMessage implements DealMessage {
                 new Timestamp(System.currentTimeMillis()));
 
         try {
-            TimeZone tz = TimeZone.getTimeZone("America/New_York");
-            Calendar calendar = Calendar.getInstance(tz, Locale.US);
-            calendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY) - 1);
-            Calendar calendar2 = Calendar.getInstance(tz, Locale.US);
+            TimeZone.setDefault(TimeZone.getTimeZone("America/New_York"));
+            Calendar cal2 = Calendar.getInstance();
+
+
+
+            Calendar cal1 = Calendar.getInstance();
+            cal1.set(Calendar.HOUR_OF_DAY, cal1.get(Calendar.HOUR_OF_DAY) - 1);
+
 
             //当前时间的前一个小时
-            long startTime = calendar.getTimeInMillis();
-            long endTime = calendar2.getTimeInMillis();
+            long startTime = cal1.getTimeInMillis();
+            long endTime = cal2.getTimeInMillis();
             DocumentContext ext = JsonPath.parse(serviceUrl.getBody());
             JsonPath p = JsonPath.compile("$.query.bool.must[0].range.RequestTime.lte");
-            ext.set(p, startTime);
+            ext.set(p, endTime);
             JsonPath p2 = JsonPath.compile("$.query.bool.must[0].range.RequestTime.gte");
-            ext.set(p2, endTime);
+            ext.set(p2, startTime);
+
             Response response = defaultRocketChatClient.postNetMessage(serviceUrl.getUrlContent(), ext.jsonString());
             String jsonStr = response.body().string();
             System.out.println(jsonStr);
