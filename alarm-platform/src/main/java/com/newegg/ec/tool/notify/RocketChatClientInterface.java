@@ -1,5 +1,7 @@
 package com.newegg.ec.tool.notify;
 
+import okhttp3.Response;
+
 import java.io.IOException;
 
 /**
@@ -9,5 +11,5 @@ import java.io.IOException;
  * @create: 2019-02-27 13:46
  **/
 public interface RocketChatClientInterface {
-     int postMessage(String chanel,String text) throws IOException;
+     Response postMessage(String url,String chanel, String text) throws IOException;
 }

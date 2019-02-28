@@ -18,6 +18,9 @@ public class RocketConfig  implements ApplicationListener<ContextRefreshedEvent>
     private String userID;
     private String chanel;
 
+
+
+
     public String getToken() {
         return token;
     }

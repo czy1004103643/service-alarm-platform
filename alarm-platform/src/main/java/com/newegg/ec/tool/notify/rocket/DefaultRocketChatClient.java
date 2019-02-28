@@ -3,6 +3,9 @@ package com.newegg.ec.tool.notify.rocket;
 import com.newegg.ec.tool.notify.RocketChatClientInterface;
 import okhttp3.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
@@ -12,45 +15,45 @@ import java.io.IOException;
  * @author: gz75
  * @create: 2019-02-27 13:51
  **/
-public class DefaultRocketChatClient implements RocketChatClientInterface {
+@Component
+public class DefaultRocketChatClient implements RocketChatClientInterface, ApplicationListener<ContextRefreshedEvent> {
+
     @Autowired
     RocketConfig rocketConfig;
-    private OkHttpClient httpClient;
-    private Request request;
-    private static  DefaultRocketChatClient  rocketChatClient;
-    public static DefaultRocketChatClient getInstance() {
-        if (rocketChatClient == null) {
-            rocketChatClient = new DefaultRocketChatClient();
-        }
-        return rocketChatClient;
-    }
 
+    private OkHttpClient httpClient;
+
+    private Request request;
 
     @Override
-    public int postMessage(String chanel,String data) throws IOException {
+    public Response postMessage(String url,String chanel, String data) throws IOException {
+        request.newBuilder().url(url);
         MediaType mediaType = MediaType.parse("application/json");
         String str = "{ \"channel\": \"" + chanel + "\", \"text\": \"" + data + "\"}";
         RequestBody body = RequestBody.create(mediaType, str);
+        request.newBuilder();
         Response response = httpClient.newCall(request).execute();
-        return response.code();
+        return response;
     }
 
-    private DefaultRocketChatClient(){
+    public void configNew(String token,String userid){
+          request.newBuilder()
+                 .addHeader("X-Auth-Token",  rocketConfig.getToken())
+                 .addHeader("X-User-Id", rocketConfig.getUserID())
+                 .build();
+    }
+
+    @Override
+    public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         httpClient = new OkHttpClient();
-        /*request = new Request.Builder()
-                .url("wss://chat.newegg.org/")
+        request = new Request.Builder()
+              .url("https://localhost")
                 .addHeader("Accept", "application/json")
                 .addHeader("Content-Type", "application/json")
                 .addHeader("X-Auth-Token",  rocketConfig.getToken())
                 .addHeader("X-User-Id", rocketConfig.getUserID())
                 .addHeader("cache-control", "no-cache")
-                .build();*/
-    }
+                .build();
 
-    public void configNew(String token,String userid){
-         request.newBuilder()
-                 .addHeader("X-Auth-Token",  rocketConfig.getToken())
-                 .addHeader("X-User-Id", rocketConfig.getUserID())
-                 .build();
     }
 }

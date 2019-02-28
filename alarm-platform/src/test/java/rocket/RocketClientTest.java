@@ -2,7 +2,6 @@ package rocket;
 
 import com.newegg.ec.tool.AlarmPlatformApplication;
 import com.newegg.ec.tool.notify.rocket.DefaultRocketChatClient;
-import com.newegg.ec.tool.notify.rocket.RocketConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +18,22 @@ import java.io.IOException;
  **/
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = AlarmPlatformApplication.class)
-public class RocketClientTest {
 
-    @Autowired
-    RocketConfig rocketConfig;
+public class RocketClientTest {
+@Autowired
+DefaultRocketChatClient defaultRocketChatClient;
 
     @Test
     public void Test() throws IOException {
-        DefaultRocketChatClient defaultRocketChatClient=DefaultRocketChatClient.getInstance();
-        defaultRocketChatClient.postMessage("8AkGjraxsWF7spNnu", "this a test");
+
+
+        defaultRocketChatClient.postMessage("https://chat.newegg.org/","8AkGjraxsWF7spNnu", "this a test");
     }
+//    @Test
+//    public void test2(){
+//        String str = "32wein_dfs";
+//        System.out.println(str.replaceAll())
+//
+//
+//    }
 }
