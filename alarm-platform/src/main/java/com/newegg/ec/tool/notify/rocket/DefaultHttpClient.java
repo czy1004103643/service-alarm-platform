@@ -1,7 +1,10 @@
 package com.newegg.ec.tool.notify.rocket;
 
-import com.newegg.ec.tool.notify.RocketChatClientInterface;
+import com.newegg.ec.tool.entity.MessageContent;
+import com.newegg.ec.tool.notify.HttpClientInterface;
 import okhttp3.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -16,8 +19,8 @@ import java.io.IOException;
  * @create: 2019-02-27 13:51
  **/
 @Component
-public class DefaultRocketChatClient implements RocketChatClientInterface, ApplicationListener<ContextRefreshedEvent> {
-
+public class DefaultHttpClient implements HttpClientInterface, ApplicationListener<ContextRefreshedEvent> {
+    private static final Logger loger = LoggerFactory.getLogger(DefaultHttpClient.class);
     @Autowired
     RocketConfig rocketConfig;
 
@@ -26,13 +29,17 @@ public class DefaultRocketChatClient implements RocketChatClientInterface, Appli
     private Request request;
 
     @Override
-    public Response postMessage(String url,String chanel, String data) throws IOException {
+    public Response postMessage(String url, MessageContent data)  {
         request.newBuilder().url(url);
         MediaType mediaType = MediaType.parse("application/json");
-        String str = "{ \"channel\": \"" + chanel + "\", \"text\": \"" + data + "\"}";
+        String str = "{ \"channel\": \"" + rocketConfig.getChanel() + "\", \"text\": \"" + data.getContent() + "\"}";
         RequestBody body = RequestBody.create(mediaType, str);
-        request.newBuilder();
-        Response response = httpClient.newCall(request).execute();
+        Response response = null;
+        try {
+            response = httpClient.newCall(request).execute();
+        } catch (IOException e) {
+            loger.error("post Rocket failture",e);
+        }
         return response;
     }
 
@@ -92,7 +99,7 @@ public class DefaultRocketChatClient implements RocketChatClientInterface, Appli
 
     public Response postRocketMessage(String data) throws IOException {
         MediaType mediaType = MediaType.parse("application/json");
-        String str = "{ \"channel\": \"" + rocketConfig.getChanel() + "\", \"text\": \"" + data + "\",}";
+        String str = "{ \"channel\": \"" + rocketConfig.getChanel() + "\", \"text\": \"" + data + "\"}";
         RequestBody body = RequestBody.create(mediaType, str);
         Request request = new Request.Builder()
                 .url("https://chat.newegg.org/api/v1/chat.postMessage")

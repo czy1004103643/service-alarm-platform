@@ -1,7 +1,7 @@
 package rocket;
 
 import com.newegg.ec.tool.AlarmPlatformApplication;
-import com.newegg.ec.tool.notify.rocket.DefaultRocketChatClient;
+import com.newegg.ec.tool.notify.rocket.DefaultHttpClient;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +24,13 @@ import java.util.TimeZone;
 
 public class RocketClientTest {
 @Autowired
-DefaultRocketChatClient defaultRocketChatClient;
+DefaultHttpClient defaultRocketChatClient;
 
     @Test
     public void Test() throws IOException {
 
-        defaultRocketChatClient.postRocketMessage("zgs");
-       // defaultRocketChatClient.postNetMessage("http://10.1.54.179:8900/e4/api-logs/_search", "this a test");
+        defaultRocketChatClient.postRocketMessage("this is testt");
+      // defaultRocketChatClient.postNetMessage("http://10.1.54.179:8900/e4/api-logs/_search", "this a test");
 
     }
     @Test
