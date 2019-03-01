@@ -5,8 +5,8 @@ import com.jayway.jsonpath.JsonPath;
 import com.newegg.ec.tool.dao.RuleDao;
 import com.newegg.ec.tool.dao.ServiceUrlDao;
 import com.newegg.ec.tool.entity.ServiceUrl;
-import com.newegg.ec.tool.notify.rocket.DefaultRocketChatClient;
-import com.newegg.ec.tool.service.DealMessage;
+import com.newegg.ec.tool.notify.rocket.DefaultHttpClient;
+import com.newegg.ec.tool.service.IDataService;
 import net.minidev.json.JSONArray;
 import okhttp3.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +24,14 @@ import java.util.*;
  * @create: 2019-02-27 17:29
  **/
 @Service
-public class UrlDealMessage implements DealMessage {
+public class ApiGatewayService implements IDataService {
 
     @Autowired
     ServiceUrlDao serviceUrlDao;
     @Autowired
     RuleDao ruleDao;
     @Autowired
-    DefaultRocketChatClient defaultRocketChatClient;
+    DefaultHttpClient defaultRocketChatClient;
 
     @Override
     public Map<String, Object> dealByUrl(String id) {

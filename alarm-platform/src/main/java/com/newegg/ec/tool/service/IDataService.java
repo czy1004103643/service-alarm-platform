@@ -3,6 +3,6 @@ package com.newegg.ec.tool.service;
 
 import java.util.Map;
 
-public interface DealMessage {
+public interface IDataService {
   Map<String,Object> dealByUrl(String id);
 }

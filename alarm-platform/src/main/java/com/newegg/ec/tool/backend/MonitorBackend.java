@@ -11,7 +11,7 @@ import com.newegg.ec.tool.entity.ServiceModel;
 import com.newegg.ec.tool.entity.ServiceUrl;
 import com.newegg.ec.tool.notify.wechat.api.WechatSendMessageAPI;
 import com.newegg.ec.tool.service.INotifyService;
-import com.newegg.ec.tool.service.impl.UrlDealMessage;
+import com.newegg.ec.tool.service.impl.ApiGatewayService;
 import com.newegg.ec.tool.utils.MathExpressionCalculateUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -63,7 +63,7 @@ public class MonitorBackend{
     private RuleDao ruleDao;
 
     @Autowired
-    private UrlDealMessage urlDealMessage;
+    private ApiGatewayService apiGatewayService;
 
     @Autowired
     private INotifyService notifyClientService;
@@ -93,7 +93,7 @@ public class MonitorBackend{
                 continue;
             }
             // 获取 url 返回的监控数据
-            Map<String, Object> realDataMap = urlDealMessage.dealByUrl(urlId);
+            Map<String, Object> realDataMap = apiGatewayService.dealByUrl(urlId);
             Map<String, Object> preprocessDataForArray = processDataForArray(realDataMap);
 
             processRuleAndData(url, ruleList, realDataMap);
