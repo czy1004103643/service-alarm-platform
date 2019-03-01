@@ -108,15 +108,21 @@ public class MonitorBackend{
                 Map.Entry<String, Object> next = iterator.next();
                 JSONArray jsonArray = JSONArray.parseArray(next.getValue().toString());
                 String key = next.getKey();
+                // TODO: 数组越界处理
                 String[] split = key.split("\\.");
-                String monitorKey = split[split.length - 1];
-                for (int index = 0; index < jsonArray.size(); index++) {
-                    JSONObject jsonObject = jsonArray.getJSONObject(index);
-                    Object realValue = jsonObject.get(monitorKey);
-                    Map<String, Object> oneDataMap = new HashMap<>();
-                    oneDataMap.put(key, realValue);
-                    processRuleAndData(url, ruleList, oneDataMap);
+                if (split.length > 0) {
+                    String monitorKey = split[split.length - 1];
+                    for (int index = 0; index < jsonArray.size(); index++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(index);
+                        Object realValue = jsonObject.get(monitorKey);
+                        if (realValue != null) {
+                            Map<String, Object> oneDataMap = new HashMap<>();
+                            oneDataMap.put(key, realValue);
+                            processRuleAndData(url, ruleList, oneDataMap);
+                        }
+                    }
                 }
+
             }
         }
     }
@@ -139,7 +145,7 @@ public class MonitorBackend{
                     ServiceModel serviceModel = serviceDao.selectServiceById(url.getServiceId());
                     serviceModel = new ServiceModel();
                     serviceModel.setAlarmWay("WECHAT");
-                    serviceModel.setWechatAppName("HierarchyService");
+                    serviceModel.setWechatAppName("ItemService");
                     // 获取其通知方式
                     // String alarmRoute = serviceModel.getAlarmRoute();
                     //sendMessageService(null, new MessageContent(temp.toString()), serviceModel);

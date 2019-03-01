@@ -1,4 +1,4 @@
-package com.newegg.ec.tool.model;
+package com.newegg.ec.tool.entity;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;

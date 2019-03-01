@@ -55,10 +55,6 @@ public class DefaultRocketChatClient implements RocketChatClientInterface, Appli
 
 
 
-
-
-
-
     public void configNew(String token,String userid){
           request.newBuilder()
                  .addHeader("X-Auth-Token",  rocketConfig.getToken())

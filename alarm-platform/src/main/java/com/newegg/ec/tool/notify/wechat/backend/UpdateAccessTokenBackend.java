@@ -41,18 +41,17 @@ public class UpdateAccessTokenBackend implements ApplicationListener<ContextRefr
         String corpId = wechatBaseInfoConfig.getCorpId();
         List<WechatAppInfo> appList = wechatBaseInfoConfig.getAppList();
         Map<String, WechatAppInfo> wechatAppInfoMap = wechatBaseInfoConfig.getWechatAppInfoMap();
-
+        updateAccessToken(corpId, appList, wechatAppInfoMap);
         //初始化后台线程
         scheduledExecutorService.scheduleAtFixedRate(() -> {
-            Map<String, WechatAppInfo> wechatAppInfoMapAfterUpdate = updateAccessToken(corpId, appList, wechatAppInfoMap);
             logger.info("wechat corpId: " + corpId);
             logger.info("wecaht app list: " + appList);
-            logger.info("wechat wechatAppInfoMap: " + wechatAppInfoMapAfterUpdate);
-            wechatBaseInfoConfig.setWechatAppInfoMap(wechatAppInfoMapAfterUpdate);
-        }, 0, 10, TimeUnit.MINUTES);
+            logger.info("wechat wechatAppInfoMap: " + wechatAppInfoMap);
+            updateAccessToken(corpId, appList, wechatAppInfoMap);
+        }, 1, 10, TimeUnit.MINUTES);
     }
 
-    private Map<String, WechatAppInfo> updateAccessToken(String corpId, List<WechatAppInfo> appList, Map<String, WechatAppInfo> wechatAppInfoMap) {
+    private void updateAccessToken(String corpId, List<WechatAppInfo> appList, Map<String, WechatAppInfo> wechatAppInfoMap) {
         appList.forEach(wechatAppInfo -> {
             String users = wechatAppInfo.getUsers();
             if (StringUtils.isBlank(users)) {
@@ -69,7 +68,6 @@ public class UpdateAccessTokenBackend implements ApplicationListener<ContextRefr
                 logger.error("http get wechat access token error. serect: " + secret, e);
             }
         });
-
-        return wechatAppInfoMap;
+        wechatBaseInfoConfig.setWechatAppInfoMap(wechatAppInfoMap);
     }
 }

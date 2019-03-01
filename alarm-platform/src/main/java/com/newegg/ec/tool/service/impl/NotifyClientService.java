@@ -27,6 +27,8 @@ public class NotifyClientService implements INotifyService {
     @Autowired
     private WechatSendMessageAPI wechatSendMessageAPI;
 
+
+
     @Override
     public void notifyClient(ServiceModel service, MessageContent messageContent) {
         if (service == null
@@ -42,6 +44,7 @@ public class NotifyClientService implements INotifyService {
             try {
                 System.err.println("================= Send Message =================");
                 boolean status = wechatSendMessageAPI.sendMessage(wechatAppName, messageContent);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

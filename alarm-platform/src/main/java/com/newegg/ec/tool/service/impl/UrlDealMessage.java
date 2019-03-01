@@ -25,6 +25,7 @@ import java.util.*;
  **/
 @Service
 public class UrlDealMessage implements DealMessage {
+
     @Autowired
     ServiceUrlDao serviceUrlDao;
     @Autowired

@@ -1,3 +1,9 @@
 .body-container {
     padding: 1%;
 }
+
+.white-bg {
+    margin: 5px;
+    padding: 10px;
+    background-color: #fff;
+}

@@ -33,7 +33,14 @@ public class WechatBaseAPI {
         if (StringUtils.isBlank(response)) {
             return null;
         }
-        JSONObject responseObj = JSONObject.parseObject(response);
+        JSONObject responseObj = null;
+        try {
+            responseObj = JSONObject.parseObject(response);
+        } catch (Exception e) {
+            logger.error("http get wechat access token error.", e);
+            return null;
+        }
+
         if (checkAccessToken(responseObj)) {
             return responseObj.getString(ACCESS_TOKEN);
         } else {
