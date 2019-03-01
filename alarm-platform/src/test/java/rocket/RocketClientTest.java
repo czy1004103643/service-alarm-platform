@@ -26,8 +26,8 @@ DefaultRocketChatClient defaultRocketChatClient;
     @Test
     public void Test() throws IOException {
 
-
-        defaultRocketChatClient.postNetMessage("http://10.1.54.179:8900/e4/api-logs/_search", "this a test");
+        defaultRocketChatClient.postRocketMessage("zgs");
+       // defaultRocketChatClient.postNetMessage("http://10.1.54.179:8900/e4/api-logs/_search", "this a test");
 
     }
 //    @Test

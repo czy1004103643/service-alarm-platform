@@ -11,9 +11,15 @@ import net.minidev.json.JSONArray;
 import okhttp3.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @description: deal http request data
@@ -42,23 +48,46 @@ public class UrlDealMessage implements DealMessage {
                 new Timestamp(System.currentTimeMillis()));
 
         try {
-            TimeZone.setDefault(TimeZone.getTimeZone("America/New_York"));
-            Calendar cal2 = Calendar.getInstance();
+//           TimeZone.setDefault(TimeZone.getTimeZone("America/New_York"));
+//            Calendar cal2 = Calendar.getInstance();
+//            Calendar cal1 = Calendar.getInstance();
+//            cal1.set(Calendar.HOUR_OF_DAY -1, cal1.get(Calendar.HOUR_OF_DAY) - 24);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+            String timeDay = sdf2.format(new Date());
+            String startTime = timeDay + " 16:00:00";
+            Date startDate = sdf.parse(startTime);
+            long startTimstamp = startDate.getTime();
 
 
 
-            Calendar cal1 = Calendar.getInstance();
-            cal1.set(Calendar.HOUR_OF_DAY, cal1.get(Calendar.HOUR_OF_DAY) - 1);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new Date());
+            calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);
+            Date endDate=calendar.getTime();
+            String endDay = sdf2.format(endDate);
+            String endTime=endDay+" 15:59:59";
+            Date endDate2 = sdf.parse(endTime);
+            long endTimestatp = endDate2.getTime();
+
+
+
+
+
+
+
 
 
             //当前时间的前一个小时
-            long startTime = cal1.getTimeInMillis();
-            long endTime = cal2.getTimeInMillis();
+//            long startTime = cal1.getTimeInMillis();
+//            long endTime = cal2.getTimeInMillis();
             DocumentContext ext = JsonPath.parse(serviceUrl.getBody());
             JsonPath p = JsonPath.compile("$.query.bool.must[0].range.RequestTime.lte");
-            ext.set(p, endTime);
+            ext.set(p, endTimestatp);
             JsonPath p2 = JsonPath.compile("$.query.bool.must[0].range.RequestTime.gte");
-            ext.set(p2, startTime);
+            ext.set(p2, startTimstamp);
 
             Response response = defaultRocketChatClient.postNetMessage(serviceUrl.getUrlContent(), ext.jsonString());
             String jsonStr = response.body().string();
@@ -69,7 +98,7 @@ public class UrlDealMessage implements DealMessage {
             map.put("aggregations.result.buckets.doc_count", valueArray);
             System.err.println(valueArray);
             return map;
-        } catch (IOException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
         return null;

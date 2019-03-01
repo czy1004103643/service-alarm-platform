@@ -71,4 +71,23 @@ public class DefaultRocketChatClient implements RocketChatClientInterface, Appli
         return response;
     }
 
+    public Response postRocketMessage(String data) throws IOException {
+        MediaType mediaType = MediaType.parse("application/json");
+        String str = "{ \"channel\": \"" + rocketConfig.getChanel() + "\", \"text\": \"" + data + "\"}";
+        RequestBody body = RequestBody.create(mediaType, str);
+        Request request = new Request.Builder()
+                .url("https://chat.newegg.org/")
+                .post(body)
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("cache-control", "no-cache")
+                .addHeader("X-Auth-Token", rocketConfig.getToken())
+                .addHeader("X-User-Id", rocketConfig.getUserID())
+                .build();
+        OkHttpClient client = new OkHttpClient();
+        Response response = client.newCall(request).execute();
+        return response;
+    }
+
+
 }
