@@ -1,107 +1,133 @@
 <!DOCTYPE html>
-<html lang="en" class="full-height">
+<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Hello Common Web</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="keyword" content="service">
+    <link rel="shortcut icon" href="../static/lib/flatlab-admin/img/favicon.html">
 
-    <link href="../static/lib/mdb-free/css/bootstrap.css" rel="stylesheet"/>
-    <link href="../static/lib/mdb-free/css/mdb.css" rel="stylesheet"/>
-    <link href="../static/lib/mdb-free/css/style.css" rel="stylesheet"/>
-    <style>
-        .view {
-            background: url("https://mdbootstrap.com/img/Photos/Others/img (50).jpg")no-repeat center center;
-            background-size: cover;
-        }
-        html,
-        body,
-        header,
-        .view {
-            height: 100%;
-        }
-    </style>
+    <title>Service Alarm Platform</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/lib/flatlab-admin/css/bootstrap-reset.css" rel="stylesheet">
+    <!--external css-->
+    <link href="../static/lib/flatlab-admin/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="../static/lib/flatlab-admin/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css" rel="stylesheet"
+        type="text/css" media="screen" />
+    <link rel="stylesheet" href="../static/lib/flatlab-admin/css/owl.carousel.css" type="text/css">
+    <!-- Custom styles for this template -->
+    <link href="../static/lib/flatlab-admin/css/style.css" rel="stylesheet">
+    <link href="../static/lib/flatlab-admin/css/style-responsive.css" rel="stylesheet" />
+    <link href="../static/css/self-style.css" rel="stylesheet" />
 </head>
+
 <body>
-<!--Main Navigation-->
-<header>
 
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark indigo">
-        <a class="navbar-brand" href="#"><strong>Newegg</strong></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Profile</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav nav-flex-icons">
-                <li class="nav-item">
-                    <a class="nav-link waves-effect waves-light"><i class="fa fa-facebook"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link waves-effect waves-light"><i class="fa fa-twitter"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link waves-effect waves-light"><i class="fa fa-instagram"></i></a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <section id="container" class="">
+        <!--header start-->
+        <header class="header white-bg">
+            <!--logo start-->
+            <a href="#" class="logo">New<span>egg</span></a>
+            <!--logo end-->
+            <div class="nav notify-row" id="top_menu">
+                <!--  notification start -->
+                <ul class="nav top-menu">
+                    <li id="header_notification_bar" class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            Add Service
+                        </a>
+                        <!-- <ul class="dropdown-menu extended notification">
+                            <div class="notify-arrow notify-arrow-yellow"></div>
+                            <li>
+                                <p class="yellow">You have 7 new notifications</p>
+                            </li>
+                        </ul> -->
+                    </li>
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            Service List
+                        </a>
+                    </li>
+                </ul>
+                <!--  notification end -->
+            </div>
+            <div class="top-nav ">
+                <!--search & user info start-->
+                <ul class="nav pull-right top-menu">
+                    <li>
+                        <input type="text" class="form-control search" placeholder="Search">
+                    </li>
+                    <!-- user login dropdown start-->
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <img alt="" src="../static/lib/flatlab-admin/img/avatar1_small.jpg">
+                            <span class="username">Jhon Doue</span>
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu extended logout">
+                            <div class="log-arrow-up"></div>
+                            <li><a href="#"><i class=" icon-suitcase"></i>Profile</a></li>
+                            <li><a href="#"><i class="icon-cog"></i> Settings</a></li>
+                            <li><a href="#"><i class="icon-bell-alt"></i> Notification</a></li>
+                            <li><a href="#"><i class="icon-key"></i> Log Out</a></li>
+                        </ul>
+                    </li>
+                    <!-- user login dropdown end -->
+                </ul>
+                <!--search & user info end-->
+            </div>
+        </header>
+        <!--header end-->
 
-    <div class="view intro-2">
-        <div class="full-bg-img">
-            <div class="mask rgba-black-light flex-center">
-                <div class="container text-center white-text">
-                    <div class="white-text text-center wow fadeInUp">
-                        <h2>Newegg Alarm Platform</h2>
-                        <h5>It will always stay visible on the top, even when you scroll down</h5>
-                        <br>
-                        <p>Full page intro with background image will be always displayed in full screen mode,
-                            regardless
-                            of device </p>
+        <!--main content start-->
+        <section class="body-container">
+            <section class="wrapper">
+                <div class="row">
+                    <div class="col">
+                        <select class="form-control m-bot15">
+                            <option>Option 1</option>
+                            <option>Option 2</option>
+                            <option>Option 3</option>
+                        </select>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
 
-</header>
-<!--Main Navigation-->
+            </section>
+        </section>
+        <!--main content end-->
+    </section>
 
-<!--Main Layout-->
-<main class="text-center py-5">
+    <!-- js placed at the end of the document so the pages load faster -->
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
+    <script src="../static/lib/jquery-3.3.1.min.js"></script>
+    <script src="../static/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../static/lib/flatlab-admin/js/jquery.scrollTo.min.js"></script>
+    <script src="../static/lib/flatlab-admin/js/jquery.nicescroll.js" type="text/javascript"></script>
 
-                <p align="justify">quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                    anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <script src="../static/lib/flatlab-admin/js/jquery.customSelect.min.js"></script>
+    <!--common script for all pages-->
+    <script src="../static/lib/flatlab-admin/js/common-scripts.js"></script>
 
-            </div>
-        </div>
-    </div>
 
-</main>
-<!--Main Layout-->
+    <script>
 
-<script src="../static/lib/mdb-free/js/jquery-3.3.1.min.js"></script>
-<script src="../static/lib/mdb-free/js/bootstrap.min.js"></script>
-<script src="../static/lib/mdb-free/js/mdb.min.js"></script>
+        //owl carousel
+
+        $(document).ready(function () {
+
+        });
+
+        //custom select box
+
+        $(function () {
+            $('select.styled').customSelect();
+        });
+
+    </script>
+
 </body>
+
 </html>

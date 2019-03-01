@@ -83,7 +83,7 @@ public class MonitorBackend{
             Rule tempRule = new Rule();
             tempRule.setRuleId("r001");
             tempRule.setUrlId("u001");
-            tempRule.setFormula("@{aggregations.result.buckets.doc_count}>100");
+            tempRule.setFormula("@{aggregations.result.buckets.doc_count}>10");
             tempRule.setRuleAlias("请求量阈值");
             tempRule.setUpdateTime(new Timestamp(System.currentTimeMillis()));
             ruleList.add(tempRule);
@@ -108,7 +108,7 @@ public class MonitorBackend{
                 Map.Entry<String, Object> next = iterator.next();
                 JSONArray jsonArray = JSONArray.parseArray(next.getValue().toString());
                 String key = next.getKey();
-                String[] split = key.split(".");
+                String[] split = key.split("\\.");
                 String monitorKey = split[split.length - 1];
                 for (int index = 0; index < jsonArray.size(); index++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(index);
@@ -144,7 +144,7 @@ public class MonitorBackend{
                     // String alarmRoute = serviceModel.getAlarmRoute();
                     //sendMessageService(null, new MessageContent(temp.toString()), serviceModel);
 
-                    notifyClientService.notifyClient(serviceModel, new MessageContent("假数据========="));
+                    notifyClientService.notifyClient(serviceModel, new MessageContent("假数据hahhaha"));
                 }
             }
         }
