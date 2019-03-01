@@ -33,7 +33,6 @@ public class UrlDealMessage implements DealMessage {
     @Autowired
     DefaultRocketChatClient defaultRocketChatClient;
 
-
     @Override
     public Map<String, Object> dealByUrl(String id) {
         ServiceUrl serviceUrl = serviceUrlDao.selectUrlById(id);

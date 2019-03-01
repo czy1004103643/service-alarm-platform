@@ -26,46 +26,37 @@
 
 <body>
 
-    <!--Main Navigation-->
-    <header>
+       <!--Main Navigation-->
+       <header>
 
-        <nav class="navbar fixed-top navbar-expand-lg navbar-dark stylish-color scrolling-navbar">
-            <a class="navbar-brand" href="#"><strong>Navbar</strong></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pricing</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Opinions</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav nav-flex-icons">
-                    <li class="nav-item">
-                        <a class="nav-link"><i class="fab fa-facebook-f"></i></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link"><i class="fab fa-twitter"></i></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link"><i class="fab fa-instagram"></i></a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-    </header>
-    <!--Main Navigation-->
+            <nav class="navbar fixed-top navbar-expand-lg navbar-dark stylish-color scrolling-navbar">
+                <a class="navbar-brand" href="#"><strong>Navbar</strong></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Dashboard <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Service</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Notify</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav nav-flex-icons">
+                        <li class="nav-item">
+                            <a class="nav-link"><i class="fab fa-github"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+    
+        </header>
+        <!--Main Navigation-->
 
     <div class="container-fluid" style="height:100%;background-color:#f5f5f5">
         <div style="padding-top:5rem">
@@ -75,10 +66,10 @@
                         data-target="#modalContactForm">Add A New Service</a>
                 </div>
             </div>
-            <div class="container-fluid">
+            <div class="container-fluid white-bg">
                 <div class="row">
 
-                    <div class="col-sm white-bg">
+                    <div class="col-sm">
                         <div class="title-font">
 
                             <i class="fas fa-shield-alt prefix text-default"></i>
@@ -110,7 +101,7 @@
                                     <td>
                                         <i class="fas fa-edit text-default" data-toggle="modal"
                                             data-target="#modalContactForm"></i>
-                                        <i class="fas fa-trash-alt text-orange"></i>
+                                        <i class="fas fa-trash-alt text-orange" data-toggle="modal" data-target="#modalConfirmDelete"></i>
                                     </td>
                                 </tr>
                                 <tr>
@@ -118,14 +109,14 @@
                                     <td>HierarchyService</td>
                                     <td>
                                         <i class="fab fa-weixin text-success"></i>
-                                        <i class="fab fa-rocketchat text-danger"></i>
+                                        <i class="fab fa-rocketchat text-danger" ></i>
                                     </td>
                                     <td>HierarchyService</td>
                                     <td>2020-05-06 15:25:47</td>
                                     <td>
                                         <i class="fas fa-edit text-default" data-toggle="modal"
                                             data-target="#modalContactForm"></i>
-                                        <i class="fas fa-trash-alt text-orange"></i>
+                                        <i class="fas fa-trash-alt text-orange" data-toggle="modal" data-target="#modalConfirmDelete"></i>
                                     </td>
                                 </tr>
                             </tbody>
@@ -177,6 +168,35 @@
             </div>
         </div>
     </div>
+
+    <!--Modal: modalConfirmDelete-->
+    <div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+            <!--Content-->
+            <div class="modal-content text-center">
+                <!--Header-->
+                <div class="modal-header d-flex justify-content-center">
+                    <p class="heading">Are you sure?</p>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body">
+
+                    <i class="fas fa-times fa-4x animated rotateIn"></i>
+
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer flex-center">
+                    <a href="" class="btn  btn-outline-danger">Yes</a>
+                    <a type="button" class="btn  btn-danger waves-effect" data-dismiss="modal">No</a>
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!--Modal: modalConfirmDelete-->
 
     <!-- SCRIPTS -->
     <!-- JQuery -->

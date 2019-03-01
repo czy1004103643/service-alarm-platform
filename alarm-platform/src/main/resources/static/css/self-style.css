@@ -10,11 +10,25 @@
 
 
 .white-bg {
-    margin: 5px;
-    padding: 10px;
+    margin: 10px 5px;
+    padding: 15px 10px;
     background-color: #fff;
 }
 
 .text-orange {
     color: #ff7043 !important;
+}
+
+.margin-top-10 {
+    margin-top: 10px;
+}
+
+.margin-rl-none {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.margin-rl-15 {
+    margin-left: 15px;
+    margin-right: 15px;
 }
