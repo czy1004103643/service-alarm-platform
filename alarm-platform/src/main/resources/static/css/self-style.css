@@ -2,8 +2,19 @@
     padding: 1%;
 }
 
+.title-font {
+    font-size: 28px;
+    font-weight: 400;
+}
+
+
+
 .white-bg {
     margin: 5px;
     padding: 10px;
     background-color: #fff;
+}
+
+.text-orange {
+    color: #ff7043 !important;
 }
