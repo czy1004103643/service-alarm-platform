@@ -36,6 +36,29 @@ public class DefaultRocketChatClient implements RocketChatClientInterface, Appli
         return response;
     }
 
+    @Override
+    public Response getMessage(String url) {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(url)
+                .get()
+                .addHeader("cache-control", "no-cache")
+                .build();
+        Response response=null;
+        try {
+              response = client.newCall(request).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+
+
+
+
+
+
     public void configNew(String token,String userid){
           request.newBuilder()
                  .addHeader("X-Auth-Token",  rocketConfig.getToken())
@@ -73,10 +96,10 @@ public class DefaultRocketChatClient implements RocketChatClientInterface, Appli
 
     public Response postRocketMessage(String data) throws IOException {
         MediaType mediaType = MediaType.parse("application/json");
-        String str = "{ \"channel\": \"" + rocketConfig.getChanel() + "\", \"text\": \"" + data + "\"}";
+        String str = "{ \"channel\": \"" + rocketConfig.getChanel() + "\", \"text\": \"" + data + "\",}";
         RequestBody body = RequestBody.create(mediaType, str);
         Request request = new Request.Builder()
-                .url("https://chat.newegg.org/")
+                .url("https://chat.newegg.org/api/v1/chat.postMessage")
                 .post(body)
                 .addHeader("Accept", "application/json")
                 .addHeader("Content-Type", "application/json")
@@ -86,6 +109,7 @@ public class DefaultRocketChatClient implements RocketChatClientInterface, Appli
                 .build();
         OkHttpClient client = new OkHttpClient();
         Response response = client.newCall(request).execute();
+        System.out.println(response);
         return response;
     }
 

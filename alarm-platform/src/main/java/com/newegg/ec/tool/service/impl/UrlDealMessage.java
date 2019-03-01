@@ -16,10 +16,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @description: deal http request data
@@ -48,44 +45,25 @@ public class UrlDealMessage implements DealMessage {
                 new Timestamp(System.currentTimeMillis()));
 
         try {
-//           TimeZone.setDefault(TimeZone.getTimeZone("America/New_York"));
-//            Calendar cal2 = Calendar.getInstance();
-//            Calendar cal1 = Calendar.getInstance();
-//            cal1.set(Calendar.HOUR_OF_DAY -1, cal1.get(Calendar.HOUR_OF_DAY) - 24);
+
+            TimeZone.setDefault(TimeZone.getTimeZone("America/New_York"));
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
             SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
             String timeDay = sdf2.format(new Date());
-            String startTime = timeDay + " 16:00:00";
+            String startTime = timeDay + " 00:00:00";
             Date startDate = sdf.parse(startTime);
             long startTimstamp = startDate.getTime();
 
 
+            String endTime=timeDay+" 23:59:59";
+            Date endDate = sdf.parse(endTime);
+            long endTimestamp = endDate.getTime();
 
 
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(new Date());
-            calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);
-            Date endDate=calendar.getTime();
-            String endDay = sdf2.format(endDate);
-            String endTime=endDay+" 15:59:59";
-            Date endDate2 = sdf.parse(endTime);
-            long endTimestatp = endDate2.getTime();
-
-
-
-
-
-
-
-
-
-            //当前时间的前一个小时
-//            long startTime = cal1.getTimeInMillis();
-//            long endTime = cal2.getTimeInMillis();
             DocumentContext ext = JsonPath.parse(serviceUrl.getBody());
             JsonPath p = JsonPath.compile("$.query.bool.must[0].range.RequestTime.lte");
-            ext.set(p, endTimestatp);
+            ext.set(p, endTimestamp);
             JsonPath p2 = JsonPath.compile("$.query.bool.must[0].range.RequestTime.gte");
             ext.set(p2, startTimstamp);
 

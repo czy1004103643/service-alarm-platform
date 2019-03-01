@@ -11,5 +11,8 @@ import java.io.IOException;
  * @create: 2019-02-27 13:46
  **/
 public interface RocketChatClientInterface {
+
      Response postMessage(String url,String chanel, String text) throws IOException;
+
+     Response getMessage(String url);
 }
