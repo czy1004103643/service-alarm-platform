@@ -1,7 +1,9 @@
 package com.newegg.ec.tool.utils;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Jay.H.Zou
@@ -31,5 +33,13 @@ public class CommonUtils {
             }
         }
         return sb.toString();
+    }
+
+    public static Timestamp getCurrentTimestamp() {
+        return new Timestamp(System.currentTimeMillis());
+    }
+
+    public static String getUUID() {
+        return UUID.randomUUID().toString();
     }
 }

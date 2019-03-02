@@ -9,9 +9,9 @@
             service_id varchar(50) NOT NULL,
             service_group varchar(255) NOT NULL,
             service_name varchar(255)  NOT NULL,
-            alarm_way varchar(255) NOT NULL,
+            alarm_way varchar(255) DEFAULT NULL,
             wechat_app_name varchar(255) DEFAULT NULL,
-            description varchar(255) NOT NULL,
+            description varchar(255) DEFAULT NULL,
             update_time datetime(0) NOT NULL,
             PRIMARY KEY (service_id) USING BTREE
         ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;

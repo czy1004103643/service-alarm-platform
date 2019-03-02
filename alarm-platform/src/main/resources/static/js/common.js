@@ -3,3 +3,7 @@
 function isEmpty(value) {
     return value == null || value == "" || value == 'undefined';
 }
+
+function postList(url, type, data, successCallback, failCallback) {
+
+}

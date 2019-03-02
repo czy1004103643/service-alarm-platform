@@ -34,8 +34,8 @@ public class ApiGatewayService implements IDataService {
     DefaultHttpClient defaultRocketChatClient;
 
     @Override
-    public Map<String, Object> dealByUrl(String id) {
-        ServiceUrl serviceUrl = serviceUrlDao.selectUrlById(id);
+    public Map<String, Object> dealByUrl(String urlId) {
+        ServiceUrl serviceUrl = serviceUrlDao.selectUrlById(urlId);
 
         try {
 
@@ -49,7 +49,7 @@ public class ApiGatewayService implements IDataService {
             long startTimstamp = startDate.getTime();
 
 
-            String endTime=timeDay+" 23:59:59";
+            String endTime = timeDay + " 23:59:59";
             Date endDate = sdf.parse(endTime);
             long endTimestamp = endDate.getTime();
 
