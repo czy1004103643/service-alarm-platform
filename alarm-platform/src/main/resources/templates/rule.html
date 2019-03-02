@@ -25,170 +25,173 @@
 </head>
 
 <body>
+    <div class="scrollbar-container scrollbar-wrapper">
+        <!--Main Navigation-->
+        <header>
 
-    <!--Main Navigation-->
-    <header>
-
-        <nav class="navbar fixed-top navbar-expand-lg navbar-dark stylish-color scrolling-navbar">
-            <a class="navbar-brand" href="#"><strong>Navbar</strong></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Dashboard <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Service</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Notify</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav nav-flex-icons">
-                    <li class="nav-item">
-                        <a class="nav-link"><i class="fab fa-github"></i></a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-    </header>
-    <!--Main Navigation-->
-
-    <div class="container-fluid" style="height:100%;background-color:#f5f5f5">
-        <div style="padding-top:5rem">
-            <div>
-                <div class="text-center">
-                    <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal"
-                        data-target="#modalContactForm">Add A New Rule</a>
+            <nav class="navbar fixed-top navbar-expand-lg navbar-dark stylish-color scrolling-navbar">
+                <a class="navbar-brand" href="#"><strong>Navbar</strong></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Dashboard <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Service</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Notify</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav nav-flex-icons">
+                        <li class="nav-item">
+                            <a class="nav-link" target="_blank" href="https://github.com/ngbdf/service-alarm-platform"><i class="fab fa-github"></i></a>
+                        </li>
+                    </ul>
                 </div>
-            </div>
-            <div id="add-rule-panel" style="display:none;">
-                <div class="container-fluid white-bg">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <button type="button"
-                                class="btn btn-sm btn-default waves-effect waves-light margin-rl-none">Request</button>
-                        </div>
-                        <div class="col-sm-12">
-                            <div class="form-group shadow-textarea">
-                                <textarea class="form-control z-depth-10" id="exampleFormControlTextarea6" rows="6"
-                                    placeholder="Write something here...">
-                                                                    {
-                                                                        "touser" : "zouhuajian",
-                                                                        "toparty" : "",
-                                                                        "totag" : "",
-                                                                        "msgtype": "text",
-                                                                        "agentid" : 1000003,
-                                                                        "text": {
-                                                                             "content": "您的会议室已经预定，\n稍后会同步到邮箱"
-                                                                        }
-                                                                     }
-                                                                </textarea>
+            </nav>
+
+        </header>
+        <!--Main Navigation-->
+
+        <div class="container-fluid" style="height:100%;background-color:#f5f5f5">
+            <div style="padding-top:5rem">
+                <div>
+                    <div class="text-center">
+                        <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="collapse"
+                            data-target="#add-rule-panel">New Rule</a>
+                    </div>
+                </div>
+                <div id="add-rule-panel" class="collapse navbar-collapse">
+                    <div class="container-fluid white-bg">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <button type="button"
+                                    class="btn btn-sm btn-default waves-effect waves-light margin-rl-none">Request</button>
                             </div>
-                        </div>
-                        <div class="col-sm-12">
-                            <!-- Extended default form grid -->
-                            <form>
-                                <!-- Default input -->
-                                <div class="form-group col-md-6">
-                                    <div class="md-form md-outline">
-                                        <input type="text" id="alias" class="form-control">
-                                        <label for="form1">Alias</label>
-                                    </div>
+                            <div class="col-sm-12">
+                                <div class="form-group shadow-textarea">
+                                    <textarea class="form-control z-depth-10 scrollbar-container scrollbar-wrapper" id="exampleFormControlTextarea6" rows="6"
+                                        placeholder="Write something here...">
+                                                                {
+                                                                    "touser" : "zouhuajian",
+                                                                    "toparty" : "",
+                                                                    "totag" : "",
+                                                                    "msgtype": "text",
+                                                                    "agentid" : 1000003,
+                                                                    "text": {
+                                                                         "content": "您的会议室已经预定，\n稍后会同步到邮箱"
+                                                                    }
+                                                                 }
+                                                            </textarea>
                                 </div>
-                                <!-- Default input -->
-                                <div class="form-group col-md-6">
-                                    <div class="md-form md-outline">
-                                        <input type="text" id="formula" class="form-control">
-                                        <label for="form1">Formula</label>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <div class="md-form md-outline">
-                                        <input type="text" id="path" class="form-control">
-                                        <label for="form1">Path</label>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
+                            </div>
+                            <div class="col-sm-12">
+                                <!-- Extended default form grid -->
+                                <div>
+                                    <!-- Default input -->
+                                    <div class="form-group col-md-6">
                                         <div class="md-form md-outline">
-                                            <input type="text" id="description" class="form-control">
-                                            <label for="Description">Path</label>
+                                            <input type="text" id="alias" class="form-control">
+                                            <label for="form1">Alias</label>
                                         </div>
                                     </div>
-                                <button type="submit" class="btn btn-mdb-color btn-sm">Sign in</button>
-                            </form>
-                            <!-- Extended default form grid -->
+                                    <!-- Default input -->
+                                    <div class="form-group col-md-6">
+                                        <div class="md-form md-outline">
+                                            <input type="text" id="formula" class="form-control">
+                                            <label for="form1">Formula</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <div class="md-form md-outline">
+                                            <input type="text" id="path" class="form-control">
+                                            <label for="form1">Path</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <div class="md-form md-outline">
+                                            <input type="text" id="description" class="form-control">
+                                            <label for="form1">Description</label>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-mdb-color btn-sm">Confirm</button>
+                                </div>
+                                <!-- Extended default form grid -->
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="container-fluid white-bg">
+                <div class="container-fluid white-bg">
 
-                <div class="row">
+                    <div class="row">
 
-                    <div class="col-sm">
-                        <div class="title-font">
-                            <span>Rule List</span>
-                            <span> - </span>
-                            <span>ItemService</span>
+                        <div class="col-sm">
+                            <div class="title-font">
+                                <span>Rule List</span>
+                                <span> - </span>
+                                <span>ItemService</span>
+                            </div>
+                            <div>
+                                <span>URL: </span>
+                                <span>https://github.com/</span>
+                            </div>
+                            <table id="dtBasicExample" class="table table-striped table-bordered table-sm"
+                                cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th class="th-sm">Alias</th>
+                                        <th class="th-sm">Formula</th>
+                                        <th class="th-sm">Key Path</th>
+                                        <th class="th-sm">Description</th>
+                                        <th class="th-sm">Update Time</th>
+                                        <th class="th-sm"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>每小时请求量</td>
+                                        <td>@{request.count}>20000</td>
+                                        <td>request.count</td>
+                                        <td>ItemService每小时请求量</td>
+                                        <td>2020-05-06 15:30:56</td>
+                                        <td>
+                                            <i class="fas fa-edit text-default" data-toggle="modal"
+                                                data-target="#modalContactForm"></i>
+                                            <i class="fas fa-trash-alt text-orange"></i>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>每小时响应时间超过1000ms数量</td>
+                                        <td>@{request.time_response}>300</td>
+                                        <td>request.time_response</td>
+                                        <td>每小时响应时间超过1000ms数量</td>
+                                        <td>2020-05-06 15:30:56</td>
+                                        <td>
+                                            <i class="fas fa-edit text-default" class="btn btn-default btn-rounded mb-4" data-toggle="collapse"
+                                            data-target="#add-rule-panel"></i>
+                                            <i class="fas fa-trash-alt text-orange"></i>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
                         </div>
-                        <div>
-                            <span>URL: </span>
-                            <span>https://github.com/</span>
-                        </div>
-                        <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0"
-                            width="100%">
-                            <thead>
-                                <tr>
-                                    <th class="th-sm">Alias</th>
-                                    <th class="th-sm">Formula</th>
-                                    <th class="th-sm">Key Path</th>
-                                    <th class="th-sm">Description</th>
-                                    <th class="th-sm">Update Time</th>
-                                    <th class="th-sm"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>每小时请求量</td>
-                                    <td>@{request.count}>20000</td>
-                                    <td>request.count</td>
-                                    <td>ItemService每小时请求量</td>
-                                    <td>2020-05-06 15:30:56</td>
-                                    <td>
-                                        <i class="fas fa-edit text-default" data-toggle="modal"
-                                            data-target="#modalContactForm"></i>
-                                        <i class="fas fa-trash-alt text-orange"></i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>每小时响应时间超过1000ms数量</td>
-                                    <td>@{request.time_response}>300</td>
-                                    <td>request.time_response</td>
-                                    <td>每小时响应时间超过1000ms数量</td>
-                                    <td>2020-05-06 15:30:56</td>
-                                    <td>
-                                        <i class="fas fa-edit text-default" data-toggle="modal"
-                                            data-target="#modalContactForm"></i>
-                                        <i class="fas fa-trash-alt text-orange"></i>
-                                    </td>
-                                </tr>
-                            </tbody>
 
-                        </table>
                     </div>
 
                 </div>
 
             </div>
-
         </div>
     </div>
+
 
     <!-- SCRIPTS -->
     <!-- JQuery -->
@@ -201,6 +204,8 @@
     <script type="text/javascript" src="../static/lib/mdb-free/js/mdb.min.js"></script>
     <script type="text/javascript" src="../static/lib/mdb-free/js/addons/datatables.min.js"></script>
     <script type="text/javascript" src="../static/lib/mdb-free/js/addons/datatables-select.min.js"></script>
+    <script type="text/javascript" src="../static/js/common.js"></script>
+    <script type="text/javascript" src="../static/js/rule.js"></script>
     <script>
         $(document).ready(function () {
             $('#dtBasicExample').DataTable();

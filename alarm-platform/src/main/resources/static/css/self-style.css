@@ -2,11 +2,37 @@
     padding: 1%;
 }
 
+.scrollbar-container{
+    height: 100%;
+    overflow: auto;
+    width: 100%;
+}
+
+.scrollbar{
+    width: 100%;
+    margin: 0 auto;
+}
+.scrollbar-wrapper::-webkit-scrollbar {/*滚动条整体样式*/
+    width: 5px;     /*高宽分别对应横竖滚动条的尺寸*/
+    height: 5px;
+}
+.scrollbar-wrapper::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+    border-radius: 5px;
+    -webkit-box-shadow: inset 0 0 5px rgba(149, 149, 149, 0.2);
+    background: #dadada;
+}
+
+.scrollbar-wrapper::-webkit-scrollbar-track {/*滚动条里面轨道*/
+    -webkit-box-shadow: inset 0 0 5px rgba(149, 149, 149, 0.2);
+    border-radius: 5px;
+    background: #f1f2f7;
+}
+
+
 .title-font {
     font-size: 28px;
     font-weight: 400;
 }
-
 
 
 .white-bg {
@@ -32,3 +58,16 @@
     margin-left: 15px;
     margin-right: 15px;
 }
+
+/* input */
+.border-top-none {
+    border-top: none;
+    border-radius: 0;
+}
+
+body > input, textarea, input:focus, textarea:focus {
+
+    outline: none !important;
+
+}
+
