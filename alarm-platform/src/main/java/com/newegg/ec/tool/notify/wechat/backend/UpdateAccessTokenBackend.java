@@ -21,7 +21,7 @@ import java.util.concurrent.*;
  * @author Jay.H.Zou
  * @date 2019/2/26
  */
-@Component
+//@Component
 public class UpdateAccessTokenBackend implements ApplicationListener<ContextRefreshedEvent> {
 
     private static final Logger logger = LoggerFactory.getLogger(UpdateAccessTokenBackend.class);

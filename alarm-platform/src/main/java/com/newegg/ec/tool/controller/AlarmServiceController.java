@@ -23,7 +23,7 @@ public class AlarmServiceController {
     @Autowired
     private IAlarmService alarmService;
 
-    @RequestMapping(value = "/getServiceModelList", method = RequestMethod.POST)
+    @RequestMapping(value = "/getServiceModelList", method = RequestMethod.GET)
     @ResponseBody
     public Result getServiceModelList() {
         List<ServiceModel> serviceModelList = alarmService.getServiceModelList();

@@ -6,6 +6,7 @@ import com.newegg.ec.tool.service.IAlarmService;
 import com.newegg.ec.tool.utils.CommonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
  * @author Jay.H.Zou
  * @date 2019/3/2
  */
+@Service
 public class AlarmService implements IAlarmService {
 
     @Autowired

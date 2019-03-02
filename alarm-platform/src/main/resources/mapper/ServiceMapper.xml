@@ -29,14 +29,23 @@
     <insert id="addService" parameterType="com.newegg.ec.tool.entity.ServiceModel">
         INSERT INTO
             service
+        (
+            service_id,
+            service_group,
+            service_name,
+            wechat_app_name,
+            alarm_way,
+            description,
+            update_time
+        )
         VALUES (
-            service_id = #{serviceId},
-            service_group = #{serviceGroup},
-            service_name = #{serviceName},
-            wechat_app_name = #{wechatAppName}
-            alarm_way = #{alarmWay}
-            description = #{description}
-            update_time = #{updateTime}
+            #{serviceId},
+            #{serviceGroup},
+            #{serviceName},
+            #{wechatAppName},
+            #{alarmWay},
+            #{description},
+            #{updateTime}
         )
     </insert>
 

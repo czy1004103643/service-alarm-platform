@@ -25,15 +25,25 @@
     <insert id="addServiceUrl" parameterType="com.newegg.ec.tool.entity.ServiceUrl">
         INSERT INTO
             service_url
+        (
+            url_id,
+            service_id,
+            url_content,
+            request_type,
+            param_content,
+            body_content,
+            description,
+            update_time
+        )
         VALUES (
-            url_id = #{urlId}
-            service_id = #{serviceId}
-            url_content = #{urlContent}
-            request_type = #{urlContent}
-            param_content = #{content}
-            body_content = #{body}
-            description = #{description}
-            update_time = #{updateTime}
+            #{urlId},
+            #{serviceId},
+            #{urlContent},
+            #{urlContent},
+            #{content},
+            #{body},
+            #{description},
+            #{updateTime}
         )
     </insert>
 
