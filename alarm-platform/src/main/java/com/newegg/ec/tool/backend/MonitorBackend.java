@@ -48,14 +48,6 @@ public class MonitorBackend{
 
     static List<ServiceUrl> serviceUrlList = new ArrayList<>(2);
 
-    static {
-
-        ServiceUrl url1 = new ServiceUrl("u001", "s001", "https://www.github.com/", "GET", "param", "body", "test", new Timestamp(System.currentTimeMillis()));
-        ServiceUrl url2 = new ServiceUrl("u002", "s001", "https://www.github.com/zouhuajian", "GET", "param", "body", "test", new Timestamp(System.currentTimeMillis()));
-        serviceUrlList.add(url1);
-        //serviceUrlList.add(url2);
-    }
-
     @Autowired
     private ServiceDao serviceDao;
 

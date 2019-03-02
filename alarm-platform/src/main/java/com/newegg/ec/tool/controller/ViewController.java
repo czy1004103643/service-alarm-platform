@@ -15,4 +15,19 @@ public class ViewController {
         return "index";
     }
 
+    @RequestMapping("/service")
+    public String service() {
+        return "service";
+    }
+
+    @RequestMapping("/url")
+    public String url() {
+        return "url";
+    }
+
+    @RequestMapping("/rule")
+    public String rule() {
+        return "rule";
+    }
+
 }

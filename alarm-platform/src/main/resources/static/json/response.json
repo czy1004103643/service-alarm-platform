@@ -1,0 +1,35 @@
+{
+    "took": 424,
+    "timed_out": false,
+    "_shards": {
+        "total": 80,
+        "successful": 80,
+        "skipped": 0,
+        "failed": 0
+    },
+    "hits": {
+        "total": 14516204,
+        "max_score": 0,
+        "hits": []
+    },
+    "aggregations": {
+        "result": {
+            "doc_count_error_upper_bound": 0,
+            "sum_other_doc_count": 0,
+            "buckets": [
+                {
+                    "key": "2019022000",
+                    "doc_count": 725556
+                },
+                {
+                    "key": "2019022001",
+                    "doc_count": 776835
+                },
+                {
+                    "key": "2019022002",
+                    "doc_count": 793158
+                }
+            ]
+        }
+    }
+}

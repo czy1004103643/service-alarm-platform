@@ -36,13 +36,6 @@ public class ApiGatewayService implements IDataService {
     @Override
     public Map<String, Object> dealByUrl(String id) {
         ServiceUrl serviceUrl = serviceUrlDao.selectUrlById(id);
-        serviceUrl = new ServiceUrl("u001", "s001",
-                "http://10.1.54.179:8900/e4/api-logs/_search",
-                "POST",
-                "param",
-                body,
-                "大吉大利，今晚吃鸡",
-                new Timestamp(System.currentTimeMillis()));
 
         try {
 
@@ -61,7 +54,7 @@ public class ApiGatewayService implements IDataService {
             long endTimestamp = endDate.getTime();
 
 
-            DocumentContext ext = JsonPath.parse(serviceUrl.getBody());
+            DocumentContext ext = JsonPath.parse(serviceUrl.getBodyConent());
             JsonPath p = JsonPath.compile("$.query.bool.must[0].range.RequestTime.lte");
             ext.set(p, endTimestamp);
             JsonPath p2 = JsonPath.compile("$.query.bool.must[0].range.RequestTime.gte");

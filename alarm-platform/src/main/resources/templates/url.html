@@ -8,14 +8,15 @@
     <title>Material Design Bootstrap</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
+    <link href="/static/lib/jsonview/jquery.jsonview.css" rel="stylesheet">
     <!-- Bootstrap core CSS -->
-    <link href="../static/lib/mdb-free/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/lib/mdb-free/css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
-    <link href="../static/lib/mdb-free/css/mdb.min.css" rel="stylesheet">
+    <link href="/static/lib/mdb-free/css/mdb.min.css" rel="stylesheet">
     <!-- Your custom styles (optional) -->
-    <link href="../static/lib/mdb-free/css/style.css" rel="stylesheet">
-    <link href="../static/lib/mdb-free/css/addons/datatables.min.css" rel="stylesheet">
-    <link href="../static/css/self-style.css" rel="stylesheet">
+    <link href="/static/lib/mdb-free/css/style.css" rel="stylesheet">
+    <link href="/static/lib/mdb-free/css/addons/datatables.min.css" rel="stylesheet">
+    <link href="/static/css/self-style.css" rel="stylesheet">
     <style>
         html,
         body {
@@ -74,7 +75,7 @@
                             <div class="col-sm">
                                 <div class="input-group">
                                     <input type="text" class="form-control"
-                                        aria-label="Text input with dropdown button">
+                                        aria-label="url" id="url-content" request-type="1">
                                     <div class="input-group-append">
                                         <button class="btn btn-default btn-md m-0 px-4 py-2 z-depth-0 dropdown-toggle"
                                             type="button" data-toggle="dropdown" aria-haspopup="true"
@@ -135,7 +136,7 @@
                                         aria-labelledby="body-tab" style="display: none;">
                                         <div class="form-group">
                                             <textarea class="form-control z-depth-10 scrollbar-container scrollbar-wrapper border-top-none" id="body-content"
-                                                rows="6" placeholder="Write something here...">
+                                                rows="6" placeholder="enter post body">
                                                 {
                                                     "touser" : "zouhuajian",
                                                     "toparty" : "",
@@ -158,21 +159,18 @@
                     <div class="container-fluid white-bg">
                         <div class="row">
                             <button type="button"
-                                class="btn btn-sm btn-default  waves-effect waves-light margin-rl-15">Test</button>
+                                class="btn btn-sm btn-default  waves-effect waves-light margin-rl-15" id="url-test">Test</button>
                         </div>
                         <div class="row margin-top-10">
 
                             <div class="col-sm">
-                                <div class="form-group">
-                                    <textarea class="form-control z-depth-1 scrollbar-container scrollbar-wrapper" id="exampleFormControlTextarea6" rows="5"
-                                        placeholder="Request Result"></textarea>
-                                </div>
+                                    <div class="code-span" id="response-data"></div>
                             </div>
                         </div>
                         <div class="row">
 
                             <button type="button"
-                                class="btn btn-sm btn-mdb-color waves-effect waves-light margin-rl-15">Confirm</button>
+                                class="btn btn-sm btn-mdb-color waves-effect waves-light margin-rl-15" id="url-confirm">Confirm</button>
                             // TODO: Test 成功才会显示
                         </div>
                     </div>
@@ -243,17 +241,18 @@
 
     <!-- SCRIPTS -->
     <!-- JQuery -->
-    <script type="text/javascript" src="../static/lib/mdb-free/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="/static/lib/mdb-free/js/jquery-3.3.1.min.js"></script>
     <!-- Bootstrap tooltips -->
-    <script type="text/javascript" src="../static/lib/mdb-free/js/popper.min.js"></script>
+    <script type="text/javascript" src="/static/lib/mdb-free/js/popper.min.js"></script>
     <!-- Bootstrap core JavaScript -->
-    <script type="text/javascript" src="../static/lib/mdb-free/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/lib/mdb-free/js/bootstrap.min.js"></script>
     <!-- MDB core JavaScript -->
-    <script type="text/javascript" src="../static/lib/mdb-free/js/mdb.min.js"></script>
-    <script type="text/javascript" src="../static/lib/mdb-free/js/addons/datatables.min.js"></script>
-    <script type="text/javascript" src="../static/lib/mdb-free/js/addons/datatables-select.min.js"></script>
-    <script type="text/javascript" src="../static/js/common.js"></script>
-    <script type="text/javascript" src="../static/js/url.js"></script>
+    <script type="text/javascript" src="/static/lib/mdb-free/js/mdb.min.js"></script>
+    <script type="text/javascript" src="/static/lib/mdb-free/js/addons/datatables.min.js"></script>
+    <script type="text/javascript" src="/static/lib/mdb-free/js/addons/datatables-select.min.js"></script>
+    <script type="text/javascript" src="/static/js/common.js"></script>
+    <script type="text/javascript" src="/static/lib/jsonview/jquery.jsonview.js"></script>
+    <script type="text/javascript" src="/static/js/url.js"></script>
     <script>
         $(document).ready(function () {
             $('#dtBasicExample').DataTable();

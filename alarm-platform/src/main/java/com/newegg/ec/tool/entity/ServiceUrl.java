@@ -17,28 +17,17 @@ public class ServiceUrl {
     /**
      * TODO: 定义枚举
      */
-    private String urlType;
+    private String requestType;
 
-    private String param;
+    private String paramContent;
 
-    private String body;
+    private String bodyConent;
 
     private String description;
 
     private Timestamp updateTime;
 
     public ServiceUrl() {}
-
-    public ServiceUrl(String urlId, String serviceId, String urlContent, String urlType, String param, String body, String description, Timestamp updateTime) {
-        this.urlId = urlId;
-        this.serviceId = serviceId;
-        this.urlContent = urlContent;
-        this.urlType = urlType;
-        this.param = param;
-        this.body = body;
-        this.description = description;
-        this.updateTime = updateTime;
-    }
 
     public String getUrlId() {
         return urlId;
@@ -64,28 +53,28 @@ public class ServiceUrl {
         this.urlContent = urlContent;
     }
 
-    public String getUrlType() {
-        return urlType;
+    public String getRequestType() {
+        return requestType;
     }
 
-    public void setUrlType(String urlType) {
-        this.urlType = urlType;
+    public void setRequestType(String requestType) {
+        this.requestType = requestType;
     }
 
-    public String getParam() {
-        return param;
+    public String getParamContent() {
+        return paramContent;
     }
 
-    public void setParam(String param) {
-        this.param = param;
+    public void setParamContent(String paramContent) {
+        this.paramContent = paramContent;
     }
 
-    public String getBody() {
-        return body;
+    public String getBodyConent() {
+        return bodyConent;
     }
 
-    public void setBody(String body) {
-        this.body = body;
+    public void setBodyConent(String bodyConent) {
+        this.bodyConent = bodyConent;
     }
 
     public String getDescription() {
@@ -102,5 +91,20 @@ public class ServiceUrl {
 
     public void setUpdateTime(Timestamp updateTime) {
         this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("ServiceUrl{");
+        sb.append("urlId='").append(urlId).append('\'');
+        sb.append(", serviceId='").append(serviceId).append('\'');
+        sb.append(", urlContent='").append(urlContent).append('\'');
+        sb.append(", requestType='").append(requestType).append('\'');
+        sb.append(", paramContent='").append(paramContent).append('\'');
+        sb.append(", bodyConent='").append(bodyConent).append('\'');
+        sb.append(", description='").append(description).append('\'');
+        sb.append(", updateTime=").append(updateTime);
+        sb.append('}');
+        return sb.toString();
     }
 }

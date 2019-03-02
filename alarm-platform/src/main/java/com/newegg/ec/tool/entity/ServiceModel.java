@@ -10,6 +10,8 @@ public class ServiceModel {
 
     private String serviceId;
 
+    private String serviceGroup;
+
     private String serviceName;
 
     private String wechatAppName;
@@ -26,6 +28,14 @@ public class ServiceModel {
 
     public void setServiceId(String serviceId) {
         this.serviceId = serviceId;
+    }
+
+    public String getServiceGroup() {
+        return serviceGroup;
+    }
+
+    public void setServiceGroup(String serviceGroup) {
+        this.serviceGroup = serviceGroup;
     }
 
     public String getServiceName() {

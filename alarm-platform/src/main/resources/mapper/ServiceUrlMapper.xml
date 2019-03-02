@@ -29,9 +29,9 @@
             url_id = #{urlId}
             service_id = #{serviceId}
             url_content = #{urlContent}
-            url_type = #{urlContent}
-            param = #{content}
-            body = #{body}
+            request_type = #{urlContent}
+            param_content = #{content}
+            body_content = #{body}
             description = #{description}
             update_time = #{updateTime}
         )

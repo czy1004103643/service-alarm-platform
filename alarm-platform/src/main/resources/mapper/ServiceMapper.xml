@@ -23,7 +23,7 @@
     </select>
 
     <select id="selectAllService" resultType="com.newegg.ec.tool.entity.ServiceModel">
-        SELECT * FROM serviceModel
+        SELECT * FROM service
     </select>
 
     <insert id="addService" parameterType="com.newegg.ec.tool.entity.ServiceModel">
@@ -31,6 +31,7 @@
             service
         VALUES (
             service_id = #{serviceId},
+            service_group = #{serviceGroup},
             service_name = #{serviceName},
             wechat_app_name = #{wechatAppName}
             alarm_way = #{alarmWay}
@@ -44,6 +45,7 @@
             service
         SET
             service_name = #{serviceName},
+            service_group = #{serviceGroup},
             wechat_app_name = #{wechatAppName}
             alarm_way = #{alarmWay},
             description = #{description},
