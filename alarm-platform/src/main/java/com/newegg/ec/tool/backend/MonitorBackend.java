@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.newegg.ec.tool.dao.RuleDao;
-import com.newegg.ec.tool.dao.ServiceDao;
+import com.newegg.ec.tool.dao.AppServiceDao;
 import com.newegg.ec.tool.entity.MessageContent;
 import com.newegg.ec.tool.entity.Rule;
 import com.newegg.ec.tool.entity.ServiceModel;
@@ -18,7 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
 import java.util.*;
@@ -32,7 +31,7 @@ import java.util.concurrent.TimeUnit;
  * @author Jay.H.Zou
  * @date 2019/2/27
  */
-@Component
+//@Component
 public class MonitorBackend{
 
     private static final Logger logger = LoggerFactory.getLogger(MonitorBackend.class);
@@ -49,7 +48,7 @@ public class MonitorBackend{
     static List<ServiceUrl> serviceUrlList = new ArrayList<>(2);
 
     @Autowired
-    private ServiceDao serviceDao;
+    private AppServiceDao appServiceDao;
 
     @Autowired
     private RuleDao ruleDao;
@@ -134,7 +133,7 @@ public class MonitorBackend{
                 }
                 // 如果满足，则获取其service对象
                 if (calculate) {
-                    ServiceModel serviceModel = serviceDao.selectServiceById(url.getServiceId());
+                    ServiceModel serviceModel = appServiceDao.selectServiceById(url.getServiceId());
                     serviceModel = new ServiceModel();
                     serviceModel.setAlarmWay("WECHAT");
                     serviceModel.setWechatAppName("ItemService");
@@ -147,7 +146,6 @@ public class MonitorBackend{
             }
         }
     }
-
 
     private Map<String, Object> processDataForArray(Map<String, Object> realDataMap){
         Iterator<Map.Entry<String, Object>> iterator = realDataMap.entrySet().iterator();
@@ -167,10 +165,4 @@ public class MonitorBackend{
         return arrayDataMap;
     }
 
-    /*private Map<String, Object> getRealDataMap(String urlId) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("response.count", 500);
-        result.put("time.request.time", 1000);
-        return result;
-    }*/
 }

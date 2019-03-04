@@ -146,7 +146,8 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body mx-3">
+                <div class="modal-body mx-3" id="service-info-body">
+                    <input type="text" id="service-id" class="form-control validate" value="" style="display:none" />
                     <div class="md-form mb-5">
                         <i class="fas fa-user-friends prefix grey-text"></i>
                         <input type="text" id="service-group" class="form-control validate">
@@ -158,11 +159,6 @@
                         <input type="text" id="service-name" class="form-control validate">
                         <label data-error="wrong" data-success="right" for="service-name">Service Name</label>
                     </div>
-                    <!-- <div class="md-form mb-5">
-                        <i class="fas fa-shield-alt prefix grey-text"></i>
-                        <input type="email" id="service-name" class="form-control validate">
-                        <label data-error="wrong" data-success="right" for="form29">Service Name</label>
-                    </div> -->
 
                     <div class="md-form">
                         <i class="fas fa-pencil-alt  prefix grey-text"></i>
@@ -194,12 +190,11 @@
                 <div class="modal-body">
 
                     <i class="fas fa-times fa-4x animated rotateIn"></i>
-
                 </div>
 
                 <!--Footer-->
                 <div class="modal-footer flex-center">
-                    <a href="" class="btn  btn-outline-danger" data-id="s001">Yes</a>
+                    <a href="" class="btn  btn-outline-danger" data-id="s001" id="delete-yes">Yes</a>
                     <a type="button" class="btn  btn-danger waves-effect" data-dismiss="modal">No</a>
                 </div>
             </div>

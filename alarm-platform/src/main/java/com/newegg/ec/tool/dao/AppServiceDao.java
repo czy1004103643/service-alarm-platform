@@ -1,6 +1,7 @@
 package com.newegg.ec.tool.dao;
 
 import com.newegg.ec.tool.entity.ServiceModel;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -8,11 +9,12 @@ import java.util.List;
  * @author Jay.H.Zou
  * @date 2019/2/26
  */
-public interface ServiceDao {
+@Repository
+public interface AppServiceDao {
 
     ServiceModel selectServiceById(String serviceId);
 
-    int selectServiceByName(String serviceName);
+    ServiceModel selectServiceByName(String serviceId, String serviceName);
 
     List<ServiceModel> selectAllService();
 

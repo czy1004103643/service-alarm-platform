@@ -32,6 +32,14 @@ public class Result {
         return new Result(ResultCode.SUCCESS);
     }
 
+    public static Result existResult() {
+        return new Result(ResultCode.EXIST);
+    }
+
+    public static Result badParamResult() {
+        return new Result(ResultCode.BAD_PARAM);
+    }
+
     public static Result failResult(Object data) {
         return new Result(ResultCode.FAIL, data);
     }
@@ -84,9 +92,16 @@ public class Result {
          */
         SUCCESS(0, "success"),
         /**
-         * error
+         * fail
          */
-        FAIL(-1, "error");
+        FAIL(-1, "fail"),
+
+        /**
+         * exist
+         */
+        EXIST(1, "exist"),
+
+        BAD_PARAM(-2, "bad param");
 
         private int code;
 

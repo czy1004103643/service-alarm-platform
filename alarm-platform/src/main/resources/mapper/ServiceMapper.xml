@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.newegg.ec.tool.dao.ServiceDao">
+<mapper namespace="com.newegg.ec.tool.dao.AppServiceDao">
 
     <select id="selectServiceById" resultType="com.newegg.ec.tool.entity.ServiceModel" parameterType="java.lang.String">
         SELECT
@@ -13,13 +13,21 @@
             service_id = #{serviceId}
     </select>
 
-    <select id="selectServiceByName" resultType="com.newegg.ec.tool.entity.ServiceModel" parameterType="java.lang.String">
+    <select id="selectServiceByName" resultType="com.newegg.ec.tool.entity.ServiceModel">
         SELECT
             *
         FROM
             service
         WHERE
             service_name = #{serviceName}
+        <if test="serviceId != null">
+            AND
+            service_id
+            NOT IN
+            (#{serviceId})
+        </if>
+
+
     </select>
 
     <select id="selectAllService" resultType="com.newegg.ec.tool.entity.ServiceModel">
@@ -55,7 +63,7 @@
         SET
             service_name = #{serviceName},
             service_group = #{serviceGroup},
-            wechat_app_name = #{wechatAppName}
+            wechat_app_name = #{wechatAppName},
             alarm_way = #{alarmWay},
             description = #{description},
             update_time = #{updateTime}

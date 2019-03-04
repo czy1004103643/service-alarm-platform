@@ -8,7 +8,7 @@
         CREATE TABLE IF NOT EXISTS service  (
             service_id varchar(50) NOT NULL,
             service_group varchar(255) NOT NULL,
-            service_name varchar(255)  NOT NULL,
+            service_name varchar(255) NOT NULL UNIQUE,
             alarm_way varchar(255) DEFAULT NULL,
             wechat_app_name varchar(255) DEFAULT NULL,
             description varchar(255) DEFAULT NULL,
@@ -21,7 +21,7 @@
         CREATE TABLE IF NOT EXISTS service_url (
             url_id varchar(10) NOT NULL,
             service_id varchar(10) NOT NULL,
-            url_content varchar(255) NOT NULL,
+            url_content varchar(255) NOT NULL UNIQUE,
             request_type varchar(50) NOT NULL,
             param_content bigint(255) DEFAULT NULL,
             body_content bigint(255) DEFAULT NULL,

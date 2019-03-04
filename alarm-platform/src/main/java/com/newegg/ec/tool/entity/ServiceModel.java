@@ -1,6 +1,7 @@
 package com.newegg.ec.tool.entity;
 
 import java.sql.Timestamp;
+import java.util.StringJoiner;
 
 /**
  * @author Jay.H.Zou
@@ -76,5 +77,18 @@ public class ServiceModel {
 
     public void setUpdateTime(Timestamp updateTime) {
         this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", ServiceModel.class.getSimpleName() + "[", "]")
+                .add("serviceId='" + serviceId + "'")
+                .add("serviceGroup='" + serviceGroup + "'")
+                .add("serviceName='" + serviceName + "'")
+                .add("wechatAppName='" + wechatAppName + "'")
+                .add("alarmWay='" + alarmWay + "'")
+                .add("description='" + description + "'")
+                .add("updateTime=" + updateTime)
+                .toString();
     }
 }
