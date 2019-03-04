@@ -4,16 +4,18 @@ import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import com.newegg.ec.tool.dao.RuleDao;
 import com.newegg.ec.tool.dao.ServiceUrlDao;
+import com.newegg.ec.tool.entity.MessageContent;
+import com.newegg.ec.tool.entity.Rule;
 import com.newegg.ec.tool.entity.ServiceUrl;
 import com.newegg.ec.tool.notify.rocket.DefaultHttpClient;
 import com.newegg.ec.tool.service.IDataService;
+import com.newegg.ec.tool.utils.RegexNum;
 import net.minidev.json.JSONArray;
 import okhttp3.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -34,8 +36,10 @@ public class ApiGatewayService implements IDataService {
     DefaultHttpClient defaultRocketChatClient;
 
     @Override
-    public Map<String, Object> dealByUrl(String urlId) {
+    public  ArrayList  dealByUrl(String urlId) {
         ServiceUrl serviceUrl = serviceUrlDao.selectUrlById(urlId);
+        java.util.List<Rule> rule = ruleDao.selectRulesByUrlId(urlId);
+         ArrayList<Map<String, Object>> list = new ArrayList<>();
 
         try {
 
@@ -60,15 +64,21 @@ public class ApiGatewayService implements IDataService {
             JsonPath p2 = JsonPath.compile("$.query.bool.must[0].range.RequestTime.gte");
             ext.set(p2, startTimstamp);
 
-            Response response = defaultRocketChatClient.postNetMessage(serviceUrl.getUrlContent(), ext.jsonString());
+            MessageContent messageContent = new MessageContent();
+            messageContent.setContent(ext.jsonString());
+            Response response = defaultRocketChatClient.postNetMessage(serviceUrl.getUrlContent(), messageContent);
             String jsonStr = response.body().string();
-            System.out.println(jsonStr);
-            JSONArray valueArray = JsonPath.read(jsonStr, "aggregations.result.buckets");
-            System.out.println(valueArray);
-            Map<String, Object> map = new HashMap<>();
-            map.put("aggregations.result.buckets.doc_count", valueArray);
-            System.err.println(valueArray);
-            return map;
+
+
+            for(Rule rule1:rule){
+                String formula = RegexNum.getFormula(rule1.getFormula());
+                JSONArray valueArray = JsonPath.read(jsonStr, formula);
+                Map<String, Object> map = new HashMap<>();
+                map.put(RegexNum.getFormulaKey(rule1.getFormula()), valueArray);
+                list.add(map);
+            }
+
+            return list;
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
@@ -76,38 +86,5 @@ public class ApiGatewayService implements IDataService {
     }
 
 
-    private static final String body = "{ \n" +
-            "    \"size\": 0, \n" +
-            "    \"query\": { \n" +
-            "        \"bool\": { \n" +
-            "            \"must\": [ \n" +
-            "                { \n" +
-            "                    \"range\": { \n" +
-            "                        \"RequestTime\": { \n" +
-            "                            \"lte\": 1550908799999, \n" +
-            "                            \"gte\": 1550822400000 \n" +
-            "                        } \n" +
-            "                    } \n" +
-            "                }, \n" +
-            "                { \n" +
-            "                    \"query_string\": { \n" +
-            "                        \"query\": \"ApiId:364e9234-254b-4d0e-a9bd-02c43960557f AND GatewayType:P AND SpendTime:[ 1000 TO * ]\" \n" +
-            "\n" +
-            "                    } \n" +
-            "                } \n" +
-            "            ] \n" +
-            "        } \n" +
-            "    }, \n" +
-            "    \"aggregations\": { \n" +
-            "        \"result\": { \n" +
-            "            \"terms\": { \n" +
-            "                \"field\": \"Timestamp\", \n" +
-            "                \"size\": 2147483647, \n" +
-            "                \"order\": { \n" +
-            "                    \"_term\": \"asc\" \n" +
-            "                } \n" +
-            "            } \n" +
-            "        } \n" +
-            "    } \n" +
-            "}";
+
 }

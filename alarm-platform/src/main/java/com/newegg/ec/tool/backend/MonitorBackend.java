@@ -84,11 +84,18 @@ public class MonitorBackend{
                 continue;
             }
             // 获取 url 返回的监控数据
-            Map<String, Object> realDataMap = apiGatewayService.dealByUrl(urlId);
-            Map<String, Object> preprocessDataForArray = processDataForArray(realDataMap);
 
-            processRuleAndData(url, ruleList, realDataMap);
-            processRuleAndDataForArray(url, ruleList, preprocessDataForArray);
+            // key: String value:数值
+             ArrayList<HashMap<String,Object>>  list = apiGatewayService.dealByUrl(urlId);
+            // realDataMap 可能会移除部分数据
+
+            // key: String value: list
+            for(HashMap<String,Object> realDataMap:list){
+                Map<String, Object> preprocessDataForArray = processDataForArray(realDataMap);
+                processRuleAndData(url, ruleList, realDataMap);
+                processRuleAndDataForArray(url, ruleList, preprocessDataForArray);
+            }
+
         }
     }
 
@@ -120,6 +127,7 @@ public class MonitorBackend{
 
     private void processRuleAndData(ServiceUrl url, List<Rule> ruleList, Map<String, Object> dataMap) {
         if (dataMap != null && dataMap.size() > 0) {
+
             for (Rule rule : ruleList) {
                 // 判断规则是否成立
                 boolean calculate = false;

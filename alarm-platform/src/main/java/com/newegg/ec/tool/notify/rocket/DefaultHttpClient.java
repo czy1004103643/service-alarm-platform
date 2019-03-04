@@ -82,11 +82,11 @@ public class DefaultHttpClient implements HttpClientInterface, ApplicationListen
                 .build();
     }
 
-    public Response postNetMessage(String url,String data) throws IOException {
+    public Response postNetMessage(String url,MessageContent data) throws IOException {
         MediaType mediaType = MediaType.parse("application/json");
-        RequestBody body = RequestBody.create(mediaType, data);
+        RequestBody body = RequestBody.create(mediaType, data.getContent());
         Request request = new Request.Builder()
-                .url("http://10.1.54.179:8900/e4/api-logs/_search")
+                .url(url)
                 .post(body)
                 .addHeader("Accept", "application/json")
                 .addHeader("Content-Type", "application/json")
@@ -97,9 +97,9 @@ public class DefaultHttpClient implements HttpClientInterface, ApplicationListen
         return response;
     }
 
-    public Response postRocketMessage(String data) throws IOException {
+    public Response postRocketMessage(MessageContent data) throws IOException {
         MediaType mediaType = MediaType.parse("application/json");
-        String str = "{ \"channel\": \"" + rocketConfig.getChanel() + "\", \"text\": \"" + data + "\"}";
+        String str = "{ \"channel\": \"" + rocketConfig.getChanel() + "\", \"text\": \"" + data.getContent() + "\"}";
         RequestBody body = RequestBody.create(mediaType, str);
         Request request = new Request.Builder()
                 .url("https://chat.newegg.org/api/v1/chat.postMessage")

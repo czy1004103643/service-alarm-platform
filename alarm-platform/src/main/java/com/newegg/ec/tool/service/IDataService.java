@@ -1,10 +1,11 @@
 package com.newegg.ec.tool.service;
 
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface IDataService {
 
-    Map<String, Object> dealByUrl(String urlId);
+     ArrayList<HashMap<String,Object>>  dealByUrl(String urlId);
 
 }

@@ -28,8 +28,7 @@ DefaultHttpClient defaultRocketChatClient;
 
     @Test
     public void Test() throws IOException {
-
-        defaultRocketChatClient.postRocketMessage("this is testt");
+        //defaultRocketChatClient.postRocketMessage("this is testt");
       // defaultRocketChatClient.postNetMessage("http://10.1.54.179:8900/e4/api-logs/_search", "this a test");
 
     }
