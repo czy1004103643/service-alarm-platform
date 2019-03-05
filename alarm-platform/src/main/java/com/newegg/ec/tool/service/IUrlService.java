@@ -1,6 +1,7 @@
 package com.newegg.ec.tool.service;
 
 import com.newegg.ec.tool.entity.ServiceUrl;
+import javafx.util.Pair;
 
 import java.util.List;
 
@@ -17,5 +18,7 @@ public interface IUrlService {
     ServiceUrl getServiceUrlById(String urlId);
 
     boolean deleteServiceUrlById(String urlId);
+
+    public Pair<Boolean, Object> checkUrl(ServiceUrl serviceUrl);
 
 }

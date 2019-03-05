@@ -51,12 +51,12 @@
         UPDATE
             service_url
         SET
-            service_id = #{serviceId}
-            url_content = #{urlContent}
-            url_type = #{urlContent}
-            param = #{paramContent}
-            body = #{bodyContent}
-            description = #{description}
+            service_id = #{serviceId},
+            url_content = #{urlContent},
+            request_type = #{requestType},
+            param_content = #{paramContent},
+            body_content = #{bodyContent},
+            description = #{description},
             update_time = #{updateTime}
         WHERE
             url_id = #{urlId}

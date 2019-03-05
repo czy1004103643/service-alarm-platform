@@ -3,6 +3,7 @@ package com.newegg.ec.tool.controller;
 import com.newegg.ec.tool.entity.Result;
 import com.newegg.ec.tool.entity.ServiceUrl;
 import com.newegg.ec.tool.service.IUrlService;
+import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,10 +32,24 @@ public class UrlController {
         return Result.successResult(serviceUrlList);
     }
 
+    @RequestMapping(value = "/getUrlById", method = RequestMethod.GET)
+    @ResponseBody
+    public Result getUrlById(@PathParam("urlId") String urlId) {
+        ServiceUrl url = urlService.getServiceUrlById(urlId);
+        return Result.successResult(url);
+    }
+
     @RequestMapping(value = "/saveUrl", method = RequestMethod.POST)
     @ResponseBody
     public Result saveUrl(@RequestBody ServiceUrl serviceUrl) {
         urlService.saveServiceUrl(serviceUrl);
         return Result.successResult(serviceUrl);
+    }
+
+    @RequestMapping(value = "/checkUrl", method = RequestMethod.POST)
+    @ResponseBody
+    public Result checkUrl(@RequestBody ServiceUrl serviceUrl) {
+        Pair<Boolean, Object> statusAndResponse = urlService.checkUrl(serviceUrl);
+        return Result.successResult(statusAndResponse);
     }
 }

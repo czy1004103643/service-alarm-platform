@@ -63,7 +63,15 @@ public class RuleService implements IRuleService {
 
     @Override
     public Rule getRuleById(String ruleId) {
-        return null;
+        if (StringUtils.isBlank(ruleId)) {
+            return null;
+        }
+        try {
+            return ruleDao.selectRuleById(ruleId);
+        } catch (Exception e) {
+            logger.error("get rule by id error.", e);
+            return null;
+        }
     }
 
     @Override

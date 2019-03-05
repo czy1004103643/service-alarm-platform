@@ -31,6 +31,13 @@ public class RuleController {
         return Result.successResult(ruleList);
     }
 
+    @RequestMapping(value = "/getRuleById", method = RequestMethod.GET)
+    @ResponseBody
+    public Result getRuleById(@PathParam("ruleId") String ruleId) {
+        Rule rule = ruleService.getRuleById(ruleId);
+        return Result.successResult(rule);
+    }
+
     @RequestMapping(value = "/saveRule", method = RequestMethod.POST)
     @ResponseBody
     public Result saveRule(@RequestBody Rule rule) {

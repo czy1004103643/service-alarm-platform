@@ -12,6 +12,8 @@ public interface RuleDao {
 
     List<Rule> selectRulesByUrlId(String urlId);
 
+    Rule selectRuleById(String ruleId);
+
     int addRule(Rule rule);
 
     int updateRule(Rule rule);

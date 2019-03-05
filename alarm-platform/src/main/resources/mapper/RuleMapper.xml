@@ -13,6 +13,15 @@
           url_id = #{urlId}
     </select>
 
+    <select id="selectRuleById" parameterType="java.lang.String" resultType="com.newegg.ec.tool.entity.Rule">
+        SELECT
+            *
+        FROM
+            rule
+        WHERE
+            rule_id = #{ruleId}
+    </select>
+
     <insert id="addRule" parameterType="com.newegg.ec.tool.entity.Rule">
         INSERT INTO
             rule
