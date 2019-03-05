@@ -1,6 +1,7 @@
 package com.newegg.ec.tool.dao;
 
 import com.newegg.ec.tool.entity.ServiceModel;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface AppServiceDao {
 
     ServiceModel selectServiceById(String serviceId);
 
-    ServiceModel selectServiceByName(String serviceId, String serviceName);
+    ServiceModel selectServiceByName(@Param("serviceId") String serviceId, @Param("serviceName") String serviceName);
 
     List<ServiceModel> selectAllService();
 

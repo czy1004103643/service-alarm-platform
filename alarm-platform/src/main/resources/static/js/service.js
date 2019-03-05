@@ -2,9 +2,13 @@ $(function () {
     initServiceList()
 })
 
+$("#new-service").on("click", function () {
+    $("#modalContactForm input").val("")
+    $("#modalContactForm textarea").val("")
+})
+
 $("body").delegate(".service-edit", "click", function () {
     var serviceId = $(this).attr("data-id")
-    console.log(serviceId)
     get("/service/getServiceById?serviceId=" + serviceId, function (result) {
         console.log(result)
         var code = result.code
@@ -87,7 +91,7 @@ function buildServiceTable(serviceList) {
         var time = formatTime(updateTime)
         html += '<tr>' +
             '<td>' + serviceModel.serviceGroup + '</td>' +
-            '<td>' + serviceModel.serviceName + '</td>' +
+            '<td><a target="_blank" href="/url?serviceId=' + serviceId + '">' + serviceModel.serviceName + '</a></td>' +
             '<td>' +
             '<i class="fab fa-weixin text-success"></i>' +
             '</td>' +

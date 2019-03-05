@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author Jay.H.Zou
  * @date 2019/3/2
@@ -5,8 +8,9 @@
 public class TestJson {
 
     public static void main(String[] args) {
-        String str = "sdfsd.dfsd";
-        System.out.println(str.split("\\.").length);
-
+        Map<String, String> map = new HashMap<>();
+        map.put("id", "345");
+        map.put("name", "zou");
+        System.out.println(map);
     }
 }

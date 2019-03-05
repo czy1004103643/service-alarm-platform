@@ -16,12 +16,19 @@
     <insert id="addRule" parameterType="com.newegg.ec.tool.entity.Rule">
         INSERT INTO
             rule
+        (
+            rule_id,
+            url_id,
+            formula,
+            rule_alias,
+            update_time
+        )
         VALUES (
-            rule_id = #{ruleId}
-            url_id = #{urlId}
-            formula = #{formula}
-            rule_alias = #{ruleAlias}
-            update_time = #{updateTime}
+            #{ruleId},
+            #{urlId},
+            #{formula},
+            #{ruleAlias},
+            #{updateTime}
         )
     </insert>
 
@@ -29,9 +36,9 @@
         UPDATE
             rule
         SET
-            url_id = #{urlId}
-            formula = #{formula}
-            rule_alias = #{ruleAlias}
+            url_id = #{urlId},
+            formula = #{formula},
+            rule_alias = #{ruleAlias},
             update_time = #{updateTime}
         WHERE
             rule_id = #{ruleId}

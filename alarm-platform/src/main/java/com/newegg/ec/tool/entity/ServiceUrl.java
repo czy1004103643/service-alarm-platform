@@ -1,6 +1,7 @@
 package com.newegg.ec.tool.entity;
 
 import java.sql.Timestamp;
+import java.util.Map;
 
 /**
  * @author Jay.H.Zou
@@ -21,7 +22,7 @@ public class ServiceUrl {
 
     private String paramContent;
 
-    private String bodyConent;
+    private String bodyContent;
 
     private String description;
 
@@ -69,12 +70,12 @@ public class ServiceUrl {
         this.paramContent = paramContent;
     }
 
-    public String getBodyConent() {
-        return bodyConent;
+    public String getBodyContent() {
+        return bodyContent;
     }
 
-    public void setBodyConent(String bodyConent) {
-        this.bodyConent = bodyConent;
+    public void setBodyContent(String bodyContent) {
+        this.bodyContent = bodyContent;
     }
 
     public String getDescription() {
@@ -101,7 +102,7 @@ public class ServiceUrl {
         sb.append(", urlContent='").append(urlContent).append('\'');
         sb.append(", requestType='").append(requestType).append('\'');
         sb.append(", paramContent='").append(paramContent).append('\'');
-        sb.append(", bodyConent='").append(bodyConent).append('\'');
+        sb.append(", bodyContent='").append(bodyContent).append('\'');
         sb.append(", description='").append(description).append('\'');
         sb.append(", updateTime=").append(updateTime);
         sb.append('}');

@@ -1,25 +1,74 @@
 $(function () {
-    // $.ajax({
-    //     url: "../json/response.json",//json文件位置
-    //     type: "GET",//请求方式为get
-    //     dataType: "json", //返回数据格式为json
-    //     success: function (data) {//请求成功完成后要执行的方法 
-           
-    //     }
-    // })
     $("#response-data").JSONView(jsonStr);
+    var urlId = getUrlParam("urlId")
+    initRulePage(urlId)
 })
 
-$("#rule-confirm").on("click", function () {
+function initRulePage(urlId) {
+    get("/rule/getRuleList?urlId=" + urlId, function (result) {
+        
+        if(result.code == 0) {
+            buildRuleTable(result.data)
+        }
+    }, function (e) {
+        console.log(e)
+    })
+}
+
+function buildRuleTable(ruleList) {
+    console.log(ruleList)
+    if (ruleList != null && ruleList.length > 0) {
+        var html = ''
+        var size = ruleList.length
+        for (var index = 0; index < size; index++) {
+            var rule = ruleList[index]
+            var ruleId = rule.ruleId
+            html += '<tr>' +
+                '<td>' + rule.ruleAlias + '</td>' +
+                '<td>' + rule.formula + '</td>' +
+                '<td>' + rule.description + '</td>' +
+                '<td>' + formatTime(rule.updateTime) + '</td>' +
+                '<td>' +
+                '<i class="fas fa-edit text-default" data-toggle="modal" data-target="#modalContactForm" data-id="' + ruleId + '"></i>' +
+                '<i class="fas fa-trash-alt text-orange" data-id="' + ruleId + '"></i>' +
+                '</td>' +
+                '</tr>'
+        }
+        $("#rule-table tbody").html(html)
+    }
+}
+
+$("#rule-save").on("click", function () {
+    var urlId = getUrlParam("urlId")
+    var ruleId = $(this).attr("data-id")
     var ruleAlias = $("#rule-alias").val()
     var formula = $("#formula").val()
     var description = $("#description").val()
+
+    if (isEmpty(ruleAlias)) {
+        alert("rule alias is empty!")
+        return
+    }
+
+    if (isEmpty(formula)) {
+        alert("formula is empty!")
+        return
+    }
+
     var ruleJson = {
+        "urlId": urlId,
+        "ruleId": ruleId,
         "ruleAlias": ruleAlias,
         "formula": formula,
         "description": description
     }
     console.log(ruleJson)
+    post("/rule/saveRule", ruleJson, function (result) {
+        window.location.reload()
+        console.log(result)
+    }, function (e) {
+        console.log(e)
+    })
 })
 
 function getKeyPath(formula) {

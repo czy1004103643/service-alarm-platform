@@ -75,7 +75,7 @@
                             <div class="col-sm">
                                 <div class="input-group">
                                     <input type="text" class="form-control"
-                                        aria-label="url" id="url-content" request-type="1">
+                                        aria-label="url" id="url-content" request-type="GET">
                                     <div class="input-group-append">
                                         <button class="btn btn-default btn-md m-0 px-4 py-2 z-depth-0 dropdown-toggle"
                                             type="button" data-toggle="dropdown" aria-haspopup="true"
@@ -170,8 +170,7 @@
                         <div class="row">
 
                             <button type="button"
-                                class="btn btn-sm btn-mdb-color waves-effect waves-light margin-rl-15" id="url-confirm">Confirm</button>
-                            // TODO: Test 成功才会显示
+                                class="btn btn-sm btn-mdb-color waves-effect waves-light margin-rl-15" id="url-save" style="display:none" data-id="">Save</button>
                         </div>
                     </div>
                 </div>
@@ -185,7 +184,7 @@
                                 <span> - </span>
                                 <span>ItemService</span>
                             </div>
-                            <table id="dtBasicExample" class="table table-striped table-bordered table-sm"
+                            <table id="url-table" class="table table-striped table-bordered table-sm"
                                 cellspacing="0" width="100%">
                                 <thead>
                                     <tr>

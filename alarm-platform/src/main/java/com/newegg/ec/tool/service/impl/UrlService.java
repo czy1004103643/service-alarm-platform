@@ -1,5 +1,6 @@
 package com.newegg.ec.tool.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.newegg.ec.tool.dao.ServiceUrlDao;
 import com.newegg.ec.tool.entity.ServiceUrl;
 import com.newegg.ec.tool.service.IUrlService;
@@ -10,7 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Jay.H.Zou
@@ -49,6 +52,10 @@ public class UrlService implements IUrlService {
         try {
             String urlId = serviceUrl.getUrlId();
             serviceUrl.setUpdateTime(CommonUtils.getCurrentTimestamp());
+            String paramContent = serviceUrl.getParamContent();
+            if (StringUtils.isNotBlank(paramContent)) {
+                serviceUrl.setParamContent(buildUrlParams(paramContent));
+            }
             if (StringUtils.isBlank(urlId)) {
                 serviceUrl.setUrlId(CommonUtils.getUUID());
                 return serviceUrlDao.addServiceUrl(serviceUrl) > 0;
@@ -68,5 +75,30 @@ public class UrlService implements IUrlService {
     @Override
     public boolean deleteServiceUrlById(String urlId) {
         return false;
+    }
+
+    private String buildUrlParams(String paramJson) {
+        StringBuffer paramContent = new StringBuffer();
+        if (StringUtils.isNotBlank(paramJson)) {
+            try {
+                JSONObject jsonObject = JSONObject.parseObject(paramJson);
+                Iterator<Map.Entry<String, Object>> iterator = jsonObject.entrySet().iterator();
+                int size = jsonObject.size();
+                int index = 0;
+                while (iterator.hasNext()) {
+                    index++;
+                    Map.Entry<String, Object> next = iterator.next();
+                    paramContent.append(next.getKey());
+                    paramContent.append("=");
+                    paramContent.append(next.getValue());
+                    if (index < size) {
+                        paramContent.append("&");
+                    }
+                }
+            } catch (Exception e) {
+                logger.error("parse json error.", e);
+            }
+        }
+        return paramContent.toString();
     }
 }

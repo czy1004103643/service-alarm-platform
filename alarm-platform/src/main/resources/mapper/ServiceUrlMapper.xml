@@ -39,9 +39,9 @@
             #{urlId},
             #{serviceId},
             #{urlContent},
-            #{urlContent},
-            #{content},
-            #{body},
+            #{requestType},
+            #{paramContent},
+            #{bodyContent},
             #{description},
             #{updateTime}
         )
@@ -54,8 +54,8 @@
             service_id = #{serviceId}
             url_content = #{urlContent}
             url_type = #{urlContent}
-            param = #{content}
-            body = #{body}
+            param = #{paramContent}
+            body = #{bodyContent}
             description = #{description}
             update_time = #{updateTime}
         WHERE
@@ -64,7 +64,7 @@
 
     <delete id="deleteServiceUrlById" parameterType="java.lang.String">
         DELETE FROM
-            serviceModel
+        service_url
         WHERE
             url_id = #{urlId}
     </delete>

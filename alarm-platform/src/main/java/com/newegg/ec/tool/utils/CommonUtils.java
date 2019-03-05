@@ -1,9 +1,7 @@
 package com.newegg.ec.tool.utils;
 
 import java.sql.Timestamp;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author Jay.H.Zou
@@ -41,5 +39,26 @@ public class CommonUtils {
 
     public static String getUUID() {
         return UUID.randomUUID().toString();
+    }
+
+    public static String formatMapToString(Map<String, Object> map) {
+        if (map != null && map.size() > 0) {
+            StringBuffer mapString = new StringBuffer();
+            Iterator<Map.Entry<String, Object>> iterator = map.entrySet().iterator();
+            int size = map.size();
+            int index = 0;
+            while (iterator.hasNext()) {
+                index ++;
+                Map.Entry<String, Object> next = iterator.next();
+                mapString.append(next.getKey());
+                mapString.append("=");
+                mapString.append(next.getValue());
+                if (index < size - 1) {
+                    mapString.append("&");
+                }
+            }
+            return mapString.toString();
+        }
+        return null;
     }
 }

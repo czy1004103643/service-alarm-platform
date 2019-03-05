@@ -6,7 +6,7 @@
 
     <select id="createServiceTable">
         CREATE TABLE IF NOT EXISTS service  (
-            service_id varchar(50) NOT NULL,
+            service_id varchar(255) NOT NULL,
             service_group varchar(255) NOT NULL,
             service_name varchar(255) NOT NULL UNIQUE,
             alarm_way varchar(255) DEFAULT NULL,
@@ -19,13 +19,13 @@
 
     <select id="createServiceUrlTable">
         CREATE TABLE IF NOT EXISTS service_url (
-            url_id varchar(10) NOT NULL,
-            service_id varchar(10) NOT NULL,
+            url_id varchar(255) NOT NULL,
+            service_id varchar(255) NOT NULL,
             url_content varchar(255) NOT NULL UNIQUE,
             request_type varchar(50) NOT NULL,
-            param_content bigint(255) DEFAULT NULL,
-            body_content bigint(255) DEFAULT NULL,
-            description varchar(255) NOT NULL,
+            param_content varchar(255) DEFAULT NULL,
+            body_content varchar(255) DEFAULT NULL,
+            description varchar(255) DEFAULT NULL,
             update_time datetime(0) NOT NULL,
             PRIMARY KEY (url_id) USING BTREE
         ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -33,10 +33,11 @@
 
     <select id="createRuleTable">
         CREATE TABLE IF NOT EXISTS rule (
-            rule_id varchar(50) NOT NULL,
-            url_id varchar(50) NOT NULL,
+            rule_id varchar(255) NOT NULL,
+            url_id varchar(255) NOT NULL,
             formula varchar(255) NOT NULL,
             rule_alias varchar(50) NOT NULL,
+            description varchar(255) DEFAULT NULL,
             update_time datetime(0) NOT NULL,
             PRIMARY KEY (rule_id) USING BTREE
         ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -44,8 +45,8 @@
 
     <select id="createMonitorDataTable">
         CREATE TABLE IF NOT EXISTS monitor_data (
-            data_id varchar(50) NOT NULL,
-            url_id varchar(50) NOT NULL,
+            data_id varchar(255) NOT NULL,
+            url_id varchar(255) NOT NULL,
             data_content varchar(255) NOT NULL,
             update_time datetime(0) NOT NULL,
             PRIMARY KEY (data_id) USING BTREE

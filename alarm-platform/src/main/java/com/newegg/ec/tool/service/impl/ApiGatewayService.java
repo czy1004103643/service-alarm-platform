@@ -58,7 +58,7 @@ public class ApiGatewayService implements IDataService {
             long endTimestamp = endDate.getTime();
 
 
-            DocumentContext ext = JsonPath.parse(serviceUrl.getBodyConent());
+            DocumentContext ext = JsonPath.parse(serviceUrl.getBodyContent());
             JsonPath p = JsonPath.compile("$.query.bool.must[0].range.RequestTime.lte");
             ext.set(p, endTimestamp);
             JsonPath p2 = JsonPath.compile("$.query.bool.must[0].range.RequestTime.gte");

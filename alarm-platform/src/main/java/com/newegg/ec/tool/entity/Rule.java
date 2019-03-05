@@ -17,6 +17,8 @@ public class Rule {
 
     private String ruleAlias;
 
+    private String description;
+
     private Timestamp updateTime;
 
     public String getRuleId() {
@@ -51,6 +53,14 @@ public class Rule {
         this.ruleAlias = ruleAlias;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public Timestamp getUpdateTime() {
         return updateTime;
     }
@@ -66,6 +76,7 @@ public class Rule {
         sb.append(", urlId='").append(urlId).append('\'');
         sb.append(", formula='").append(formula).append('\'');
         sb.append(", ruleAlias='").append(ruleAlias).append('\'');
+        sb.append(", description='").append(description).append('\'');
         sb.append(", updateTime=").append(updateTime);
         sb.append('}');
         return sb.toString();

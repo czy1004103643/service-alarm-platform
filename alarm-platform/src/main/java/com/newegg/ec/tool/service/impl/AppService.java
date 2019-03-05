@@ -39,7 +39,6 @@ public class AppService implements IAppService {
         if (service != null) {
             return false;
         }
-        int row = 0;
         serviceModel.setUpdateTime(CommonUtils.getCurrentTimestamp());
         try {
             if (StringUtils.isBlank(serviceId)) {
