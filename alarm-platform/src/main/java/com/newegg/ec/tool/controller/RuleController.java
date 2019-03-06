@@ -5,7 +5,10 @@ import com.newegg.ec.tool.entity.Rule;
 import com.newegg.ec.tool.entity.ServiceUrl;
 import com.newegg.ec.tool.service.IRuleService;
 import com.newegg.ec.tool.service.IUrlService;
+import com.newegg.ec.tool.utils.MathExpressionCalculateUtil;
 import javafx.util.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -65,5 +68,11 @@ public class RuleController {
         ServiceUrl url = urlService.getServiceUrlById(urlId);
         Pair<Boolean, Object> statusAndResponse = urlService.checkUrl(url);
         return Result.successResult(statusAndResponse);
+    }
+
+    @RequestMapping(value = "/checkRule", method = RequestMethod.GET)
+    @ResponseBody
+    public Result checkRule(String formula) {
+        return null;
     }
 }

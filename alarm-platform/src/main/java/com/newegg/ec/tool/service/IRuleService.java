@@ -1,7 +1,6 @@
 package com.newegg.ec.tool.service;
 
 import com.newegg.ec.tool.entity.Rule;
-import com.newegg.ec.tool.entity.ServiceUrl;
 
 import java.util.List;
 
@@ -18,4 +17,6 @@ public interface IRuleService {
     Rule getRuleById(String ruleId);
 
     boolean deleteRuleById(String ruleId);
+
+    boolean checkRule(Rule rule);
 }

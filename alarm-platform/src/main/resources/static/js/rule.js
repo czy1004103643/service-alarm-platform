@@ -62,8 +62,6 @@ $("#request-url").on("click", function () {
     })
 })
 
-
-
 $("body").delegate(".rule-edit", "click", function () {
     var ruleId = $(this).attr("data-id")
     $("#rule-save").attr("data-id", ruleId)

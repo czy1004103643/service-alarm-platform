@@ -18,7 +18,7 @@ public class MathExpressionCalculateUtilTest {
 
     @Test
     public void getRuleDataStr() {
-        String formula = "@{responseTime}>50";
+        String formula = "@{responseTime}/@{count}>50";
 
         String formula2 = "@{count}>500";
 
@@ -26,17 +26,17 @@ public class MathExpressionCalculateUtilTest {
         dataMap.put("responseTime", 123);
         dataMap.put("count", 100);
 
-        try {
+        /*try {
             Object calculate = MathExpressionCalculateUtil.calculate(formula, dataMap);
             System.out.println(calculate);
             Object calculate2 = MathExpressionCalculateUtil.calculate(formula2, dataMap);
             System.out.println(calculate2);
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
         String ruleDataStr = MathExpressionCalculateUtil.getRuleDataStr(formula, dataMap);
         System.out.println(ruleDataStr);
-        String ruleDataStr2 = MathExpressionCalculateUtil.getRuleDataStr(formula2, dataMap);
-        System.out.println(ruleDataStr2);
+        /*String ruleDataStr2 = MathExpressionCalculateUtil.getRuleDataStr(formula2, dataMap);
+        System.out.println(ruleDataStr2);*/
     }
 }

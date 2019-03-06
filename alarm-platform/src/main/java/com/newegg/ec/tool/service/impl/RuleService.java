@@ -1,9 +1,17 @@
 package com.newegg.ec.tool.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.jayway.jsonpath.JsonPath;
 import com.newegg.ec.tool.dao.RuleDao;
 import com.newegg.ec.tool.entity.Rule;
+import com.newegg.ec.tool.entity.ServiceUrl;
 import com.newegg.ec.tool.service.IRuleService;
+import com.newegg.ec.tool.service.IUrlService;
 import com.newegg.ec.tool.utils.CommonUtils;
+import com.newegg.ec.tool.utils.MathExpressionCalculateUtil;
+import com.newegg.ec.tool.utils.RegexNum;
+import javafx.util.Pair;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +31,9 @@ public class RuleService implements IRuleService {
 
     @Autowired
     private RuleDao ruleDao;
+
+    @Autowired
+    private IUrlService urlService;
 
     @Override
     public List<Rule> getRuleList(String urlId) {
@@ -83,6 +94,31 @@ public class RuleService implements IRuleService {
             return ruleDao.deleteRuleByRuleId(ruleId) > 0;
         } catch (Exception e) {
             logger.error("delete rule error.", e);
+            return false;
+        }
+    }
+
+    @Override
+    public boolean checkRule(Rule rule) {
+        if (rule == null || StringUtils.isBlank(rule.getUrlId()) || StringUtils.isBlank(rule.getFormula())) {
+            return false;
+        }
+        try {
+            ServiceUrl url = urlService.getServiceUrlById(rule.getUrlId());
+            Pair<Boolean, Object> statusAndResponse = urlService.checkUrl(url);
+            if (statusAndResponse.getKey()) {
+                Object value = statusAndResponse.getValue();
+                JSONObject jsonObject = JSONObject.parseObject(JSON.toJSONString(value));
+                JsonPath.read(jsonObject, "$.store.book[*].author");
+                String formula = rule.getFormula();
+                List<String> formulaKeyList = RegexNum.getFormulaKeyList(formula);
+                for (String unit : formulaKeyList) {
+
+                }
+            }
+            return MathExpressionCalculateUtil.checkRule(rule.getFormula());
+        } catch (Exception e) {
+            logger.error("check rule error.", e);
             return false;
         }
     }

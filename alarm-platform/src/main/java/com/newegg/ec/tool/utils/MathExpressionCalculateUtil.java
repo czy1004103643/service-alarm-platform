@@ -1,7 +1,11 @@
 package com.newegg.ec.tool.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,9 +19,9 @@ import java.util.regex.Pattern;
  * 变量使用@{v1} 来表示
  */
 public class MathExpressionCalculateUtil {
-// (\@\{[\w]+\})
-    //(\{([\w]\.)*[\w]\})
-    public static final Pattern varPattern = Pattern.compile("(\\@\\{(([\\w]|[\\w]_[\\w])+\\.)*([\\w]|[\\w]_[\\w])+\\})");
+
+    public static final Pattern VAR_PATTERN = Pattern.compile("(\\@\\{(([\\w]|[\\w]_[\\w])+\\.)*([\\w]|[\\w]_[\\w])+\\})");
+
     private static Map<String, Object> params = new HashMap<>();
 
     /**
@@ -35,17 +39,13 @@ public class MathExpressionCalculateUtil {
         params.put("instantaneous_input_kbps", 1);
         params.put("instantaneous_output_kbps", 1);
         params.put("response.time", 1);
-        params.put("response_a.time",1);
-        params.put("response_.time",1);
+        params.put("response_a.time", 1);
+        params.put("response_.time", 1);
 
     }
 
     //-------------------------------------------------calculate-------------------------//
 
-
-    public static void main(String[] args) {
-
-    }
     /**
      * 检查匹配规则
      *
@@ -53,7 +53,7 @@ public class MathExpressionCalculateUtil {
      * @return
      */
     public static boolean checkRule(String formula) {
-        try {
+        /*try {
             String result = String.valueOf(calculate(format(formula), params));
             if ("true".equals(result) || "false".equals(result)) {
                 return true;
@@ -63,11 +63,17 @@ public class MathExpressionCalculateUtil {
         } catch (Exception e) {
             e.printStackTrace();
             return false;
+        }*/
+        if (StringUtils.isBlank(formula)) {
+            return false;
         }
+
+        Matcher matcher = VAR_PATTERN.matcher(formula);
+        return matcher.find();
     }
 
     public static String getRuleDataStr(String calculateStr, Map<String, Object> map) {
-        Matcher matcher = varPattern.matcher(calculateStr);
+        Matcher matcher = VAR_PATTERN.matcher(calculateStr);
         StringBuffer stringBuffer = new StringBuffer();
         while (matcher.find()) {
             String matcherStr = calculateStr.substring(matcher.start(), matcher.end());
@@ -80,7 +86,7 @@ public class MathExpressionCalculateUtil {
 
     public static String fillVarWithValue(String calculateStr, Map<String, Object> map) {
         String strTemp = calculateStr;
-        Matcher matcher = varPattern.matcher(strTemp);
+        Matcher matcher = VAR_PATTERN.matcher(strTemp);
         while (matcher.find()) {
             String matcherStr = calculateStr.substring(matcher.start(), matcher.end());
             String field = matcherStr.substring(2, matcherStr.length() - 1);
