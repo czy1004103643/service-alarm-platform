@@ -19,7 +19,14 @@
         FROM
             service_url
         WHERE
-            service_id = #{serviceId}
+        service_id = #{serviceId}
+    </select>
+
+    <select id="selectAllUrl" resultType="com.newegg.ec.tool.entity.ServiceUrl">
+        SELECT
+            *
+        FROM
+            service_url
     </select>
 
     <insert id="addServiceUrl" parameterType="com.newegg.ec.tool.entity.ServiceUrl">
