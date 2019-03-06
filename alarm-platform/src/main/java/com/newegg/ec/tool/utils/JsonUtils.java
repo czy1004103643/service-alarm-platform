@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Jay.H.Zou
@@ -65,8 +66,7 @@ public class JsonUtils {
                 bigDecimal = new BigDecimal(read.toString());
             }
         }catch (Exception e) {
-            e.printStackTrace();
-
+            //e.printStackTrace();
         }
         return bigDecimal;
     }
@@ -81,12 +81,13 @@ public class JsonUtils {
                 int length = lastField.length();
                 String fixedPath = path.substring(0, path.length() - length) + "[*]" + lastField;
                 try {
-                    List<String> valueList = JsonPath.read(json, "$." + fixedPath);
+                    List<Object> valueList = JsonPath.read(json, "$." + fixedPath);
                     if (valueList != null && valueList.size() > 0) {
-                        for (String value : valueList) {
-                            if (StringUtils.isNotBlank(value)) {
+                        System.out.println(valueList);
+                        for (Object value : valueList) {
+                            if (!Objects.equals(value, null)) {
                                 try {
-                                    BigDecimal bigDecimal = new BigDecimal(value);
+                                    BigDecimal bigDecimal = new BigDecimal(value.toString());
                                     bigDecimalList.add(bigDecimal);
                                 } catch (Exception e) {
                                     continue;
@@ -106,7 +107,7 @@ public class JsonUtils {
 
 
     public static void main(String[] args) {
-        System.out.println(isExistField(JSONObject.parseObject(json), "aggregations.result.buckets.doc_count"));
+        System.out.println(getValue(JSONObject.parseObject(json), "aggregations.result.buckets.doc_count"));
     }
 
     public static final String json = "{\n" +
