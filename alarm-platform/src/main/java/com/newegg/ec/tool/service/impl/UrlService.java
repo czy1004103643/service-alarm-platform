@@ -152,9 +152,7 @@ public class UrlService implements IUrlService {
                 while (iterator.hasNext()) {
                     index++;
                     Map.Entry<String, Object> next = iterator.next();
-                    paramContent.append(next.getKey());
-                    paramContent.append("=");
-                    paramContent.append(next.getValue());
+                    paramContent.append(next.getKey()).append("=").append(next.getValue());
                     if (index < size) {
                         paramContent.append("&");
                     }
