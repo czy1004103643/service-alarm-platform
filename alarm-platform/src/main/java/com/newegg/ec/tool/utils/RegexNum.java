@@ -62,6 +62,6 @@ public class RegexNum {
     }
 
     public static void main(String[] args) {
-        System.out.println(getFormulaKey("@{a.e_e}<3"));
+        System.out.println(getFormulaKeyList("@{a.e_e}-@{gump}<3"));
     }
 }

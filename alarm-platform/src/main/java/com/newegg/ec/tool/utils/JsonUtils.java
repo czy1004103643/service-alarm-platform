@@ -1,9 +1,13 @@
 package com.newegg.ec.tool.utils;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jayway.jsonpath.JsonPath;
+import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author Jay.H.Zou
@@ -24,30 +28,85 @@ public class JsonUtils {
                 try {
                     new BigDecimal(read.toString());
                 } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    try {
+                        JSONArray.parseArray(read.toString());
+                    } catch (Exception e2) {
+                        e2.printStackTrace();
+                        return false;
+                    }
+                    // aggregations.result.buckets[0].doc_count
+                    String[] split = path.split("\\.");
+                    if (split.length > 1) {
+                        String lastField = "." + split[split.length - 1];
+                        int length = lastField.length();
+                        String fixedPath = path.substring(0, path.length() - length) + "[0]" + lastField;
+                        return isExistField(jsonObject, fixedPath);
+                    } else if (split.length > 0) {
+                        String fixedPath = path + "[0]";
+                        return isExistField(jsonObject, fixedPath);
+                    }
                     return false;
                 }
                 return true;
             }
         } catch (Exception e) {
-            String[] split = path.split("\\.");
-            if (split.length > 1) {
-                String lastField = "." + split[split.length - 1];
-                int length = lastField.length();
-                String fixedPath = path.substring(0, path.length() - length) + "[0]" + lastField;
-                return isExistField(jsonObject, fixedPath);
-
-            } else if (split.length > 0) {
-                String fixedPath = path + "[0]";
-                return isExistField(jsonObject, fixedPath);
-            }
-            return false;
+            e.printStackTrace();
         }
         return false;
     }
 
+    public static BigDecimal getSingleValue(JSONObject jsonObject, String path) {
+        BigDecimal bigDecimal = null;
+        String formatPath = "$." + path;
+        try {
+            Object read = JsonPath.read(jsonObject, formatPath);
+            if (read != null) {
+                bigDecimal = new BigDecimal(read.toString());
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return bigDecimal;
+    }
+
+    public static List<BigDecimal> getValue(JSONObject jsonObject, String path) {
+        List<BigDecimal> bigDecimalList = new LinkedList<>();
+        BigDecimal singleValue = getSingleValue(jsonObject, path);
+        if (singleValue == null) {
+            String[] split = path.split("\\.");
+            if (split.length > 1) {
+                String lastField = "." + split[split.length - 1];
+                int length = lastField.length();
+                String fixedPath = path.substring(0, path.length() - length) + "[*]" + lastField;
+                try {
+                    List<String> valueList = JsonPath.read(json, "$." + fixedPath);
+                    if (valueList != null && valueList.size() > 0) {
+                        for (String value : valueList) {
+                            if (StringUtils.isNotBlank(value)) {
+                                try {
+                                    BigDecimal bigDecimal = new BigDecimal(value);
+                                    bigDecimalList.add(bigDecimal);
+                                } catch (Exception e) {
+                                    continue;
+                                }
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            bigDecimalList.add(singleValue);
+        }
+        return bigDecimalList;
+    }
+
 
     public static void main(String[] args) {
-        System.out.println(isExistField(JSONObject.parseObject(json), "aggregations.result.buckets[*].doc_count"));
+        System.out.println(isExistField(JSONObject.parseObject(json), "aggregations.result.buckets.doc_count"));
     }
 
     public static final String json = "{\n" +
