@@ -35,6 +35,21 @@ function get(url, successCallback, failCallback) {
     })
 }
 
+function del(url, data, successCallback, failCallback) {
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: data,
+        timeout: 3600000,
+        success: function (result) {
+            successCallback(result);
+        },
+        error: function (result) {
+            failCallback(result);
+        }
+    })
+}
+
 function formatTime(timestamp) {
     var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
     Y = date.getFullYear()
@@ -51,4 +66,11 @@ function getUrlParam(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
     var r = window.location.search.substr(1).match(reg);  //匹配目标参数
     if (r != null) return unescape(r[2]); return null; //返回参数值
+}
+
+function message(delayTime, callback) {
+    callback()
+    setTimeout(function () {
+        window.location.reload()
+    }, delayTime);
 }

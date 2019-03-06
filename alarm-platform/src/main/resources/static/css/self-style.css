@@ -84,3 +84,6 @@ body > input, textarea, input:focus, textarea:focus {
     line-height: 1.5;
 }
 
+.link-color {
+    color: #007bff !important;
+}

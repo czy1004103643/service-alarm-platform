@@ -13,7 +13,11 @@ $("#add-new-url").on("click", function () {
 $("#url-save").on("click", function () {
     var urlJson = getInputValues()
     post("/url/saveUrl", urlJson, function (result) {
-        console.log(result)
+        if(result.code == 0) {
+            window.location.reload()
+        } else {
+            alert("save url error")
+        }
     }, function (e) {
         console.log(e)
     })
@@ -41,6 +45,30 @@ $("body").delegate(".url-edit", "click", function () {
     })
 })
 
+$("body").delegate(".url-delete", "click", function () {
+    var urlId = $(this).attr("data-id")
+    $("#delete-yes").attr("data-id", urlId)
+
+})
+
+$("#delete-yes").on("click", function () {
+    var urlId = $(this).attr("data-id")
+    var dataJson = { "urlId": urlId }
+    del("/url/deleteUrlById", dataJson, function (result) {
+        if (result.code == 0) {
+            $("#close").click()
+            message(2000, function () {
+                alert("Delete Success")
+            })
+        } else {
+            alert("delete error")
+        }
+
+    }, function (e) {
+        console.log(e)
+    })
+})
+
 function buildParamList(paramJson) {
     $("#param-list").html('')
     for (var key in paramJson) {
@@ -56,13 +84,6 @@ function buildParamList(paramJson) {
     }
 
 }
-
-
-$("body").delegate(".url-delete", "click", function () {
-    var urlId = $(this).attr("data-id")
-    $("#delete-yes").attr("data-id", urlId)
-
-})
 
 function initUrlPage(serviceId) {
     console.log(serviceId)
@@ -87,7 +108,7 @@ function buildUrlTable(urlList) {
             var updateTime = url.updateTime
             var time = formatTime(updateTime)
             html += '<tr>' +
-                '<td><a target="_blank" href="/rule?urlId=' + urlId + '">' + url.urlContent + '</a></td>' +
+                '<td><a class="link-color" target="_blank" href="/rule?urlId=' + urlId + '">' + url.urlContent + '</a></td>' +
                 '<td>' + url.requestType + '</td>' +
                 '<td>' + url.paramContent + '</td>' +
                 '<td>' + url.bodyContent + '</td>' +
@@ -95,7 +116,7 @@ function buildUrlTable(urlList) {
                 '<td>' + time + '</td>' +
                 '<td>' +
                 '<i class="fas fa-edit text-default url-edit"  data-toggle="collapse" data-target="#modalContactForm" data-id="' + urlId + '"></i>' +
-                '<i class="fas fa-trash-alt text-orange url-delete"  data-id="' + urlId + '"></i>' +
+                '<i class="fas fa-trash-alt text-orange url-delete" data-toggle="modal" data-target="#modalConfirmDelete" data-id="' + urlId + '"></i>' +
                 '</td>' +
                 '</tr>'
         }

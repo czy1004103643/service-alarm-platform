@@ -52,4 +52,11 @@ public class UrlController {
         Pair<Boolean, Object> statusAndResponse = urlService.checkUrl(serviceUrl);
         return Result.successResult(statusAndResponse);
     }
+
+    @RequestMapping(value = "/deleteUrlById", method = RequestMethod.POST)
+    @ResponseBody
+    public Result deleteUrlById(String urlId) {
+        boolean status = urlService.deleteServiceUrlById(urlId);
+        return status ? Result.successResult() : Result.successResult();
+    }
 }

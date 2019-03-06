@@ -42,6 +42,10 @@ public class MathExpressionCalculateUtil {
 
     //-------------------------------------------------calculate-------------------------//
 
+
+    public static void main(String[] args) {
+
+    }
     /**
      * 检查匹配规则
      *

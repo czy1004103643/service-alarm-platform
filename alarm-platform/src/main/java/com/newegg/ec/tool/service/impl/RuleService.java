@@ -76,6 +76,14 @@ public class RuleService implements IRuleService {
 
     @Override
     public boolean deleteRuleById(String ruleId) {
-        return false;
+        if (StringUtils.isBlank(ruleId)) {
+            return false;
+        }
+        try {
+            return ruleDao.deleteRuleByRuleId(ruleId) > 0;
+        } catch (Exception e) {
+            logger.error("delete rule error.", e);
+            return false;
+        }
     }
 }

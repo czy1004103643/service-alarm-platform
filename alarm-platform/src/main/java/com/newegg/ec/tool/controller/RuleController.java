@@ -52,6 +52,13 @@ public class RuleController {
         return status ? Result.successResult() : Result.failResult();
     }
 
+    @RequestMapping(value = "/deleteRuleById", method = RequestMethod.POST)
+    @ResponseBody
+    public Result deleteRuleById(String ruleId) {
+        boolean status = ruleService.deleteRuleById(ruleId);
+        return status ? Result.successResult() : Result.successResult();
+    }
+
     @RequestMapping(value = "/requestUrl", method = RequestMethod.GET)
     @ResponseBody
     public Result requestUrl(@PathParam("urlId") String urlId) {

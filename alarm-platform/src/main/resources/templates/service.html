@@ -89,7 +89,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                   
+
                                     <!-- <tr>
                                         <td>Bigdata</td>
                                         <td>HierarchyService</td>
@@ -123,7 +123,7 @@
             <div class="modal-content">
                 <div class="modal-header text-center">
                     <h4 class="modal-title w-100 font-weight-bold">Edit Service</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-edit">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -149,7 +149,7 @@
 
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
-                    <button class="btn btn-sm btn-cyan" id="save-service">Save<i
+                    <button class="btn btn-sm btn-cyan" id="save-service" >Save<i
                             class="fas fa-paper-plane-o ml-1"></i></button>
                 </div>
             </div>
@@ -175,8 +175,8 @@
 
                 <!--Footer-->
                 <div class="modal-footer flex-center">
-                    <a href="" class="btn  btn-outline-danger" data-id="s001" id="delete-yes">Yes</a>
-                    <a type="button" class="btn  btn-danger waves-effect" data-dismiss="modal">No</a>
+                    <a class="btn btn-outline-danger" data-id="" id="delete-yes">Yes</a>
+                    <a type="button" class="btn btn-danger waves-effect" data-dismiss="modal" id="close">No</a>
                 </div>
             </div>
             <!--/.Content-->
@@ -184,6 +184,9 @@
     </div>
     <!--Modal: modalConfirmDelete-->
 
+    <div class="alert alert-success" role="alert" data-dismiss="alert" >
+        A simple success alert—check it out!
+    </div>
     <!-- SCRIPTS -->
     <!-- JQuery -->
     <script type="text/javascript" src="/static/lib/mdb-free/js/jquery-3.3.1.min.js"></script>
@@ -195,6 +198,7 @@
     <script type="text/javascript" src="/static/lib/mdb-free/js/mdb.min.js"></script>
     <script type="text/javascript" src="/static/lib/mdb-free/js/addons/datatables.min.js"></script>
     <script type="text/javascript" src="/static/lib/mdb-free/js/addons/datatables-select.min.js"></script>
+    <script type="text/javascript" src="/static/lib/mdb-free/js/modules/enhanced-modals.js"></script>
     <script type="text/javascript" src="/static/js/common.js"></script>
     <script type="text/javascript" src="/static/js/service.js"></script>
     <script>

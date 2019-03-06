@@ -38,7 +38,7 @@ function buildRuleTable(ruleList) {
                 '<td>' + time + '</td>' +
                 '<td>' +
                 '<i class="fas fa-edit text-default rule-edit" data-toggle="collapse" data-target="#modalContactForm" data-id="' + ruleId + '"></i>' +
-                '<i class="fas fa-trash-alt text-orange rule-delete" data-id="' + ruleId + '"></i>' +
+                '<i class="fas fa-trash-alt text-orange rule-delete" data-toggle="modal" data-target="#modalConfirmDelete" data-id="' + ruleId + '"></i>' +
                 '</td>' +
                 '</tr>'
         }
@@ -76,6 +76,30 @@ $("body").delegate(".rule-edit", "click", function () {
         $("#description").val(rule.description)
     }, function (e) {
 
+    })
+})
+
+$("body").delegate(".rule-delete", "click", function () {
+    var ruleId = $(this).attr("data-id")
+    $("#delete-yes").attr("data-id", ruleId)
+
+})
+
+$("#delete-yes").on("click", function () {
+    var ruleId = $(this).attr("data-id")
+    var dataJson = { "ruleId": ruleId }
+    del("/rule/deleteRuleById", dataJson, function (result) {
+        if (result.code == 0) {
+            $("#close").click()
+            message(2000, function () {
+                alert("Delete Success")
+            })
+        } else {
+            alert("delete error")
+        }
+
+    }, function (e) {
+        console.log(e)
     })
 })
 

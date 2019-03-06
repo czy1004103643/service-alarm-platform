@@ -46,7 +46,7 @@ public class AppServiceController {
 
     @RequestMapping(value = "/deleteServiceById", method = RequestMethod.POST)
     @ResponseBody
-    public Result deleteServiceById(@RequestBody String serviceId) {
+    public Result deleteServiceById(String serviceId) {
         boolean status = appService.deleteServiceModelById(serviceId);
         return status ? Result.successResult() : Result.successResult();
     }

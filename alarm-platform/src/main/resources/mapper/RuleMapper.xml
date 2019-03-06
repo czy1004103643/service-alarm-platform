@@ -50,6 +50,7 @@
             url_id = #{urlId},
             formula = #{formula},
             rule_alias = #{ruleAlias},
+            description = #{description},
             update_time = #{updateTime}
         WHERE
             rule_id = #{ruleId}

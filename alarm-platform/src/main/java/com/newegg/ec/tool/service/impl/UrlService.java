@@ -85,7 +85,15 @@ public class UrlService implements IUrlService {
 
     @Override
     public boolean deleteServiceUrlById(String urlId) {
-        return false;
+        if (StringUtils.isBlank(urlId)) {
+            return false;
+        }
+        try {
+            return serviceUrlDao.deleteServiceUrlById(urlId) > 0;
+        } catch (Exception e) {
+            logger.error("delete url error.", e);
+            return false;
+        }
     }
 
     @Override

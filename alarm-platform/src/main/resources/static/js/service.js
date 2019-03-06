@@ -45,9 +45,16 @@ $("#save-service").on("click", function () {
         "serviceName": serviceName,
         "description": description
     }
-    console.log(serviceModel);
     post("/service/saveServiceModel", serviceModel, function (result) {
-        console.log(result)
+        if (result.code == 0) {
+            $("#close-edit").click()
+            message(2000, function () {
+                alert("Save Success")
+            })
+        } else {
+            alert("save error")
+        }
+
     }, function (e) {
         console.log(e)
     })
@@ -56,13 +63,22 @@ $("#save-service").on("click", function () {
 $("body").delegate(".service-delete", "click", function () {
     var serviceId = $(this).attr("data-id")
     $("#delete-yes").attr("data-id", serviceId)
-
 })
 
 $("#delete-yes").on("click", function () {
     var serviceId = $(this).attr("data-id")
-    post("/service/deleteServiceById", serviceId, function (result) {
-        console.log(result)
+    console.log(serviceId)
+    var dataJson = { "serviceId": serviceId }
+    del("/service/deleteServiceById", dataJson, function (result) {
+        if (result.code == 0) {
+            $("#close").click()
+            message(2000, function () {
+                alert("Delete Success")
+            })
+        } else {
+            alert("delete error")
+        }
+
     }, function (e) {
         console.log(e)
     })
@@ -91,7 +107,7 @@ function buildServiceTable(serviceList) {
         var time = formatTime(updateTime)
         html += '<tr>' +
             '<td>' + serviceModel.serviceGroup + '</td>' +
-            '<td><a target="_blank" href="/url?serviceId=' + serviceId + '">' + serviceModel.serviceName + '</a></td>' +
+            '<td><a class="link-color" target="_blank" href="/url?serviceId=' + serviceId + '">' + serviceModel.serviceName + '</a></td>' +
             '<td>' +
             '<i class="fab fa-weixin text-success"></i>' +
             '</td>' +
