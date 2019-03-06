@@ -132,12 +132,24 @@ $("#rule-save").on("click", function () {
         "description": description
     }
     console.log(ruleJson)
-    post("/rule/saveRule", ruleJson, function (result) {
-        window.location.reload()
-        console.log(result)
+    post("/rule/checkRule", ruleJson, function (result) {
+        if (result.code == 0) {
+            post("/rule/saveRule", ruleJson, function (result2) {
+                if (result2.code == 0) {
+                    window.location.reload()
+                } else {
+                    alert("save rule error")
+                }
+            }, function (e) {
+                console.log(e)
+            })
+        } else {
+            alert("formula verification failed, please check")
+        }
     }, function (e) {
-        console.log(e)
+
     })
+
 })
 
 function getKeyPath(formula) {

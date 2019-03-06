@@ -27,6 +27,10 @@ public class UrlService implements IUrlService {
 
     private static final Logger logger = LoggerFactory.getLogger(UrlService.class);
 
+    private static final String GET = "GET";
+
+    private static final String POST = "POST";
+
     @Autowired
     private ServiceUrlDao serviceUrlDao;
 
@@ -103,7 +107,7 @@ public class UrlService implements IUrlService {
             return statusAndResponse;
         }
         String requestType = serviceUrl.getRequestType();
-        if (Objects.equals(requestType, "GET")) {
+        if (Objects.equals(requestType, GET)) {
             String paramContent = serviceUrl.getParamContent();
             String urlContent = serviceUrl.getUrlContent();
             String url = urlContent + "?" + buildUrlParams(paramContent);
@@ -113,7 +117,7 @@ public class UrlService implements IUrlService {
             } catch (Exception e) {
                 logger.error("check get url error.", e);
             }
-        } else if (Objects.equals(requestType, "POST")) {
+        } else if (Objects.equals(requestType, POST)) {
             try {
                 String bodyContent = serviceUrl.getBodyContent();
                 String urlContent = serviceUrl.getUrlContent();

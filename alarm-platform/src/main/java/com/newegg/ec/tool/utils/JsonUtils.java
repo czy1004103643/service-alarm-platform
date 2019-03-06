@@ -83,7 +83,6 @@ public class JsonUtils {
                 try {
                     List<Object> valueList = JsonPath.read(json, "$." + fixedPath);
                     if (valueList != null && valueList.size() > 0) {
-                        System.out.println(valueList);
                         for (Object value : valueList) {
                             if (!Objects.equals(value, null)) {
                                 try {

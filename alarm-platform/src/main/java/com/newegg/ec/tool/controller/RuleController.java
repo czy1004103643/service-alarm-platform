@@ -70,9 +70,10 @@ public class RuleController {
         return Result.successResult(statusAndResponse);
     }
 
-    @RequestMapping(value = "/checkRule", method = RequestMethod.GET)
+    @RequestMapping(value = "/checkRule", method = RequestMethod.POST)
     @ResponseBody
-    public Result checkRule(String formula) {
-        return null;
+    public Result checkRule(@RequestBody Rule rule) {
+        boolean status = ruleService.checkRule(rule);
+        return status ? Result.successResult() : Result.failResult();
     }
 }

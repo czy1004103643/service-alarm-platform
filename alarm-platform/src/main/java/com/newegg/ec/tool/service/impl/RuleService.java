@@ -9,6 +9,7 @@ import com.newegg.ec.tool.entity.ServiceUrl;
 import com.newegg.ec.tool.service.IRuleService;
 import com.newegg.ec.tool.service.IUrlService;
 import com.newegg.ec.tool.utils.CommonUtils;
+import com.newegg.ec.tool.utils.JsonUtils;
 import com.newegg.ec.tool.utils.MathExpressionCalculateUtil;
 import com.newegg.ec.tool.utils.RegexNum;
 import javafx.util.Pair;
@@ -18,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -108,12 +110,16 @@ public class RuleService implements IRuleService {
             Pair<Boolean, Object> statusAndResponse = urlService.checkUrl(url);
             if (statusAndResponse.getKey()) {
                 Object value = statusAndResponse.getValue();
-                JSONObject jsonObject = JSONObject.parseObject(JSON.toJSONString(value));
-                JsonPath.read(jsonObject, "$.store.book[*].author");
-                String formula = rule.getFormula();
-                List<String> formulaKeyList = RegexNum.getFormulaKeyList(formula);
-                for (String unit : formulaKeyList) {
-
+                if (value != null) {
+                    JSONObject jsonObject = JSONObject.parseObject(value.toString());
+                    String formula = rule.getFormula();
+                    List<String> formulaKeyList = RegexNum.getFormulaKeyList(formula);
+                    for (String unit : formulaKeyList) {
+                        List<BigDecimal> valueList = JsonUtils.getValue(jsonObject, unit);
+                        if (valueList.size() == 0) {
+                            return false;
+                        }
+                    }
                 }
             }
             return MathExpressionCalculateUtil.checkRule(rule.getFormula());
