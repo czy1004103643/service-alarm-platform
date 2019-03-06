@@ -24,7 +24,7 @@
             url_content varchar(255) NOT NULL UNIQUE,
             request_type varchar(50) NOT NULL,
             param_content varchar(255) DEFAULT NULL,
-            body_content varchar(255) DEFAULT NULL,
+            body_content text DEFAULT NULL,
             description varchar(255) DEFAULT NULL,
             update_time datetime(0) NOT NULL,
             PRIMARY KEY (url_id) USING BTREE

@@ -84,13 +84,15 @@ function buildUrlTable(urlList) {
         for (var index = 0; index < size; index++) {
             var url = urlList[index]
             var urlId = url.urlId
+            var updateTime = url.updateTime
+            var time = formatTime(updateTime)
             html += '<tr>' +
                 '<td><a target="_blank" href="/rule?urlId=' + urlId + '">' + url.urlContent + '</a></td>' +
                 '<td>' + url.requestType + '</td>' +
                 '<td>' + url.paramContent + '</td>' +
                 '<td>' + url.bodyContent + '</td>' +
                 '<td>' + url.description + '</td>' +
-                '<td>' + formatTime(url.paramContent) + '</td>' +
+                '<td>' + time + '</td>' +
                 '<td>' +
                 '<i class="fas fa-edit text-default url-edit"  data-toggle="collapse" data-target="#modalContactForm" data-id="' + urlId + '"></i>' +
                 '<i class="fas fa-trash-alt text-orange url-delete"  data-id="' + urlId + '"></i>' +
@@ -105,6 +107,17 @@ function buildUrlTable(urlList) {
 $("#url-test").on("click", function () {
     var urlJson = getInputValues()
     if (!isEmpty(urlJson)) {
+        post("/url/checkUrl", urlJson, function (result) {
+            console.log(result)
+            var data = result.data
+            if (data.key) {
+                $("#response-data").JSONView(data.value);
+            } else {
+                alert("request error, please check url and params")
+            }
+        }, function (e) {
+            console.log(e)
+        })
         $("#url-save").show()
     } else {
         alert("略略略")

@@ -2,7 +2,10 @@ package com.newegg.ec.tool.controller;
 
 import com.newegg.ec.tool.entity.Result;
 import com.newegg.ec.tool.entity.Rule;
+import com.newegg.ec.tool.entity.ServiceUrl;
 import com.newegg.ec.tool.service.IRuleService;
+import com.newegg.ec.tool.service.IUrlService;
+import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +27,10 @@ public class RuleController {
     @Autowired
     private IRuleService ruleService;
 
+    @Autowired
+    private IUrlService urlService;
+
+
     @RequestMapping(value = "/getRuleList", method = RequestMethod.GET)
     @ResponseBody
     public Result getUrlListByServiceId(@PathParam("urlId") String urlId) {
@@ -43,5 +50,13 @@ public class RuleController {
     public Result saveRule(@RequestBody Rule rule) {
         boolean status = ruleService.saveRule(rule);
         return status ? Result.successResult() : Result.failResult();
+    }
+
+    @RequestMapping(value = "/requestUrl", method = RequestMethod.GET)
+    @ResponseBody
+    public Result requestUrl(@PathParam("urlId") String urlId) {
+        ServiceUrl url = urlService.getServiceUrlById(urlId);
+        Pair<Boolean, Object> statusAndResponse = urlService.checkUrl(url);
+        return Result.successResult(statusAndResponse);
     }
 }

@@ -29,6 +29,7 @@
             rule_id,
             url_id,
             formula,
+            description,
             rule_alias,
             update_time
         )
@@ -36,6 +37,7 @@
             #{ruleId},
             #{urlId},
             #{formula},
+            #{description},
             #{ruleAlias},
             #{updateTime}
         )

@@ -1,19 +1,25 @@
 $(function () {
-    $("#response-data").JSONView(jsonStr);
+    //$("#response-data").JSONView(jsonStr)
     var urlId = getUrlParam("urlId")
     initRulePage(urlId)
 })
 
 function initRulePage(urlId) {
     get("/rule/getRuleList?urlId=" + urlId, function (result) {
-        
-        if(result.code == 0) {
+
+        if (result.code == 0) {
             buildRuleTable(result.data)
         }
     }, function (e) {
         console.log(e)
     })
+    get("/url/getUrlById?urlId=" + urlId, function (result) {
+        $("#current-url").text(result.data.urlContent)
+    }, function (e) {
+        console.log(e)
+    })
 }
+
 
 function buildRuleTable(ruleList) {
     console.log(ruleList)
@@ -23,11 +29,13 @@ function buildRuleTable(ruleList) {
         for (var index = 0; index < size; index++) {
             var rule = ruleList[index]
             var ruleId = rule.ruleId
+            var updateTime = rule.updateTime
+            var time = formatTime(updateTime)
             html += '<tr>' +
                 '<td>' + rule.ruleAlias + '</td>' +
                 '<td>' + rule.formula + '</td>' +
                 '<td>' + rule.description + '</td>' +
-                '<td>' + formatTime(rule.updateTime) + '</td>' +
+                '<td>' + time + '</td>' +
                 '<td>' +
                 '<i class="fas fa-edit text-default rule-edit" data-toggle="collapse" data-target="#modalContactForm" data-id="' + ruleId + '"></i>' +
                 '<i class="fas fa-trash-alt text-orange rule-delete" data-id="' + ruleId + '"></i>' +
@@ -38,24 +46,40 @@ function buildRuleTable(ruleList) {
     }
 }
 
+
+$("#request-url").on("click", function () {
+    var urlId = getUrlParam("urlId")
+    get("/rule/requestUrl?urlId=" + urlId, function (result) {
+        console.log(result)
+        var data = result.data
+        if (data.key) {
+            $("#response-data").JSONView(data.value);
+        } else {
+            alert("request error, please check url and params")
+        }
+    }, function (e) {
+        console.log(e)
+    })
+})
+
+
+
 $("body").delegate(".rule-edit", "click", function () {
     var ruleId = $(this).attr("data-id")
     $("#rule-save").attr("data-id", ruleId)
     console.log(ruleId)
     get("/rule/getRuleById?ruleId=" + ruleId, function (result) {
         var rule = result.data
+        $("#modalContactForm label").addClass("active")
         $("#rule-alias").val(rule.ruleAlias)
         $("#formula").val(rule.formula)
         $("#description").val(rule.description)
-        $("#modalContactForm label").addClass("active")
-        //$("#modalContactForm").addClass("show")
-
     }, function (e) {
 
     })
 })
 
-$("#add-new-rule").on("click", function() {
+$("#add-new-rule").on("click", function () {
     $("#modalContactForm label").removeClass("active")
     $("#modalContactForm input").val("")
     $("#response-data").text("")
