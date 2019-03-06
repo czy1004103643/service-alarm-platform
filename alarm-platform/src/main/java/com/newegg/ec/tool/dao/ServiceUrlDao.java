@@ -16,6 +16,8 @@ public interface ServiceUrlDao {
 
     List<ServiceUrl> selectUrlByServiceId(String serviceId);
 
+    List<ServiceUrl> selectAllUrl();
+
     int addServiceUrl(ServiceUrl serviceUrl);
 
     int updateServiceUrl(ServiceUrl serviceUrl);

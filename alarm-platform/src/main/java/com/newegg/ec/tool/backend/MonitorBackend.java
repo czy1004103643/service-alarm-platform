@@ -3,14 +3,15 @@ package com.newegg.ec.tool.backend;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.newegg.ec.tool.dao.RuleDao;
 import com.newegg.ec.tool.dao.AppServiceDao;
+import com.newegg.ec.tool.dao.ServiceUrlDao;
 import com.newegg.ec.tool.entity.MessageContent;
 import com.newegg.ec.tool.entity.Rule;
 import com.newegg.ec.tool.entity.ServiceModel;
 import com.newegg.ec.tool.entity.ServiceUrl;
 import com.newegg.ec.tool.notify.wechat.api.WechatSendMessageAPI;
 import com.newegg.ec.tool.service.INotifyService;
+import com.newegg.ec.tool.service.IRuleService;
 import com.newegg.ec.tool.service.impl.ApiGatewayService;
 import com.newegg.ec.tool.utils.MathExpressionCalculateUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -18,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
 import java.util.*;
@@ -31,7 +33,7 @@ import java.util.concurrent.TimeUnit;
  * @author Jay.H.Zou
  * @date 2019/2/27
  */
-//@Component
+ @Component
 public class MonitorBackend{
 
     private static final Logger logger = LoggerFactory.getLogger(MonitorBackend.class);
@@ -45,13 +47,15 @@ public class MonitorBackend{
             new ThreadPoolExecutor.CallerRunsPolicy()
     );
 
-    static List<ServiceUrl> serviceUrlList = new ArrayList<>(2);
 
     @Autowired
     private AppServiceDao appServiceDao;
 
     @Autowired
-    private RuleDao ruleDao;
+    private IRuleService ruleService;
+
+    @Autowired
+    private ServiceUrlDao serviceUrlDao;
 
     @Autowired
     private ApiGatewayService apiGatewayService;
@@ -65,10 +69,11 @@ public class MonitorBackend{
     @Scheduled(cron = "${backend.monitor}")
     public void executeCheckRule() {
         logger.info("============== backend monitor start ==============");
+        List<ServiceUrl> serviceUrlList =serviceUrlDao.selectAllUrl()  ;
         for (ServiceUrl url : serviceUrlList) {
             String urlId = url.getUrlId();
 
-            List<Rule> ruleList = ruleDao.selectRulesByUrlId(urlId);
+            List<Rule> ruleList = ruleService.getRuleList(urlId);
 
             // TODO: delete
             Rule tempRule = new Rule();
@@ -91,6 +96,7 @@ public class MonitorBackend{
 
             // key: String value: list
             for(HashMap<String,Object> realDataMap:list){
+
                 Map<String, Object> preprocessDataForArray = processDataForArray(realDataMap);
                 processRuleAndData(url, ruleList, realDataMap);
                 processRuleAndDataForArray(url, ruleList, preprocessDataForArray);
