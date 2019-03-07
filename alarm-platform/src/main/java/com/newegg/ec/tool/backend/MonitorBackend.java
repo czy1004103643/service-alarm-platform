@@ -77,19 +77,8 @@ public class MonitorBackend {
 
             List<Rule> ruleList = ruleService.getRuleList(urlId);
 
-            // TODO: delete
-            Rule tempRule = new Rule();
-            tempRule.setRuleId("r001");
-            tempRule.setUrlId("u001");
-            tempRule.setFormula("@{aggregations.result.buckets.doc_count}>10");
-            tempRule.setRuleAlias("请求量阈值");
-            tempRule.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-            ruleList.add(tempRule);
-            // TODO: delete
-            if (ruleList == null || ruleList.isEmpty()) {
-                continue;
-            }
-            // 获取 url 返回的监控数据
+
+
 
             // key: String value:数值
             ArrayList<HashMap<String, Object>> list = apiGatewayService.dealByUrl(urlId);
