@@ -37,6 +37,7 @@ public class RegexNum {
         return stringBuilder.toString();
     }
 
+
     public static String getFormulaKey(String formula) {
         /*String regex = "\\{(.*)}";
         Pattern pattern = Pattern.compile(regex);
@@ -62,6 +63,8 @@ public class RegexNum {
     }
 
     public static void main(String[] args) {
-        System.out.println(getFormulaKeyList("@{a.e_e}-@{gump}<3"));
+        /*String formula = getFormula("@{aggregations.result.buckets.doc_count}>1442301");
+        System.out.println(formula);*/
+        // System.out.println(getFormulaKeyList("@{aggregations.result.buckets.doc_count}-@{aggregations.result.buckets.key}>1442301"));
     }
 }

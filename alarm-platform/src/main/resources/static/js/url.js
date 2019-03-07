@@ -13,7 +13,7 @@ $("#add-new-url").on("click", function () {
 $("#url-save").on("click", function () {
     var urlJson = getInputValues()
     post("/url/saveUrl", urlJson, function (result) {
-        if(result.code == 0) {
+        if (result.code == 0) {
             window.location.reload()
         } else {
             alert("save url error")
@@ -152,6 +152,7 @@ function getInputValues() {
     var urlContent = contentObj.val()
     var requestType = contentObj.attr("request-type")
     var bodyContent = $("#body-content").val()
+    var description = $("#description").val()
     var paramList = $("#param-list input")
     var paramJSON = new Object()
 
@@ -180,6 +181,10 @@ function getInputValues() {
         alert("request type not found")
         return
     }
+    if (isEmpty(description)) {
+        alert("description is empty")
+        return
+    }
     var paramContent = JSON.stringify(paramJSON)
 
     console.log(paramContent)
@@ -189,7 +194,8 @@ function getInputValues() {
         "urlContent": urlContent,
         "requestType": requestType,
         "bodyContent": bodyContent,
-        "paramContent": paramContent
+        "paramContent": paramContent,
+        "description": description
     }
     console.log(urlJson)
     return urlJson

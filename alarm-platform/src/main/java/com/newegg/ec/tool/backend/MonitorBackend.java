@@ -29,7 +29,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- *
  * @author Jay.H.Zou
  * @date 2019/2/27
  */
@@ -84,7 +83,6 @@ public class MonitorBackend {
             tempRule.setUpdateTime(new Timestamp(System.currentTimeMillis()));
             ruleList.add(tempRule);
             // TODO: delete
-
             if (ruleList == null || ruleList.isEmpty()) {
                 continue;
             }
@@ -117,7 +115,6 @@ public class MonitorBackend {
                     oneDataMap.put(key, bigDecimal.toString());
                     processRuleAndData(url, ruleList, oneDataMap);
                 }
-                // TODO: 数组越界处理
 
             }
         }
@@ -142,11 +139,8 @@ public class MonitorBackend {
                     // TODO: 查询最近半小时是否已经发送过此规则的报警消息 if(none) send();
 
                     ServiceModel serviceModel = appServiceDao.selectServiceById(url.getServiceId());
-                    serviceModel = new ServiceModel();
-                    serviceModel.setAlarmWay("WECHAT");
-                    serviceModel.setWechatAppName("ItemService");
                     // 获取其通知方式
-                    // String alarmRoute = serviceModel.getAlarmRoute();
+                    // String alarmRoute = serviceModhel.getAlarmRoute();
                     //sendMessageService(null, new MessageContent(temp.toString()), serviceModel);
 
                     notifyClientService.notifyClient(serviceModel, new MessageContent("假数据hahhaha"));

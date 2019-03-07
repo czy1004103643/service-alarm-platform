@@ -1,6 +1,7 @@
 package com.newegg.ec.tool.service.impl;
 
 import com.newegg.ec.tool.dao.AppServiceDao;
+import com.newegg.ec.tool.entity.AlarmWay;
 import com.newegg.ec.tool.entity.ServiceModel;
 import com.newegg.ec.tool.service.IAppService;
 import com.newegg.ec.tool.utils.CommonUtils;
@@ -43,6 +44,8 @@ public class AppService implements IAppService {
         try {
             if (StringUtils.isBlank(serviceId)) {
                 serviceModel.setServiceId(CommonUtils.getUUID());
+                serviceModel.setAlarmWay(AlarmWay.WECHAT + "|" + AlarmWay.ROCKETCHAT);
+                serviceModel.setWechatAppName("ItemService");
                 return appServiceDao.addService(serviceModel) > 0;
             }
             return appServiceDao.updateService(serviceModel) > 0;

@@ -12,7 +12,7 @@ public class ViewController {
 
     @RequestMapping("/index")
     public String index() {
-        return "index";
+        return "service";
     }
 
     @RequestMapping("/service")
