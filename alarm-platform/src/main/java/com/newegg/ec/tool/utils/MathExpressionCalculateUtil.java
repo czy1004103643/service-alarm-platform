@@ -4,8 +4,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -72,6 +70,12 @@ public class MathExpressionCalculateUtil {
         return matcher.find();
     }
 
+    /**
+     *
+     * @param calculateStr => @{request.time} - @{count} > 400
+     * @param map => {"request.time"=10, "count"=50}
+     * @return
+     */
     public static String getRuleDataStr(String calculateStr, Map<String, Object> map) {
         Matcher matcher = VAR_PATTERN.matcher(calculateStr);
         StringBuffer stringBuffer = new StringBuffer();

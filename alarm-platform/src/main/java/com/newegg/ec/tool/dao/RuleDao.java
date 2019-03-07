@@ -1,6 +1,7 @@
 package com.newegg.ec.tool.dao;
 
 import com.newegg.ec.tool.entity.Rule;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -8,6 +9,7 @@ import java.util.List;
  * @author Jay.H.Zou
  * @date 2019/2/26
  */
+@Component
 public interface RuleDao {
 
     List<Rule> selectRulesByUrlId(String urlId);

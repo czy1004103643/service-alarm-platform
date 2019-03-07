@@ -1,7 +1,6 @@
 package com.newegg.ec.tool.backend;
 
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.newegg.ec.tool.dao.AppServiceDao;
 import com.newegg.ec.tool.dao.ServiceUrlDao;
@@ -30,6 +29,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
+ *
  * @author Jay.H.Zou
  * @date 2019/2/27
  */
@@ -84,6 +84,7 @@ public class MonitorBackend {
             tempRule.setUpdateTime(new Timestamp(System.currentTimeMillis()));
             ruleList.add(tempRule);
             // TODO: delete
+
             if (ruleList == null || ruleList.isEmpty()) {
                 continue;
             }

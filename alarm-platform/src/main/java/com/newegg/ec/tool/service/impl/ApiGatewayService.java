@@ -1,5 +1,6 @@
 package com.newegg.ec.tool.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import com.newegg.ec.tool.dao.RuleDao;
@@ -9,16 +10,20 @@ import com.newegg.ec.tool.entity.Rule;
 import com.newegg.ec.tool.entity.ServiceUrl;
 import com.newegg.ec.tool.notify.rocket.DefaultHttpClient;
 import com.newegg.ec.tool.service.IDataService;
-import com.newegg.ec.tool.utils.RegexNum;
-import net.minidev.json.JSONArray;
+import com.newegg.ec.tool.utils.JsonUtils;
 import okhttp3.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static com.newegg.ec.tool.utils.RegexNum.getFormulaKeyList;
 
 /**
  * @description: deal http request data
@@ -27,6 +32,7 @@ import java.util.*;
  **/
 @Service
 public class ApiGatewayService implements IDataService {
+    private static final Logger logger = LoggerFactory.getLogger(ApiGatewayService.class);
 
     @Autowired
     ServiceUrlDao serviceUrlDao;
@@ -36,10 +42,10 @@ public class ApiGatewayService implements IDataService {
     DefaultHttpClient defaultRocketChatClient;
 
     @Override
-    public  ArrayList  dealByUrl(String urlId) {
+    public ArrayList dealByUrl(String urlId) {
         ServiceUrl serviceUrl = serviceUrlDao.selectUrlById(urlId);
         java.util.List<Rule> rule = ruleDao.selectRulesByUrlId(urlId);
-         ArrayList<Map<String, Object>> list = new ArrayList<>();
+        ArrayList<Map<String, Object>> list = new ArrayList<>();
 
         try {
 
@@ -59,32 +65,44 @@ public class ApiGatewayService implements IDataService {
 
 
             DocumentContext ext = JsonPath.parse(serviceUrl.getBodyContent());
-            JsonPath p = JsonPath.compile("$.query.bool.must[0].range.RequestTime.lte");
-            ext.set(p, endTimestamp);
-            JsonPath p2 = JsonPath.compile("$.query.bool.must[0].range.RequestTime.gte");
-            ext.set(p2, startTimstamp);
+            try {
+                JsonPath p = JsonPath.compile("$.query.bool.must[0].range.RequestTime.lte");
+                ext.set(p, endTimestamp);
+                JsonPath p2 = JsonPath.compile("$.query.bool.must[0].range.RequestTime.gte");
+                ext.set(p2, startTimstamp);
+            } catch (Exception e) {
+                logger.error("不符合 apiGateWay规则");
+            }
+
 
             MessageContent messageContent = new MessageContent();
             messageContent.setContent(ext.jsonString());
             Response response = defaultRocketChatClient.postNetMessage(serviceUrl.getUrlContent(), messageContent);
             String jsonStr = response.body().string();
+            JSONObject jsonObject = JSONObject.parseObject(jsonStr);
 
 
-            for(Rule rule1:rule){
-                String formula = RegexNum.getFormula(rule1.getFormula());
-                JSONArray valueArray = JsonPath.read(jsonStr, formula);
-                Map<String, Object> map = new HashMap<>();
-                map.put(RegexNum.getFormulaKey(rule1.getFormula()), valueArray);
-                list.add(map);
+            Map<String, Object> map = new HashMap<>();
+            for (Rule rule1 : rule) {
+                List<String> rules=getFormulaKeyList(rule1.getFormula());
+                for (String strrule : rules) {
+                    List<BigDecimal> bigDecimalList = JsonUtils.getValue(jsonObject, strrule);
+                    if (bigDecimalList.size() == 1) {
+                        map.put(strrule, bigDecimalList.get(0));
+                        list.add(map);
+                    } else if (bigDecimalList.size() > 1) {
+                        map.put(strrule, bigDecimalList);
+                        list.add(map);
+                    }
+                }
+
             }
-
             return list;
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
         return null;
     }
-
 
 
 }

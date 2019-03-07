@@ -3,7 +3,6 @@ package com.newegg.ec.tool.utils;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jayway.jsonpath.JsonPath;
-import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.LinkedList;
@@ -19,6 +18,7 @@ public class JsonUtils {
     private JsonUtils() {
     }
 
+    @Deprecated
     public static boolean isExistField(JSONObject jsonObject, String path) {
         // path: a.b.c.d
         String formatPath = "$." + path;
@@ -81,7 +81,7 @@ public class JsonUtils {
                 int length = lastField.length();
                 String fixedPath = path.substring(0, path.length() - length) + "[*]" + lastField;
                 try {
-                    List<Object> valueList = JsonPath.read(json, "$." + fixedPath);
+                    List<Object> valueList = JsonPath.read(jsonObject, "$." + fixedPath);
                     if (valueList != null && valueList.size() > 0) {
                         for (Object value : valueList) {
                             if (!Objects.equals(value, null)) {
@@ -106,7 +106,7 @@ public class JsonUtils {
 
 
     public static void main(String[] args) {
-        System.out.println(getValue(JSONObject.parseObject(json), "aggregations.result.buckets.doc_count"));
+        System.out.println(getValue(JSONObject.parseObject(json), "_shards.total"));
     }
 
     public static final String json = "{\n" +

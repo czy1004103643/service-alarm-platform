@@ -1,6 +1,11 @@
+import com.alibaba.fastjson.JSONObject;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
-import net.minidev.json.JSONArray;
+import com.newegg.ec.tool.utils.JsonUtils;
+import org.junit.Test;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @program: service-alarm-platform
@@ -108,10 +113,102 @@ public class JsonTest {
                 "        }\n" +
                 "    }\n" +
                 "}";
-        JSONArray authors = JsonPath.read(str, "aggregations.result.buckets");
+        List<String> authors = JsonPath.read(str, "$.aggregations.result.buckets[*].doc_count");
 //        DocumentContext ext = JsonPath.parse(str);
 //        JsonPath p = JsonPath.compile("$.query.bool.must[0].range.RequestTime.lte");
 //        ext.set(p, 141145561197333L);
         System.out.println(authors);
+    }
+
+    @Test
+    public void Test3(){
+        DocumentContext ext = JsonPath.parse("{\"key\":176}");
+        JsonPath p = JsonPath.compile("$.query.bool.must[0].range.RequestTime.lte");
+        try{
+            ext.set(p, "zgs");
+        }catch (Exception e){
+
+        }
+
+        System.out.println(p+"====");
+    }
+    @Test
+    public void Test4(){
+        String json = "{\n" +
+                "    \"result\": {\n" +
+                "        \"doc_count_error_upper_bound\": 0,\n" +
+                "        \"sum_other_doc_count\": 0,\n" +
+                "        \"buckets\": [\n" +
+                "            {\n" +
+                "                \"key\": \"2019022700\",\n" +
+                "                \"doc_count\": 1404458\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"key\": \"2019022701\",\n" +
+                "                \"doc_count\": 1227301\n" +
+                "            }\n" +
+                "        ]\n" +
+                "    }\n" +
+                "}";
+
+        int  valueArray = JsonPath.read(json,"result.buckets[0].doc_count");
+        System.out.println(valueArray);
+    }
+
+    @Test
+    public void Test5(){
+        JSONObject jsonObject = JSONObject.parseObject("{\n" +
+                "    \"took\": 158,\n" +
+                "    \"timed_out\": false,\n" +
+                "    \"_shards\": {\n" +
+                "        \"total\": 80,\n" +
+                "        \"successful\": 80,\n" +
+                "        \"skipped\": 0,\n" +
+                "        \"failed\": 0\n" +
+                "    },\n" +
+                "    \"hits\": {\n" +
+                "        \"total\": 9346049,\n" +
+                "        \"max_score\": 0,\n" +
+                "        \"hits\": []\n" +
+                "    },\n" +
+                "    \"aggregations\": {\n" +
+                "        \"result\": {\n" +
+                "            \"doc_count_error_upper_bound\": 0,\n" +
+                "            \"sum_other_doc_count\": 0,\n" +
+                "            \"buckets\": [\n" +
+                "                {\n" +
+                "                    \"key\": \"2019030521\",\n" +
+                "                    \"doc_count\": 1563012\n" +
+                "                },\n" +
+                "                {\n" +
+                "                    \"key\": \"2019030522\",\n" +
+                "                    \"doc_count\": 1670482\n" +
+                "                },\n" +
+                "                {\n" +
+                "                    \"key\": \"2019030523\",\n" +
+                "                    \"doc_count\": 1450128\n" +
+                "                },\n" +
+                "                {\n" +
+                "                    \"key\": \"2019030600\",\n" +
+                "                    \"doc_count\": 1461530\n" +
+                "                },\n" +
+                "                {\n" +
+                "                    \"key\": \"2019030601\",\n" +
+                "                    \"doc_count\": 1295697\n" +
+                "                },\n" +
+                "                {\n" +
+                "                    \"key\": \"2019030602\",\n" +
+                "                    \"doc_count\": 1285202\n" +
+                "                },\n" +
+                "                {\n" +
+                "                    \"key\": \"2019030603\",\n" +
+                "                    \"doc_count\": 619998\n" +
+                "                }\n" +
+                "            ]\n" +
+                "        }\n" +
+                "    }\n" +
+                "}");
+        List<BigDecimal> bigDecimalList = JsonUtils.getValue(jsonObject, "aggregations.result.buckets.doc_count");
+        System.out.println(bigDecimalList.size());
     }
 }
