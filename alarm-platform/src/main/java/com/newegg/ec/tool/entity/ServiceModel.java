@@ -11,7 +11,7 @@ public class ServiceModel {
 
     private String serviceId;
 
-    private String serviceGroup;
+    private String groupId;
 
     private String serviceName;
 
@@ -31,12 +31,12 @@ public class ServiceModel {
         this.serviceId = serviceId;
     }
 
-    public String getServiceGroup() {
-        return serviceGroup;
+    public String getGroupId() {
+        return groupId;
     }
 
-    public void setServiceGroup(String serviceGroup) {
-        this.serviceGroup = serviceGroup;
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 
     public String getServiceName() {
@@ -81,14 +81,15 @@ public class ServiceModel {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", ServiceModel.class.getSimpleName() + "[", "]")
-                .add("serviceId='" + serviceId + "'")
-                .add("serviceGroup='" + serviceGroup + "'")
-                .add("serviceName='" + serviceName + "'")
-                .add("wechatAppName='" + wechatAppName + "'")
-                .add("alarmWay='" + alarmWay + "'")
-                .add("description='" + description + "'")
-                .add("updateTime=" + updateTime)
-                .toString();
+        final StringBuffer sb = new StringBuffer("ServiceModel{");
+        sb.append("serviceId='").append(serviceId).append('\'');
+        sb.append(", groupId='").append(groupId).append('\'');
+        sb.append(", serviceName='").append(serviceName).append('\'');
+        sb.append(", wechatAppName='").append(wechatAppName).append('\'');
+        sb.append(", alarmWay='").append(alarmWay).append('\'');
+        sb.append(", description='").append(description).append('\'');
+        sb.append(", updateTime=").append(updateTime);
+        sb.append('}');
+        return sb.toString();
     }
 }

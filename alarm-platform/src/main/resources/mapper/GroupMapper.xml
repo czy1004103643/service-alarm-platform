@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newegg.ec.tool.dao.GroupDao">
+
+    <select id="selectGroupList" parameterType="java.lang.String" resultType="com.newegg.ec.tool.entity.Group">
+        SELECT
+        *
+        FROM
+            service_group
+    </select>
+
+    <select id="selectGroupById" parameterType="java.lang.String" resultType="com.newegg.ec.tool.entity.Group">
+        SELECT
+            *
+        FROM
+            service_group
+        WHERE
+            group_id = #{groupId}
+    </select>
+
+    <select id="selectGroupByName" resultType="com.newegg.ec.tool.entity.Group">
+        SELECT
+            *
+        FROM
+            service_group
+        WHERE
+            group_name = #{groupName}
+        <if test="groupId != null">
+            AND
+            group_id
+            NOT IN
+            (#{groupId})
+        </if>
+    </select>
+
+    <insert id="addGroup" parameterType="com.newegg.ec.tool.entity.Group">
+        INSERT INTO
+            service_group
+        (
+            group_id,
+            group_name,
+            description,
+            update_time
+        )
+        VALUES (
+            #{groupId},
+            #{groupName},
+            #{description},
+            #{updateTime}
+        )
+    </insert>
+
+    <update id="updateGroup" parameterType="com.newegg.ec.tool.entity.Group">
+        UPDATE
+            service_group
+        SET
+            group_name = #{groupName},
+            description = #{description},
+            update_time = #{updateTime}
+        WHERE
+            group_id = #{groupId}
+    </update>
+
+    <delete id="deleteGroupById" parameterType="java.lang.String">
+        DELETE FROM
+            service_group
+        WHERE
+            group_id = #{groupId}
+    </delete>
+
+</mapper>

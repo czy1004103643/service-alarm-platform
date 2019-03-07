@@ -4,7 +4,6 @@ import com.newegg.ec.tool.entity.MessageContent;
 import com.newegg.ec.tool.entity.Rule;
 import com.newegg.ec.tool.entity.ServiceModel;
 import com.newegg.ec.tool.entity.ServiceUrl;
-import org.junit.jupiter.api.Test;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -101,7 +100,7 @@ public class CommonUtils {
         MessageContent messageContent = new MessageContent();
         messageContent.setTitle(serviceModel.getServiceName());
         StringBuffer buffer = new StringBuffer();
-        buffer.append("Group: ").append(serviceModel.getServiceGroup()).append(wrap)
+        buffer.append("Group: ").append(serviceModel.getGroupId()).append(wrap)
                 .append("Service: ").append(serviceModel.getServiceName()).append(wrap)
                 .append("URL Desc: ").append(serviceUrl.getDescription()).append(wrap)
                 .append("Rule: ").append(rule.getRuleAlias()).append(wrap)
@@ -113,13 +112,4 @@ public class CommonUtils {
         return messageContent;
     }
 
-
-
-    @Test
-    public void test() throws InterruptedException {
-        Timestamp start = CommonUtils.getCurrentTimestamp();
-        Thread.sleep(10000);
-        Timestamp end = CommonUtils.getCurrentTimestamp();
-        System.out.println(getTimstapDiff(start, end));
-    }
 }

@@ -18,7 +18,7 @@ public class AppServiceDaoTest {
 
     @Test
     public void testSelectServiceByName() {
-        ServiceModel serviceModel = appServiceDao.selectServiceByName("", "item-service");
+        ServiceModel serviceModel = appServiceDao.selectServiceByName("", "", "item-service");
         System.out.println(serviceModel);
     }
 }

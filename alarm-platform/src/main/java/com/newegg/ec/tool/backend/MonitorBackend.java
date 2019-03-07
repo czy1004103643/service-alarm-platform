@@ -7,6 +7,7 @@ import com.newegg.ec.tool.dao.MonitorDataDao;
 import com.newegg.ec.tool.dao.ServiceUrlDao;
 import com.newegg.ec.tool.entity.*;
 import com.newegg.ec.tool.notify.wechat.api.WechatSendMessageAPI;
+import com.newegg.ec.tool.service.IGroupService;
 import com.newegg.ec.tool.service.INotifyService;
 import com.newegg.ec.tool.service.IRuleService;
 import com.newegg.ec.tool.service.impl.ApiGatewayService;
@@ -37,8 +38,6 @@ public class MonitorBackend {
 
     private static final Logger logger = LoggerFactory.getLogger(MonitorBackend.class);
 
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
     static int processors = Runtime.getRuntime().availableProcessors();
 
     private static ExecutorService threadPool = new ThreadPoolExecutor(
@@ -47,8 +46,12 @@ public class MonitorBackend {
             new ThreadFactoryBuilder().setNameFormat("MonitorBackend pool-thread-%d").build(),
             new ThreadPoolExecutor.CallerRunsPolicy()
     );
+
     @Autowired
     private MonitorDataDao monitorDataDao;
+
+    @Autowired
+    private IGroupService groupService;
 
     @Autowired
     private AppServiceDao appServiceDao;
@@ -77,9 +80,6 @@ public class MonitorBackend {
 
             List<Rule> ruleList = ruleService.getRuleList(urlId);
 
-
-
-
             // key: String value:数值
             ArrayList<HashMap<String, Object>> list = apiGatewayService.dealByUrl(urlId);
             // realDataMap 可能会移除部分数据
@@ -91,7 +91,6 @@ public class MonitorBackend {
                 processRuleAndData(url, ruleList, realDataMap);
                 processRuleAndDataForArray(url, ruleList, dataMapWithArray);
             }
-
         }
     }
 
@@ -107,7 +106,6 @@ public class MonitorBackend {
                     oneDataMap.put(key, bigDecimal.toString());
                     processRuleAndData(url, ruleList, oneDataMap);
                 }
-
             }
         }
     }
@@ -143,27 +141,20 @@ public class MonitorBackend {
                         monitorData1.setUpdateTime(CommonUtils.getCurrentTimestamp());
                         monitorDataDao.addMonitorData(monitorData1);
                         ServiceModel serviceModel = appServiceDao.selectServiceById(url.getServiceId());
-                        notifyClientService.notifyClient(serviceModel,  url, rule, realData);
+                        notifyClientService.notifyClient(serviceModel, url, rule, realData);
                     } else {
                         Timestamp timestamp = monitorData.getUpdateTime();
                         Timestamp currentstamp = CommonUtils.getCurrentTimestamp();
                         boolean diffFlag = CommonUtils.getTimstapDiff(timestamp, currentstamp);
 //                        if (diffFlag) {
-                            ServiceModel serviceModel = appServiceDao.selectServiceById(url.getServiceId());
-                            notifyClientService.notifyClient(serviceModel,  url, rule, realData);
+                        ServiceModel serviceModel = appServiceDao.selectServiceById(url.getServiceId());
+                        notifyClientService.notifyClient(serviceModel, url, rule, realData);
 //                        }
-
                     }
-
-
                 }
             }
         }
     }
-
-
-
-
 
 
     private Map<String, Object> processDataForArray(Map<String, Object> realDataMap) {
@@ -183,6 +174,5 @@ public class MonitorBackend {
         }
         return arrayDataMap;
     }
-
 
 }

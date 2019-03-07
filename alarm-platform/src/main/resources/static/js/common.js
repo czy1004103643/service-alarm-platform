@@ -74,3 +74,13 @@ function message(delayTime, callback) {
         window.location.reload()
     }, delayTime);
 }
+
+$("input[type=checkbox]").on("click", function() {
+    if($(this).attr('checked') == 'checked') {
+        $(this).removeAttr('checked')
+        console.log("cancel checked")
+    } else {
+        $(this).attr('checked', 'checked')
+        console.log("set checked")
+    }
+})

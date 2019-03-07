@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 /**
@@ -22,8 +23,8 @@ public class AppServiceController {
 
     @RequestMapping(value = "/getServiceModelList", method = RequestMethod.GET)
     @ResponseBody
-    public Result getServiceModelList() {
-        List<ServiceModel> serviceModelList = appService.getServiceModelList();
+    public Result getServiceModelList(@PathParam("groupId") String groupId) {
+        List<ServiceModel> serviceModelList = appService.getServiceModelList(groupId);
         return Result.successResult(serviceModelList);
     }
 

@@ -4,10 +4,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.newegg.ec.tool.dao.InitializationDao">
 
+    <select id="createServiceGroupTable">
+        CREATE TABLE IF NOT EXISTS service_group  (
+            group_id varchar(255) NOT NULL,
+            group_name varchar(255) NOT NULL UNIQUE,
+            description varchar(255) DEFAULT NULL,
+            update_time datetime(0) NOT NULL,
+            PRIMARY KEY (group_id) USING BTREE
+        ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+    </select>
+
     <select id="createServiceTable">
         CREATE TABLE IF NOT EXISTS service  (
             service_id varchar(255) NOT NULL,
-            service_group varchar(255) NOT NULL,
+            group_id varchar(255) NOT NULL,
             service_name varchar(255) NOT NULL UNIQUE,
             alarm_way varchar(255) DEFAULT NULL,
             wechat_app_name varchar(255) DEFAULT NULL,

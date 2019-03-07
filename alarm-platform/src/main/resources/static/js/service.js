@@ -1,10 +1,19 @@
 $(function () {
-    initServiceList()
+    var groupId = getUrlParam("groupId")
+    initServiceList(groupId)
+    get("/group/getGroupById?groupId=" + groupId, function (result) {
+        var group = result.data
+        $("#group-name").val(group.groupName)
+    }, function () {
+
+    })
 })
 
 $("#new-service").on("click", function () {
-    $("#modalContactForm input").val("")
-    $("#modalContactForm textarea").val("")
+    $("#group-name").next().addClass("active")
+    $("#service-name").val("")
+    $("#description").val("")
+    $("#service-id").val("")
 })
 
 $("body").delegate(".service-edit", "click", function () {
@@ -13,12 +22,22 @@ $("body").delegate(".service-edit", "click", function () {
         console.log(result)
         var code = result.code
         if (code == 0) {
-            var data = result.data
-            $("#service-info-body label").addClass("active")
-            $("#service-id").val(data.serviceId)
-            $("#service-group").val(data.serviceGroup)
-            $("#service-name").val(data.serviceName)
-            $("#description").val(data.description)
+            var service = result.data
+            $(".input-title").addClass("active")
+            $("#service-id").val(service.serviceId)
+            $("#service-name").val(service.serviceName)
+            $("#description").val(service.description)
+            var alarmWay = service.alarmWay
+            if (!isEmpty(alarmWay)) {
+                var alarmWayList = alarmWay.split("|")
+                for (var index = 0; index < alarmWayList.length; index++) {
+                    var wayName = alarmWayList[index].toLowerCase()
+                    $("#" + wayName).attr("checked", "checked")
+                }
+            } else {
+                $(".check-box-container input[type=checkbox]").removeAttr("checked")
+            }
+
         }
 
     }, function (e) {
@@ -28,21 +47,28 @@ $("body").delegate(".service-edit", "click", function () {
 
 $("#save-service").on("click", function () {
     var serviceId = $("#service-id").val()
-    var serviceGroup = $("#service-group").val()
+    var grouId = getUrlParam("groupId")
     var serviceName = $("#service-name").val()
     var description = $("#description").val()
-    if (isEmpty(serviceGroup)) {
-        alert("group is empty!")
-        return
-    }
+    var alarmWay = ''
+    $(".check-box-container").find('input:checkbox').each(function () { //遍历所有复选框
+        if ($(this).prop('checked') == true) {
+            alarmWay += $(this).val().toUpperCase()
+            alarmWay += '|'
+        }
+    })
+
+    console.log(alarmWay)
+
     if (isEmpty(serviceName)) {
         alert("service name is empty!")
         return
     }
     var serviceModel = {
         "serviceId": serviceId,
-        "serviceGroup": serviceGroup,
+        "groupId": grouId,
         "serviceName": serviceName,
+        "alarmWay": alarmWay,
         "description": description
     }
     post("/service/saveServiceModel", serviceModel, function (result) {
@@ -84,8 +110,8 @@ $("#delete-yes").on("click", function () {
     })
 })
 
-function initServiceList() {
-    get("/service/getServiceModelList", function (result) {
+function initServiceList(groupId) {
+    get("/service/getServiceModelList?groupId=" + groupId, function (result) {
         var code = result.code;
         if (code == 0) {
             var serviceList = result.data
@@ -99,17 +125,31 @@ function initServiceList() {
 
 function buildServiceTable(serviceList) {
     var html = ''
-
+    var wechatHtml = '<i class="fab fa-weixin text-success margin-r-1"></i>'
+    var rocketchatHtml = '<i class="fab fa-rocketchat text-danger margin-r-1"></i>'
     for (var index = 0; index < serviceList.length; index++) {
         var serviceModel = serviceList[index];
         var serviceId = serviceModel.serviceId
         var updateTime = serviceModel.updateTime
         var time = formatTime(updateTime)
+        var alarmWay = serviceModel.alarmWay
+        var alarm = ''
+        if (!isEmpty(alarmWay)) {
+            var alarmWayList = alarmWay.toLowerCase().split("|")
+            for (var index = 0; index < alarmWayList.length; index++) {
+                var wayName = alarmWayList[index]
+                if (wayName == 'wechat') {
+                    alarm += wechatHtml
+                }
+
+                if (wayName == 'rocketchat') {
+                    alarm += rocketchatHtml
+                }
+            }
+        }
         html += '<tr>' +
-            '<td>' + serviceModel.serviceGroup + '</td>' +
             '<td><a class="link-color" target="_blank" href="/url?serviceId=' + serviceId + '">' + serviceModel.serviceName + '</a></td>' +
-            '<td>' +
-            '<i class="fab fa-weixin text-success"></i>' +
+            '<td>' + alarm +
             '</td>' +
             '<td>' + serviceModel.description + '</td>' +
             '<td>' + time + '</td>' +
@@ -121,4 +161,3 @@ function buildServiceTable(serviceList) {
     }
     $("#service-table tbody").html(html)
 }
-123

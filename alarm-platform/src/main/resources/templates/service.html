@@ -15,6 +15,7 @@
     <!-- Your custom styles (optional) -->
     <link href="/static/lib/mdb-free/css/style.css" rel="stylesheet">
     <link href="/static/lib/mdb-free/css/addons/datatables.min.css" rel="stylesheet">
+    <link href="/static/lib/mdb-free/css/modules/animations-extended.min.css" rel="stylesheet">
     <link href="/static/css/self-style.css" rel="stylesheet">
     <style>
         html,
@@ -80,7 +81,6 @@
                                 cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
-                                        <th class="th-sm">Group</th>
                                         <th class="th-sm">Service</th>
                                         <th class="th-sm">Alarm Way</th>
                                         <th class="th-sm">Description</th>
@@ -131,25 +131,44 @@
                     <input type="text" id="service-id" class="form-control validate" value="" style="display:none" />
                     <div class="md-form mb-5">
                         <i class="fas fa-user-friends prefix grey-text"></i>
-                        <input type="text" id="service-group" class="form-control validate">
-                        <label data-error="wrong" data-success="right" for="service-group">Your Group</label>
+                        <input type="text" id="group-name" class="form-control validate" disabled>
+                        <label data-error="wrong" data-success="right" for="group-name" class="active">Your Group</label>
                     </div>
 
                     <div class="md-form mb-5">
                         <i class="fas fa-shield-alt prefix grey-text"></i>
                         <input type="text" id="service-name" class="form-control validate">
-                        <label data-error="wrong" data-success="right" for="service-name">Service Name</label>
+                        <label data-error="wrong" data-success="right" for="service-name" class="input-title">Service Name</label>
                     </div>
 
                     <div class="md-form">
                         <i class="fas fa-pencil-alt  prefix grey-text"></i>
                         <textarea type="text" id="description" class="md-textarea form-control" rows="4"></textarea>
-                        <label data-error="wrong" data-success="right" for="description">Description</label>
+                        <label data-error="wrong" data-success="right" for="description" class="input-title">Description</label>
                     </div>
+                    <div class="md-form">
+                        <i class="far fa-bell prefix grey-text"></i>
+                        <!-- Default inline 1-->
+                        <div class="check-box-container">
+                            <div class="custom-control custom-checkbox custom-control-inline check-box-margin-r">
+                                <input type="checkbox" class="custom-control-input" id="wechat" value="wechat" checked>
+                                <label class="custom-control-label cursor-pointer" for="wechat">
+                                    <i class="fab fa-weixin text-success"></i>
+                                </label>
+                            </div>
 
+                            <!-- Default inline 2-->
+                            <div class="custom-control custom-checkbox custom-control-inline check-box-margin-r">
+                                <input type="checkbox" class="custom-control-input" value="rocketchat" id="rocketchat">
+                                <label class="custom-control-label cursor-pointer" for="rocketchat">
+                                    <i class="fab fa-rocketchat text-orange"></i>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
-                    <button class="btn btn-sm btn-cyan" id="save-service" >Save<i
+                    <button class="btn btn-sm btn-cyan" id="save-service">Save<i
                             class="fas fa-paper-plane-o ml-1"></i></button>
                 </div>
             </div>
@@ -184,9 +203,9 @@
     </div>
     <!--Modal: modalConfirmDelete-->
 
-    <div class="alert alert-success" role="alert" data-dismiss="alert" >
+    <!-- <div class="alert alert-success" role="alert" data-dismiss="alert" >
         A simple success alert—check it out!
-    </div>
+    </div> -->
     <!-- SCRIPTS -->
     <!-- JQuery -->
     <script type="text/javascript" src="/static/lib/mdb-free/js/jquery-3.3.1.min.js"></script>
@@ -199,6 +218,7 @@
     <script type="text/javascript" src="/static/lib/mdb-free/js/addons/datatables.min.js"></script>
     <script type="text/javascript" src="/static/lib/mdb-free/js/addons/datatables-select.min.js"></script>
     <script type="text/javascript" src="/static/lib/mdb-free/js/modules/enhanced-modals.js"></script>
+    
     <script type="text/javascript" src="/static/js/common.js"></script>
     <script type="text/javascript" src="/static/js/service.js"></script>
     <script>

@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -26,26 +28,38 @@ public class AppService implements IAppService {
     private AppServiceDao appServiceDao;
 
     @Override
-    public List<ServiceModel> getServiceModelList() {
-        return appServiceDao.selectAllService();
+    public List<ServiceModel> getServiceModelList(String groupId) {
+        if (StringUtils.isBlank(groupId)) {
+            return new ArrayList<>();
+        }
+        try {
+            return appServiceDao.selectServiceByGroupId(groupId);
+        } catch (Exception e) {
+            logger.error("get service list error, groupId=" + groupId, e);
+            return new ArrayList<>();
+        }
     }
 
     @Override
     public boolean saveService(ServiceModel serviceModel) {
-        if (serviceModel == null) {
+        if (serviceModel == null || StringUtils.isBlank(serviceModel.getGroupId())) {
             return false;
         }
         String serviceId = serviceModel.getServiceId();
-        ServiceModel service = appServiceDao.selectServiceByName(serviceId, serviceModel.getServiceName());
+        ServiceModel service = appServiceDao.selectServiceByName(serviceModel.getGroupId(), serviceId, serviceModel.getServiceName());
         if (service != null) {
             return false;
         }
         serviceModel.setUpdateTime(CommonUtils.getCurrentTimestamp());
         try {
+            String alarmWay = serviceModel.getAlarmWay();
+            if (StringUtils.isNotBlank(alarmWay)) {
+                serviceModel.setAlarmWay(alarmWay.toUpperCase());
+            }
+            serviceModel.setWechatAppName("ItemService");
             if (StringUtils.isBlank(serviceId)) {
                 serviceModel.setServiceId(CommonUtils.getUUID());
-                serviceModel.setAlarmWay(AlarmWay.WECHAT + "|" + AlarmWay.ROCKETCHAT);
-                serviceModel.setWechatAppName("ItemService");
+
                 return appServiceDao.addService(serviceModel) > 0;
             }
             return appServiceDao.updateService(serviceModel) > 0;
@@ -80,4 +94,5 @@ public class AppService implements IAppService {
             return false;
         }
     }
+
 }

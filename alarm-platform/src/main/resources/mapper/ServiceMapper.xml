@@ -26,12 +26,21 @@
             NOT IN
             (#{serviceId})
         </if>
-
-
+        <if test="groupId != null">
+            AND
+            group_id
+            IN
+            (#{groupId})
+        </if>
     </select>
 
-    <select id="selectAllService" resultType="com.newegg.ec.tool.entity.ServiceModel">
-        SELECT * FROM service
+    <select id="selectServiceByGroupId" resultType="com.newegg.ec.tool.entity.ServiceModel">
+        SELECT
+            *
+        FROM
+            service
+        WHERE
+            group_id = #{groupId}
     </select>
 
     <insert id="addService" parameterType="com.newegg.ec.tool.entity.ServiceModel">
@@ -39,7 +48,7 @@
             service
         (
             service_id,
-            service_group,
+            group_id,
             service_name,
             wechat_app_name,
             alarm_way,
@@ -48,7 +57,7 @@
         )
         VALUES (
             #{serviceId},
-            #{serviceGroup},
+            #{groupId},
             #{serviceName},
             #{wechatAppName},
             #{alarmWay},
@@ -62,7 +71,7 @@
             service
         SET
             service_name = #{serviceName},
-            service_group = #{serviceGroup},
+            group_id = #{groupId},
             wechat_app_name = #{wechatAppName},
             alarm_way = #{alarmWay},
             description = #{description},

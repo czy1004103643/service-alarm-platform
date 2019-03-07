@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface InitializationDao {
 
+    void createServiceGroupTable();
+
     void createServiceTable();
 
     void createServiceUrlTable();

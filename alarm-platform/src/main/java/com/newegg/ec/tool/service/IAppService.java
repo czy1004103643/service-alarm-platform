@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface IAppService {
 
-    List<ServiceModel> getServiceModelList();
+    List<ServiceModel> getServiceModelList(String groupId);
 
     boolean saveService(ServiceModel serviceModel);
 

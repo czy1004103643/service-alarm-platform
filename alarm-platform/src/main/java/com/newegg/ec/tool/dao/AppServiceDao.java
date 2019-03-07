@@ -15,9 +15,9 @@ public interface AppServiceDao {
 
     ServiceModel selectServiceById(String serviceId);
 
-    ServiceModel selectServiceByName(@Param("serviceId") String serviceId, @Param("serviceName") String serviceName);
+    ServiceModel selectServiceByName(@Param("groupId") String groupId, @Param("serviceId") String serviceId, @Param("serviceName") String serviceName);
 
-    List<ServiceModel> selectAllService();
+    List<ServiceModel> selectServiceByGroupId(String groupId);
 
     int addService(ServiceModel serviceModel);
 
