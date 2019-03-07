@@ -12,6 +12,7 @@ import com.newegg.ec.tool.notify.wechat.api.WechatSendMessageAPI;
 import com.newegg.ec.tool.service.INotifyService;
 import com.newegg.ec.tool.service.IRuleService;
 import com.newegg.ec.tool.service.impl.ApiGatewayService;
+import com.newegg.ec.tool.utils.CommonUtils;
 import com.newegg.ec.tool.utils.MathExpressionCalculateUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -136,6 +137,7 @@ public class MonitorBackend {
                 }
                 // 如果满足，则获取其service对象
                 if (calculate) {
+                    String realData = MathExpressionCalculateUtil.getRuleDataStr(formula, dataMap);
                     // TODO: 查询最近半小时是否已经发送过此规则的报警消息 if(none) send();
 
                     ServiceModel serviceModel = appServiceDao.selectServiceById(url.getServiceId());
@@ -143,10 +145,24 @@ public class MonitorBackend {
                     // String alarmRoute = serviceModhel.getAlarmRoute();
                     //sendMessageService(null, new MessageContent(temp.toString()), serviceModel);
 
-                    notifyClientService.notifyClient(serviceModel, new MessageContent("假数据hahhaha"));
+                    notifyClientService.notifyClient(serviceModel, buildMessageContent(serviceModel, url, rule, realData));
                 }
             }
         }
+    }
+
+    private MessageContent buildMessageContent(ServiceModel serviceModel, ServiceUrl serviceUrl, Rule rule, String realData) {
+        MessageContent messageContent = new MessageContent();
+        messageContent.setTitle(serviceModel.getServiceName());
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("Group: ").append(serviceModel.getServiceGroup()).append("\n")
+                .append("Service: ").append(serviceModel.getServiceName()).append("\n")
+                .append("URL desc: ").append(serviceUrl.getDescription()).append("\n")
+                .append("Rule: ").append(rule.getRuleAlias()).append("\n")
+                .append("Formula: ").append(rule.getFormula()).append("\n")
+                .append("Rule desc: ").append(rule.getDescription()).append("\n")
+                .append("Time: ").append(CommonUtils.formatTime(System.currentTimeMillis()));
+        return messageContent;
     }
 
     private Map<String, Object> processDataForArray(Map<String, Object> realDataMap) {
