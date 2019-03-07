@@ -124,11 +124,13 @@ function initServiceList(groupId) {
 
 
 function buildServiceTable(serviceList) {
+    console.log(serviceList)
     var html = ''
     var wechatHtml = '<i class="fab fa-weixin text-success margin-r-1"></i>'
     var rocketchatHtml = '<i class="fab fa-rocketchat text-danger margin-r-1"></i>'
-    for (var index = 0; index < serviceList.length; index++) {
-        var serviceModel = serviceList[index];
+    var size = serviceList.length
+    for (var index = 0; index < size; index++) {
+        var serviceModel = serviceList[index]
         var serviceId = serviceModel.serviceId
         var updateTime = serviceModel.updateTime
         var time = formatTime(updateTime)
@@ -136,8 +138,8 @@ function buildServiceTable(serviceList) {
         var alarm = ''
         if (!isEmpty(alarmWay)) {
             var alarmWayList = alarmWay.toLowerCase().split("|")
-            for (var index = 0; index < alarmWayList.length; index++) {
-                var wayName = alarmWayList[index]
+            for (var i = 0; i < alarmWayList.length; i++) {
+                var wayName = alarmWayList[i]
                 if (wayName == 'wechat') {
                     alarm += wechatHtml
                 }
@@ -149,8 +151,7 @@ function buildServiceTable(serviceList) {
         }
         html += '<tr>' +
             '<td><a class="link-color" target="_blank" href="/url?serviceId=' + serviceId + '">' + serviceModel.serviceName + '</a></td>' +
-            '<td>' + alarm +
-            '</td>' +
+            '<td>' + alarm + '</td>' +
             '<td>' + serviceModel.description + '</td>' +
             '<td>' + time + '</td>' +
             '<td>' +
