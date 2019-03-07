@@ -1,6 +1,7 @@
 package com.newegg.ec.tool.utils;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -10,6 +11,8 @@ import java.util.*;
 public class CommonUtils {
 
     private CommonUtils() {}
+
+    private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public static List<String> stringToList(String items) {
         String[] split = items.split("\\|");
@@ -61,4 +64,10 @@ public class CommonUtils {
         }
         return null;
     }
+
+    public static String formatTime(long time) {
+        String format = CommonUtils.format.format(time);
+        return format;
+    }
+
 }

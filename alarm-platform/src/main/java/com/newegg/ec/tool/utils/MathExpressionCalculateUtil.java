@@ -36,12 +36,16 @@ public class MathExpressionCalculateUtil {
         params.put("expireKeys", 1);
         params.put("instantaneous_input_kbps", 1);
         params.put("instantaneous_output_kbps", 1);
-        params.put("response.time", 1);
+        params.put("response.time", 100);
         params.put("response_a.time", 1);
         params.put("response_.time", 1);
 
     }
 
+    public static void main(String[] args) {
+        String value = MathExpressionCalculateUtil.getRuleDataStr("@{response.time}/@{expireKeys}>2", params);
+        System.out.println(value);
+    }
     //-------------------------------------------------calculate-------------------------//
 
     /**
