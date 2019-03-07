@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -29,12 +30,11 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- *
  * @author Jay.H.Zou
  * @date 2019/2/27
  */
-// @Component
-public class MonitorBackend{
+@Component
+public class MonitorBackend {
 
     private static final Logger logger = LoggerFactory.getLogger(MonitorBackend.class);
 
@@ -69,7 +69,7 @@ public class MonitorBackend{
     @Scheduled(cron = "${backend.monitor}")
     public void executeCheckRule() {
         logger.info("============== backend monitor start ==============");
-        List<ServiceUrl> serviceUrlList =serviceUrlDao.selectAllUrl()  ;
+        List<ServiceUrl> serviceUrlList = serviceUrlDao.selectAllUrl();
         for (ServiceUrl url : serviceUrlList) {
             String urlId = url.getUrlId();
 
@@ -84,22 +84,21 @@ public class MonitorBackend{
             tempRule.setUpdateTime(new Timestamp(System.currentTimeMillis()));
             ruleList.add(tempRule);
             // TODO: delete
-
             if (ruleList == null || ruleList.isEmpty()) {
                 continue;
             }
             // 获取 url 返回的监控数据
 
             // key: String value:数值
-             ArrayList<HashMap<String,Object>>  list = apiGatewayService.dealByUrl(urlId);
+            ArrayList<HashMap<String, Object>> list = apiGatewayService.dealByUrl(urlId);
             // realDataMap 可能会移除部分数据
 
             // key: String value: list
-            for(HashMap<String,Object> realDataMap:list){
-
-                Map<String, Object> preprocessDataForArray = processDataForArray(realDataMap);
+            for (HashMap<String, Object> realDataMap : list) {
+                // TODO: map 中如果出现 1-n 或 n-n 情况，则预警数据不准
+                Map<String, Object> dataMapWithArray = processDataForArray(realDataMap);
                 processRuleAndData(url, ruleList, realDataMap);
-                processRuleAndDataForArray(url, ruleList, preprocessDataForArray);
+                processRuleAndDataForArray(url, ruleList, dataMapWithArray);
             }
 
         }
@@ -110,22 +109,14 @@ public class MonitorBackend{
             Iterator<Map.Entry<String, Object>> iterator = dataMap.entrySet().iterator();
             while (iterator.hasNext()) {
                 Map.Entry<String, Object> next = iterator.next();
-                JSONArray jsonArray = JSONArray.parseArray(next.getValue().toString());
+                List<BigDecimal> dataList = JSONArray.parseArray(next.getValue().toString(), BigDecimal.class);
                 String key = next.getKey();
-                // TODO: 数组越界处理
-                String[] split = key.split("\\.");
-                if (split.length > 0) {
-                    String monitorKey = split[split.length - 1];
-                    for (int index = 0; index < jsonArray.size(); index++) {
-                        JSONObject jsonObject = jsonArray.getJSONObject(index);
-                        Object realValue = jsonObject.get(monitorKey);
-                        if (realValue != null) {
-                            Map<String, Object> oneDataMap = new HashMap<>();
-                            oneDataMap.put(key, realValue);
-                            processRuleAndData(url, ruleList, oneDataMap);
-                        }
-                    }
+                for (BigDecimal bigDecimal : dataList) {
+                    Map<String, Object> oneDataMap = new HashMap<>();
+                    oneDataMap.put(key, bigDecimal.toString());
+                    processRuleAndData(url, ruleList, oneDataMap);
                 }
+                // TODO: 数组越界处理
 
             }
         }
@@ -147,6 +138,8 @@ public class MonitorBackend{
                 }
                 // 如果满足，则获取其service对象
                 if (calculate) {
+                    // TODO: 查询最近半小时是否已经发送过此规则的报警消息 if(none) send();
+
                     ServiceModel serviceModel = appServiceDao.selectServiceById(url.getServiceId());
                     serviceModel = new ServiceModel();
                     serviceModel.setAlarmWay("WECHAT");
@@ -161,7 +154,7 @@ public class MonitorBackend{
         }
     }
 
-    private Map<String, Object> processDataForArray(Map<String, Object> realDataMap){
+    private Map<String, Object> processDataForArray(Map<String, Object> realDataMap) {
         Iterator<Map.Entry<String, Object>> iterator = realDataMap.entrySet().iterator();
         Map<String, Object> arrayDataMap = new HashMap<>();
         while (iterator.hasNext()) {
@@ -172,11 +165,12 @@ public class MonitorBackend{
                 continue;
             }
             if (value instanceof List) {
-                arrayDataMap.put(next.getKey(), value);
+                arrayDataMap.put(next.getKey(),value);
                 iterator.remove();
             }
         }
         return arrayDataMap;
     }
+
 
 }
