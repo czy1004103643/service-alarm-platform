@@ -157,11 +157,13 @@ public class MonitorBackend {
         StringBuffer buffer = new StringBuffer();
         buffer.append("Group: ").append(serviceModel.getServiceGroup()).append("\n")
                 .append("Service: ").append(serviceModel.getServiceName()).append("\n")
-                .append("URL desc: ").append(serviceUrl.getDescription()).append("\n")
+                .append("URL Desc: ").append(serviceUrl.getDescription()).append("\n")
                 .append("Rule: ").append(rule.getRuleAlias()).append("\n")
                 .append("Formula: ").append(rule.getFormula()).append("\n")
-                .append("Rule desc: ").append(rule.getDescription()).append("\n")
+                .append("Monitor Data: ").append(realData).append("\n")
+                .append("Rule Desc: ").append(rule.getDescription()).append("\n")
                 .append("Time: ").append(CommonUtils.formatTime(System.currentTimeMillis()));
+        messageContent.setContent(buffer.toString());
         return messageContent;
     }
 
