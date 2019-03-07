@@ -97,9 +97,12 @@ public class DefaultHttpClient implements HttpClientInterface, ApplicationListen
         return response;
     }
 
-    public Response postRocketMessage(MessageContent data) throws IOException {
+    public int postRocketMessage(MessageContent data) throws IOException {
+
+
         MediaType mediaType = MediaType.parse("application/json");
         String str = "{ \"channel\": \"" + rocketConfig.getChanel() + "\", \"text\": \"" + data.getContent() + "\"}";
+        System.out.println(str);
         RequestBody body = RequestBody.create(mediaType, str);
         Request request = new Request.Builder()
                 .url("https://chat.newegg.org/api/v1/chat.postMessage")
@@ -112,9 +115,10 @@ public class DefaultHttpClient implements HttpClientInterface, ApplicationListen
                 .build();
         OkHttpClient client = new OkHttpClient();
         Response response = client.newCall(request).execute();
-        System.out.println(response);
-        return response;
+        return response.code();
     }
+
+
 
 
 }

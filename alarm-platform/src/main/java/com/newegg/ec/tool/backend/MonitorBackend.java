@@ -3,11 +3,9 @@ package com.newegg.ec.tool.backend;
 import com.alibaba.fastjson.JSONArray;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.newegg.ec.tool.dao.AppServiceDao;
+import com.newegg.ec.tool.dao.MonitorDataDao;
 import com.newegg.ec.tool.dao.ServiceUrlDao;
-import com.newegg.ec.tool.entity.MessageContent;
-import com.newegg.ec.tool.entity.Rule;
-import com.newegg.ec.tool.entity.ServiceModel;
-import com.newegg.ec.tool.entity.ServiceUrl;
+import com.newegg.ec.tool.entity.*;
 import com.newegg.ec.tool.notify.wechat.api.WechatSendMessageAPI;
 import com.newegg.ec.tool.service.INotifyService;
 import com.newegg.ec.tool.service.IRuleService;
@@ -23,6 +21,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.SynchronousQueue;
@@ -38,6 +37,8 @@ public class MonitorBackend {
 
     private static final Logger logger = LoggerFactory.getLogger(MonitorBackend.class);
 
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
     static int processors = Runtime.getRuntime().availableProcessors();
 
     private static ExecutorService threadPool = new ThreadPoolExecutor(
@@ -46,7 +47,8 @@ public class MonitorBackend {
             new ThreadFactoryBuilder().setNameFormat("MonitorBackend pool-thread-%d").build(),
             new ThreadPoolExecutor.CallerRunsPolicy()
     );
-
+    @Autowired
+    private MonitorDataDao monitorDataDao;
 
     @Autowired
     private AppServiceDao appServiceDao;
@@ -140,32 +142,40 @@ public class MonitorBackend {
                     String realData = MathExpressionCalculateUtil.getRuleDataStr(formula, dataMap);
                     // TODO: 查询最近半小时是否已经发送过此规则的报警消息 if(none) send();
 
-                    ServiceModel serviceModel = appServiceDao.selectServiceById(url.getServiceId());
-                    // 获取其通知方式
-                    // String alarmRoute = serviceModhel.getAlarmRoute();
-                    //sendMessageService(null, new MessageContent(temp.toString()), serviceModel);
+                    String dataID = url.getUrlId() + rule.getRuleId();
+                    MonitorData monitorData = monitorDataDao.selectDataById(dataID);
 
-                    notifyClientService.notifyClient(serviceModel, buildMessageContent(serviceModel, url, rule, realData));
+                    if (monitorData == null) {
+                        MonitorData monitorData1 = new MonitorData();
+                        monitorData1.setDataId(dataID);
+                        monitorData1.setUrlId(url.getUrlId());
+                        monitorData1.setRuleId(rule.getRuleId());
+                        monitorData1.setDataContent(realData);
+                        monitorData1.setUpdateTime(CommonUtils.getCurrentTimestamp());
+                        monitorDataDao.addMonitorData(monitorData1);
+                        ServiceModel serviceModel = appServiceDao.selectServiceById(url.getServiceId());
+                        notifyClientService.notifyClient(serviceModel,  url, rule, realData);
+                    } else {
+                        Timestamp timestamp = monitorData.getUpdateTime();
+                        Timestamp currentstamp = CommonUtils.getCurrentTimestamp();
+                        boolean diffFlag = CommonUtils.getTimstapDiff(timestamp, currentstamp);
+//                        if (diffFlag) {
+                            ServiceModel serviceModel = appServiceDao.selectServiceById(url.getServiceId());
+                            notifyClientService.notifyClient(serviceModel,  url, rule, realData);
+//                        }
+
+                    }
+
+
                 }
             }
         }
     }
 
-    private MessageContent buildMessageContent(ServiceModel serviceModel, ServiceUrl serviceUrl, Rule rule, String realData) {
-        MessageContent messageContent = new MessageContent();
-        messageContent.setTitle(serviceModel.getServiceName());
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("Group: ").append(serviceModel.getServiceGroup()).append("\n")
-                .append("Service: ").append(serviceModel.getServiceName()).append("\n")
-                .append("URL Desc: ").append(serviceUrl.getDescription()).append("\n")
-                .append("Rule: ").append(rule.getRuleAlias()).append("\n")
-                .append("Formula: ").append(rule.getFormula()).append("\n")
-                .append("Monitor Data: ").append(realData).append("\n")
-                .append("Rule Desc: ").append(rule.getDescription()).append("\n")
-                .append("Time: ").append(CommonUtils.formatTime(System.currentTimeMillis()));
-        messageContent.setContent(buffer.toString());
-        return messageContent;
-    }
+
+
+
+
 
     private Map<String, Object> processDataForArray(Map<String, Object> realDataMap) {
         Iterator<Map.Entry<String, Object>> iterator = realDataMap.entrySet().iterator();
@@ -178,7 +188,7 @@ public class MonitorBackend {
                 continue;
             }
             if (value instanceof List) {
-                arrayDataMap.put(next.getKey(),value);
+                arrayDataMap.put(next.getKey(), value);
                 iterator.remove();
             }
         }

@@ -12,6 +12,8 @@ public class MonitorData {
 
     private String urlId;
 
+    private String ruleId;
+
     private String dataContent;
 
     private Timestamp updateTime;
@@ -46,5 +48,13 @@ public class MonitorData {
 
     public void setUpdateTime(Timestamp updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getRuleId() {
+        return ruleId;
+    }
+
+    public void setRuleId(String ruleId) {
+        this.ruleId = ruleId;
     }
 }

@@ -1,5 +1,11 @@
 package com.newegg.ec.tool.utils;
 
+import com.newegg.ec.tool.entity.MessageContent;
+import com.newegg.ec.tool.entity.Rule;
+import com.newegg.ec.tool.entity.ServiceModel;
+import com.newegg.ec.tool.entity.ServiceUrl;
+import org.junit.jupiter.api.Test;
+
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -70,4 +76,50 @@ public class CommonUtils {
         return format;
     }
 
+    /**
+     * 根据时间戳判断时间差，单位小时
+     */
+    public static  boolean getTimstapDiff(Timestamp startTimestamp,Timestamp endTimestamp){
+        long nd = 1000 * 24 * 60 * 60;
+        long nh = 1000 * 60 * 60;
+        long nm = 1000 * 60;
+        long diff=endTimestamp.getTime()-startTimestamp.getTime();
+        long min = diff % nd % nh / nm;
+        return min>30;
+    }
+
+    //格式化输出rocket消息格式
+    public static  MessageContent buildRocketMessageContent(ServiceModel serviceModel, ServiceUrl serviceUrl, Rule rule, String realData) {
+        return   buildMessageContent(serviceModel,serviceUrl,rule,realData,"\\n");
+    }
+    //格式化输出web消息格式
+    public  static  MessageContent buildWebMessageContent(ServiceModel serviceModel, ServiceUrl serviceUrl, Rule rule, String realData) {
+        return  buildMessageContent(serviceModel,serviceUrl,rule,realData,"\n");
+    }
+
+    private static MessageContent buildMessageContent(ServiceModel serviceModel, ServiceUrl serviceUrl, Rule rule, String realData,String wrap) {
+        MessageContent messageContent = new MessageContent();
+        messageContent.setTitle(serviceModel.getServiceName());
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("Group: ").append(serviceModel.getServiceGroup()).append(wrap)
+                .append("Service: ").append(serviceModel.getServiceName()).append(wrap)
+                .append("URL Desc: ").append(serviceUrl.getDescription()).append(wrap)
+                .append("Rule: ").append(rule.getRuleAlias()).append(wrap)
+                .append("Formula: ").append(rule.getFormula()).append(wrap)
+                .append("Monitor Data: ").append(realData).append(wrap)
+                .append("Rule Desc: ").append(rule.getDescription()).append(wrap)
+                .append("Time: ").append(CommonUtils.formatTime(System.currentTimeMillis()));
+        messageContent.setContent(buffer.toString());
+        return messageContent;
+    }
+
+
+
+    @Test
+    public void test() throws InterruptedException {
+        Timestamp start = CommonUtils.getCurrentTimestamp();
+        Thread.sleep(10000);
+        Timestamp end = CommonUtils.getCurrentTimestamp();
+        System.out.println(getTimstapDiff(start, end));
+    }
 }
