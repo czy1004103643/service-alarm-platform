@@ -9,13 +9,14 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
     <!-- Bootstrap core CSS -->
-    <link href="../static/lib/mdb-free/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/lib/mdb-free/css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
-    <link href="../static/lib/mdb-free/css/mdb.min.css" rel="stylesheet">
+    <link href="/static/lib/mdb-free/css/mdb.min.css" rel="stylesheet">
     <!-- Your custom styles (optional) -->
-    <link href="../static/lib/mdb-free/css/style.css" rel="stylesheet">
-    <link href="../static/lib/mdb-free/css/addons/datatables.min.css" rel="stylesheet">
-    <link href="../static/css/self-style.css" rel="stylesheet">
+    <link href="/static/lib/mdb-free/css/style.css" rel="stylesheet">
+    <link href="/static/lib/mdb-free/css/addons/datatables.min.css" rel="stylesheet">
+    <link href="/static/lib/mdb-free/css/modules/animations-extended.min.css" rel="stylesheet">
+    <link href="/static/css/self-style.css" rel="stylesheet">
     <style>
         html,
         body {
@@ -30,7 +31,7 @@
         <header>
 
             <nav class="navbar fixed-top navbar-expand-lg navbar-dark stylish-color scrolling-navbar">
-                <a class="navbar-brand" href="#"><strong>Navbar</strong></a>
+                <a class="navbar-brand" href="/"><img src="/static/lib/img/svg/newegg.svg" class="newegg-log"/></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -39,27 +40,22 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Features</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Pricing</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Opinions</a>
+                        <!-- Dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="group-dropdown" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">Group</a>
+                            <div class="dropdown-menu dropdown-primary" aria-labelledby="group-dropdown">
+                                <a class="dropdown-item" href="/service?groupId=2">SSL</a>
+                                <a class="dropdown-item" href="/service?groupId=3">WWW</a>
+                                <a class="dropdown-item" href="/service?groupId=1">BigData</a>
+                            </div>
                         </li>
                     </ul>
                     <ul class="navbar-nav nav-flex-icons">
                         <li class="nav-item">
-                            <a class="nav-link"><i class="fab fa-facebook-f"></i></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link"><i class="fab fa-twitter"></i></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link"><i class="fab fa-instagram"></i></a>
+                            <a href="https://github.com/ngbdf/service-alarm-platform" target="_blank" class="nav-link"><i class="fab fa-github"></i></a>
                         </li>
                     </ul>
                 </div>

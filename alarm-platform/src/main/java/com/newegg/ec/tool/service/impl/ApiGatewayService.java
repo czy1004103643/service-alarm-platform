@@ -63,7 +63,6 @@ public class ApiGatewayService implements IDataService {
             Date endDate = sdf.parse(endTime);
             long endTimestamp = endDate.getTime();
 
-
             DocumentContext ext = JsonPath.parse(serviceUrl.getBodyContent());
             try {
                 JsonPath p = JsonPath.compile("$.query.bool.must[0].range.RequestTime.lte");

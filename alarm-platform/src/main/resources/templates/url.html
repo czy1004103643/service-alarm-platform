@@ -31,7 +31,7 @@
         <header>
 
             <nav class="navbar fixed-top navbar-expand-lg navbar-dark stylish-color scrolling-navbar">
-                <a class="navbar-brand" href="#"><strong>Navbar</strong></a>
+                <a class="navbar-brand" href="/"><img src="/static/lib/img/svg/newegg.svg" class="newegg-log" /></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -40,19 +40,23 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Dashboard <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/service">Service</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Notify</a>
+                        <!-- Dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="group-dropdown" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">Group</a>
+                            <div class="dropdown-menu dropdown-primary" aria-labelledby="group-dropdown">
+                                <a class="dropdown-item" href="/service?groupId=2">SSL</a>
+                                <a class="dropdown-item" href="/service?groupId=3">WWW</a>
+                                <a class="dropdown-item" href="/service?groupId=1">BigData</a>
+                            </div>
                         </li>
                     </ul>
                     <ul class="navbar-nav nav-flex-icons">
                         <li class="nav-item">
-                            <a class="nav-link" target="_blank"
-                                href="https://github.com/ngbdf/service-alarm-platform"><i class="fab fa-github"></i></a>
+                            <a href="https://github.com/ngbdf/service-alarm-platform" target="_blank"
+                                class="nav-link"><i class="fab fa-github"></i></a>
                         </li>
                     </ul>
                 </div>

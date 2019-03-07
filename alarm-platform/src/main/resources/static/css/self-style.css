@@ -2,6 +2,10 @@
     padding: 1%;
 }
 
+.newegg-log {
+    width: 2rem !important;
+}
+
 .scrollbar-container{
     height: 100%;
     overflow: auto;
