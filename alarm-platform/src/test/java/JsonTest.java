@@ -5,7 +5,10 @@ import com.newegg.ec.tool.utils.JsonUtils;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @program: service-alarm-platform
@@ -210,5 +213,365 @@ public class JsonTest {
                 "}");
         List<BigDecimal> bigDecimalList = JsonUtils.getValue(jsonObject, "aggregations.result.buckets.doc_count");
         System.out.println(bigDecimalList.size());
+    }
+
+    @Test
+    public void Test6(){
+        String str = "{\n" +
+                "    \"start_time\": \"2019-03-07T22:12:44.842Z\",\n" +
+                "    \"end_time\": \"2019-03-08T02:12:44.842Z\",\n" +
+                "    \"filter\": \"SeverityLevel:WARN,CountryCode:USA,Domain:WWW\",\n" +
+                "    \"timezone\": \"America/Los_Angeles\",\n" +
+                "    \"all_count\": 166505,\n" +
+                "    \"data\": {\n" +
+                "        \"e4web08\": [\n" +
+                "            {\n" +
+                "                \"time\": \"2019-03-07 18:00\",\n" +
+                "                \"timestamp\": \"1552010400000\",\n" +
+                "                \"count\": \"2\",\n" +
+                "                \"loglevel\": {\n" +
+                "                    \"info\": 0,\n" +
+                "                    \"warn\": 2,\n" +
+                "                    \"error\": 0,\n" +
+                "                    \"fatal\": 0,\n" +
+                "                    \"unknow\": 0,\n" +
+                "                    \"total\": 2\n" +
+                "                }\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"time\": \"2019-03-07 17:40\",\n" +
+                "                \"timestamp\": \"1552009200000\",\n" +
+                "                \"count\": \"2\",\n" +
+                "                \"loglevel\": {\n" +
+                "                    \"info\": 0,\n" +
+                "                    \"warn\": 2,\n" +
+                "                    \"error\": 0,\n" +
+                "                    \"fatal\": 0,\n" +
+                "                    \"unknow\": 0,\n" +
+                "                    \"total\": 2\n" +
+                "                }\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"time\": \"2019-03-07 17:20\",\n" +
+                "                \"timestamp\": \"1552008000000\",\n" +
+                "                \"count\": \"0\",\n" +
+                "                \"loglevel\": {\n" +
+                "                    \"info\": 0,\n" +
+                "                    \"warn\": 0,\n" +
+                "                    \"error\": 0,\n" +
+                "                    \"fatal\": 0,\n" +
+                "                    \"unknow\": 0,\n" +
+                "                    \"total\": 0\n" +
+                "                }\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"time\": \"2019-03-07 17:00\",\n" +
+                "                \"timestamp\": \"1552006800000\",\n" +
+                "                \"count\": \"1\",\n" +
+                "                \"loglevel\": {\n" +
+                "                    \"info\": 0,\n" +
+                "                    \"warn\": 1,\n" +
+                "                    \"error\": 0,\n" +
+                "                    \"fatal\": 0,\n" +
+                "                    \"unknow\": 0,\n" +
+                "                    \"total\": 1\n" +
+                "                }\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"time\": \"2019-03-07 16:40\",\n" +
+                "                \"timestamp\": \"1552005600000\",\n" +
+                "                \"count\": \"3\",\n" +
+                "                \"loglevel\": {\n" +
+                "                    \"info\": 0,\n" +
+                "                    \"warn\": 3,\n" +
+                "                    \"error\": 0,\n" +
+                "                    \"fatal\": 0,\n" +
+                "                    \"unknow\": 0,\n" +
+                "                    \"total\": 3\n" +
+                "                }\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"time\": \"2019-03-07 16:20\",\n" +
+                "                \"timestamp\": \"1552004400000\",\n" +
+                "                \"count\": \"0\",\n" +
+                "                \"loglevel\": {\n" +
+                "                    \"info\": 0,\n" +
+                "                    \"warn\": 0,\n" +
+                "                    \"error\": 0,\n" +
+                "                    \"fatal\": 0,\n" +
+                "                    \"unknow\": 0,\n" +
+                "                    \"total\": 0\n" +
+                "                }\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"time\": \"2019-03-07 16:00\",\n" +
+                "                \"timestamp\": \"1552003200000\",\n" +
+                "                \"count\": \"3\",\n" +
+                "                \"loglevel\": {\n" +
+                "                    \"info\": 0,\n" +
+                "                    \"warn\": 3,\n" +
+                "                    \"error\": 0,\n" +
+                "                    \"fatal\": 0,\n" +
+                "                    \"unknow\": 0,\n" +
+                "                    \"total\": 3\n" +
+                "                }\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"time\": \"2019-03-07 15:40\",\n" +
+                "                \"timestamp\": \"1552002000000\",\n" +
+                "                \"count\": \"0\",\n" +
+                "                \"loglevel\": {\n" +
+                "                    \"info\": 0,\n" +
+                "                    \"warn\": 0,\n" +
+                "                    \"error\": 0,\n" +
+                "                    \"fatal\": 0,\n" +
+                "                    \"unknow\": 0,\n" +
+                "                    \"total\": 0\n" +
+                "                }\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"time\": \"2019-03-07 15:20\",\n" +
+                "                \"timestamp\": \"1552000800000\",\n" +
+                "                \"count\": \"3\",\n" +
+                "                \"loglevel\": {\n" +
+                "                    \"info\": 0,\n" +
+                "                    \"warn\": 3,\n" +
+                "                    \"error\": 0,\n" +
+                "                    \"fatal\": 0,\n" +
+                "                    \"unknow\": 0,\n" +
+                "                    \"total\": 3\n" +
+                "                }\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"time\": \"2019-03-07 15:00\",\n" +
+                "                \"timestamp\": \"1551999600000\",\n" +
+                "                \"count\": \"0\",\n" +
+                "                \"loglevel\": {\n" +
+                "                    \"info\": 0,\n" +
+                "                    \"warn\": 0,\n" +
+                "                    \"error\": 0,\n" +
+                "                    \"fatal\": 0,\n" +
+                "                    \"unknow\": 0,\n" +
+                "                    \"total\": 0\n" +
+                "                }\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"time\": \"2019-03-07 14:40\",\n" +
+                "                \"timestamp\": \"1551998400000\",\n" +
+                "                \"count\": \"0\",\n" +
+                "                \"loglevel\": {\n" +
+                "                    \"info\": 0,\n" +
+                "                    \"warn\": 0,\n" +
+                "                    \"error\": 0,\n" +
+                "                    \"fatal\": 0,\n" +
+                "                    \"unknow\": 0,\n" +
+                "                    \"total\": 0\n" +
+                "                }\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"time\": \"2019-03-07 14:20\",\n" +
+                "                \"timestamp\": \"1551997200000\",\n" +
+                "                \"count\": \"0\",\n" +
+                "                \"loglevel\": {\n" +
+                "                    \"info\": 0,\n" +
+                "                    \"warn\": 0,\n" +
+                "                    \"error\": 0,\n" +
+                "                    \"fatal\": 0,\n" +
+                "                    \"unknow\": 0,\n" +
+                "                    \"total\": 0\n" +
+                "                }\n" +
+                "            }\n" +
+                "        ],\n" +
+                "        \"e4web07\": [\n" +
+                "            {\n" +
+                "                \"time\": \"2019-03-07 18:00\",\n" +
+                "                \"timestamp\": \"1552010400000\",\n" +
+                "                \"count\": \"3\",\n" +
+                "                \"loglevel\": {\n" +
+                "                    \"info\": 0,\n" +
+                "                    \"warn\": 3,\n" +
+                "                    \"error\": 0,\n" +
+                "                    \"fatal\": 0,\n" +
+                "                    \"unknow\": 0,\n" +
+                "                    \"total\": 3\n" +
+                "                }\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"time\": \"2019-03-07 17:40\",\n" +
+                "                \"timestamp\": \"1552009200000\",\n" +
+                "                \"count\": \"7\",\n" +
+                "                \"loglevel\": {\n" +
+                "                    \"info\": 0,\n" +
+                "                    \"warn\": 7,\n" +
+                "                    \"error\": 0,\n" +
+                "                    \"fatal\": 0,\n" +
+                "                    \"unknow\": 0,\n" +
+                "                    \"total\": 7\n" +
+                "                }\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"time\": \"2019-03-07 17:20\",\n" +
+                "                \"timestamp\": \"1552008000000\",\n" +
+                "                \"count\": \"0\",\n" +
+                "                \"loglevel\": {\n" +
+                "                    \"info\": 0,\n" +
+                "                    \"warn\": 0,\n" +
+                "                    \"error\": 0,\n" +
+                "                    \"fatal\": 0,\n" +
+                "                    \"unknow\": 0,\n" +
+                "                    \"total\": 0\n" +
+                "                }\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"time\": \"2019-03-07 17:00\",\n" +
+                "                \"timestamp\": \"1552006800000\",\n" +
+                "                \"count\": \"1\",\n" +
+                "                \"loglevel\": {\n" +
+                "                    \"info\": 0,\n" +
+                "                    \"warn\": 1,\n" +
+                "                    \"error\": 0,\n" +
+                "                    \"fatal\": 0,\n" +
+                "                    \"unknow\": 0,\n" +
+                "                    \"total\": 1\n" +
+                "                }\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"time\": \"2019-03-07 16:40\",\n" +
+                "                \"timestamp\": \"1552005600000\",\n" +
+                "                \"count\": \"5\",\n" +
+                "                \"loglevel\": {\n" +
+                "                    \"info\": 0,\n" +
+                "                    \"warn\": 5,\n" +
+                "                    \"error\": 0,\n" +
+                "                    \"fatal\": 0,\n" +
+                "                    \"unknow\": 0,\n" +
+                "                    \"total\": 5\n" +
+                "                }\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"time\": \"2019-03-07 16:20\",\n" +
+                "                \"timestamp\": \"1552004400000\",\n" +
+                "                \"count\": \"2\",\n" +
+                "                \"loglevel\": {\n" +
+                "                    \"info\": 0,\n" +
+                "                    \"warn\": 2,\n" +
+                "                    \"error\": 0,\n" +
+                "                    \"fatal\": 0,\n" +
+                "                    \"unknow\": 0,\n" +
+                "                    \"total\": 2\n" +
+                "                }\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"time\": \"2019-03-07 16:00\",\n" +
+                "                \"timestamp\": \"1552003200000\",\n" +
+                "                \"count\": \"3\",\n" +
+                "                \"loglevel\": {\n" +
+                "                    \"info\": 0,\n" +
+                "                    \"warn\": 3,\n" +
+                "                    \"error\": 0,\n" +
+                "                    \"fatal\": 0,\n" +
+                "                    \"unknow\": 0,\n" +
+                "                    \"total\": 3\n" +
+                "                }\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"time\": \"2019-03-07 15:40\",\n" +
+                "                \"timestamp\": \"1552002000000\",\n" +
+                "                \"count\": \"3\",\n" +
+                "                \"loglevel\": {\n" +
+                "                    \"info\": 0,\n" +
+                "                    \"warn\": 3,\n" +
+                "                    \"error\": 0,\n" +
+                "                    \"fatal\": 0,\n" +
+                "                    \"unknow\": 0,\n" +
+                "                    \"total\": 3\n" +
+                "                }\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"time\": \"2019-03-07 15:20\",\n" +
+                "                \"timestamp\": \"1552000800000\",\n" +
+                "                \"count\": \"0\",\n" +
+                "                \"loglevel\": {\n" +
+                "                    \"info\": 0,\n" +
+                "                    \"warn\": 0,\n" +
+                "                    \"error\": 0,\n" +
+                "                    \"fatal\": 0,\n" +
+                "                    \"unknow\": 0,\n" +
+                "                    \"total\": 0\n" +
+                "                }\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"time\": \"2019-03-07 15:00\",\n" +
+                "                \"timestamp\": \"1551999600000\",\n" +
+                "                \"count\": \"0\",\n" +
+                "                \"loglevel\": {\n" +
+                "                    \"info\": 0,\n" +
+                "                    \"warn\": 0,\n" +
+                "                    \"error\": 0,\n" +
+                "                    \"fatal\": 0,\n" +
+                "                    \"unknow\": 0,\n" +
+                "                    \"total\": 0\n" +
+                "                }\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"time\": \"2019-03-07 14:40\",\n" +
+                "                \"timestamp\": \"1551998400000\",\n" +
+                "                \"count\": \"1\",\n" +
+                "                \"loglevel\": {\n" +
+                "                    \"info\": 0,\n" +
+                "                    \"warn\": 1,\n" +
+                "                    \"error\": 0,\n" +
+                "                    \"fatal\": 0,\n" +
+                "                    \"unknow\": 0,\n" +
+                "                    \"total\": 1\n" +
+                "                }\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"time\": \"2019-03-07 14:20\",\n" +
+                "                \"timestamp\": \"1551997200000\",\n" +
+                "                \"count\": \"0\",\n" +
+                "                \"loglevel\": {\n" +
+                "                    \"info\": 0,\n" +
+                "                    \"warn\": 0,\n" +
+                "                    \"error\": 0,\n" +
+                "                    \"fatal\": 0,\n" +
+                "                    \"unknow\": 0,\n" +
+                "                    \"total\": 0\n" +
+                "                }\n" +
+                "            }\n" +
+                "        ]\n" +
+                "    },\n" +
+                "    \"threshold\": {\n" +
+                "        \"min\": {\n" +
+                "            \"warn\": 200,\n" +
+                "            \"error\": 10\n" +
+                "        },\n" +
+                "        \"hour\": {\n" +
+                "            \"warn\": 600,\n" +
+                "            \"error\": 30\n" +
+                "        },\n" +
+                "        \"day\": {\n" +
+                "            \"warn\": 4800,\n" +
+                "            \"error\": 720\n" +
+                "        }\n" +
+                "    }\n" +
+                "}";
+
+
+        LinkedHashMap linkedHashMap= JsonPath.read(str, "$.data");
+
+        Iterator<Map.Entry> iterator= linkedHashMap.entrySet().iterator();
+
+        while(iterator.hasNext())
+        {
+            Map.Entry entry = iterator.next();
+            System.out.println(entry.getKey()+":"+entry.getValue());
+        }
+
+        JsonPath strs=  JsonPath.read(str, "$.data.e4web08");
+
+
+
+
     }
 }

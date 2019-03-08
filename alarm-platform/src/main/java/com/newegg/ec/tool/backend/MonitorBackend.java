@@ -5,7 +5,10 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.newegg.ec.tool.dao.AppServiceDao;
 import com.newegg.ec.tool.dao.MonitorDataDao;
 import com.newegg.ec.tool.dao.ServiceUrlDao;
-import com.newegg.ec.tool.entity.*;
+import com.newegg.ec.tool.entity.MonitorData;
+import com.newegg.ec.tool.entity.Rule;
+import com.newegg.ec.tool.entity.ServiceModel;
+import com.newegg.ec.tool.entity.ServiceUrl;
 import com.newegg.ec.tool.notify.wechat.api.WechatSendMessageAPI;
 import com.newegg.ec.tool.service.IGroupService;
 import com.newegg.ec.tool.service.INotifyService;
@@ -18,11 +21,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.SynchronousQueue;
@@ -33,7 +34,7 @@ import java.util.concurrent.TimeUnit;
  * @author Jay.H.Zou
  * @date 2019/2/27
  */
-//@Component
+ //@Component
 public class MonitorBackend {
 
     private static final Logger logger = LoggerFactory.getLogger(MonitorBackend.class);
@@ -81,7 +82,14 @@ public class MonitorBackend {
             List<Rule> ruleList = ruleService.getRuleList(urlId);
 
             // key: String value:数值
-            ArrayList<HashMap<String, Object>> list = apiGatewayService.dealByUrl(urlId);
+            String requestType = url.getRequestType();
+            ArrayList<HashMap<String, Object>> list=new ArrayList<>();
+            if (requestType.equals("GET")) {
+
+            }else if(requestType.equals("POST")){
+                list=   apiGatewayService.dealByUrl(urlId);
+            }
+
             // realDataMap 可能会移除部分数据
 
             // key: String value: list
