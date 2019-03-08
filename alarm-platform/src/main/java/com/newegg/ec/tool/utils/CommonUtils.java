@@ -4,7 +4,6 @@ import com.newegg.ec.tool.entity.MessageContent;
 import com.newegg.ec.tool.entity.Rule;
 import com.newegg.ec.tool.entity.ServiceModel;
 import com.newegg.ec.tool.entity.ServiceUrl;
-import org.junit.jupiter.api.Test;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -119,13 +118,4 @@ public class CommonUtils {
         return messageContent;
     }
 
-
-
-    @Test
-    public void test() throws InterruptedException {
-        Timestamp start = CommonUtils.getCurrentTimestamp();
-        Thread.sleep(10000);
-        Timestamp end = CommonUtils.getCurrentTimestamp();
-        System.out.println(getTimstapDiff(start, end));
-    }
 }

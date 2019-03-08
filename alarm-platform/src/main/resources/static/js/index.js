@@ -24,11 +24,13 @@ function buildPage(groupList) {
     var html = ''
     if (groupList != null) {
         for (var index = 0; index < groupList.length; index++) {
+            var imageIndex = index % 10
             var group = groupList[index]
             var time = formatTime(group.updateTime)
-            html += '<div class="card mb-3">' +
+            html += '<div class="col-lg-3 col-sm-6 margin-bottom-2">' +
+                '<div class="card">' +
                 '<div class="view overlay">' +
-                '<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/images/16.jpg" alt="Card image cap">' +
+                '<img class="card-img-top" src="/static/lib/img/' + imageIndex + '.jpg" alt="">' +
                 '<a href="#!">' +
                 '<div class="mask rgba-white-slight"></div>' +
                 '</a>' +
@@ -36,9 +38,13 @@ function buildPage(groupList) {
                 '<div class="card-body">' +
                 '<h4 class="card-title">' + group.groupName + '</h4>' +
                 '<p class="card-text">' + group.description + '<br/>' + time + '</p>' +
-                '<a class="btn btn-light-blue btn-md" href="' + group.groupId + '">Read more</a>' +
+                '<span class="flex-end">' +
+                '<a href="/service?groupId=' + group.groupId + '" class="btn btn-sm btn-mdb-color">Go >></a>' +
+                '</span>' +
+                '</div>' +
                 '</div>' +
                 '</div>'
+
         }
         $("#group-list").html(html)
     }
