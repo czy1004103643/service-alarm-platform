@@ -1,5 +1,17 @@
 // ajax contentType: "application/x-www-form-urlencoded;charset=UTF-8"
+$(function () {
+    get("/group/getGroupList", function (result) {
+        var groupList = result.data
+        var html = ''
+        for (var index = 0; index < groupList.length; index++) {
+            var group = groupList[index]
+            html += '<a class="dropdown-item" href="/service?groupId=' + group.groupId + '">' + group.groupName + '</a>'
+        }
+        $("#group-list-container").html(html)
+    }, function (e) {
 
+    })
+})
 function isEmpty(value) {
     return value == null || value == "" || value == 'undefined'
 }
@@ -75,12 +87,3 @@ function message(delayTime, callback) {
     }, delayTime);
 }
 
-$("input[type=checkbox]").on("click", function() {
-    if($(this).attr('checked') == 'checked') {
-        $(this).removeAttr('checked')
-        console.log("cancel checked")
-    } else {
-        $(this).attr('checked', 'checked')
-        console.log("set checked")
-    }
-})

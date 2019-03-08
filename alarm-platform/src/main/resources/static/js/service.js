@@ -7,6 +7,23 @@ $(function () {
     }, function () {
 
     })
+
+    get("/service/getWechatAppList", function (result) {
+        var appNameList = result.data
+        var html = ''
+        if (appNameList != null && appNameList.length > 0) {
+            for (var index = 0; index < appNameList.length; index++) {
+                var appName = appNameList[index]
+                html += '<div class="custom-control custom-checkbox">' +
+                    '<input type="checkbox" class="custom-control-input" data-id="' + appName + '" id="' + appName + '" value="' + appName + '">' +
+                    '<label class="custom-control-label cursor-pointer" for="' + appName + '">' + appName + '</label>' +
+                    '</div>'
+            }
+            $("#wechat-app-list").html(html)
+        }
+    }, function (e) {
+
+    })
 })
 
 $("#new-service").on("click", function () {
@@ -28,16 +45,33 @@ $("body").delegate(".service-edit", "click", function () {
             $("#service-name").val(service.serviceName)
             $("#description").val(service.description)
             var alarmWay = service.alarmWay
+            $("body .check-box-container input[type=checkbox]").removeAttr("checked")
             if (!isEmpty(alarmWay)) {
                 var alarmWayList = alarmWay.split("|")
                 for (var index = 0; index < alarmWayList.length; index++) {
                     var wayName = alarmWayList[index].toLowerCase()
+                    console.log("=====" + wayName)
+                    if (isEmpty(wayName)) {
+                        continue
+                    }
                     $("#" + wayName).attr("checked", "checked")
+                    if (wayName == 'wechat') {
+                        var wechatAppName = service.wechatAppName
+                        $("body .wechat-app-container input[type=checkbox]").removeAttr("checked")
+                        if (!isEmpty(wechatAppName)) {
+                            var wechatAppNameList = wechatAppName.split("|")
+                            for (var i = 0; i < wechatAppNameList.length; i++) {
+                                var app = wechatAppNameList[i]
+                                if (isEmpty(app)) {
+                                    continue
+                                }
+                                $("#" + app).attr("checked", "checked")
+                            }
+                            $(".wechat-app-container").show()
+                        }
+                    }
                 }
-            } else {
-                $(".check-box-container input[type=checkbox]").removeAttr("checked")
             }
-
         }
 
     }, function (e) {
@@ -51,14 +85,22 @@ $("#save-service").on("click", function () {
     var serviceName = $("#service-name").val()
     var description = $("#description").val()
     var alarmWay = ''
+    var wechatAppName = ''
     $(".check-box-container").find('input:checkbox').each(function () { //遍历所有复选框
         if ($(this).prop('checked') == true) {
-            alarmWay += $(this).val().toUpperCase()
+            var oneWay = $(this).val().toUpperCase()
+            alarmWay += oneWay
             alarmWay += '|'
+            if (oneWay == 'WECHAT') {
+                $(".wechat-app-container").find('input:checkbox').each(function () { //遍历所有复选框
+                    if ($(this).prop('checked') == true) {
+                        wechatAppName += $(this).val()
+                        wechatAppName += '|'
+                    }
+                })
+            }
         }
     })
-
-    console.log(alarmWay)
 
     if (isEmpty(serviceName)) {
         alert("service name is empty!")
@@ -69,6 +111,7 @@ $("#save-service").on("click", function () {
         "groupId": grouId,
         "serviceName": serviceName,
         "alarmWay": alarmWay,
+        "wechatAppName": wechatAppName,
         "description": description
     }
     post("/service/saveServiceModel", serviceModel, function (result) {
@@ -162,3 +205,27 @@ function buildServiceTable(serviceList) {
     }
     $("#service-table tbody").html(html)
 }
+
+$("input[type=checkbox]").on("click", function () {
+    if ($(this).attr('checked') == 'checked') {
+        $(this).removeAttr('checked')
+        var id = $(this).attr("id")
+        if (id == 'wechat') {
+            $(".wechat-app-container").hide()
+        }
+    } else {
+        $(this).attr('checked', 'checked')
+        var id = $(this).attr("id")
+        if (id == 'wechat') {
+            $(".wechat-app-container").show()
+        }
+    }
+})
+
+$("body").delegate(".wechat-app-container input[type=checkbox]", "click", function () {
+    if ($(this).attr('checked') == 'checked') {
+        $(this).removeAttr('checked')
+    } else {
+        $(this).attr('checked', 'checked')
+    }
+})

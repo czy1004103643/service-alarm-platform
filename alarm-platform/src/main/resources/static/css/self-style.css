@@ -87,7 +87,11 @@ body > input, textarea, input:focus, textarea:focus {
 
 .check-box-container {
     margin-left: 4rem;
-    padding-top: 2rem;
+    width: calc(100% - 2.5rem);
+}
+
+.wechat-app-container {
+    margin-left: 2.5rem;
     width: calc(100% - 2.5rem);
 }
 

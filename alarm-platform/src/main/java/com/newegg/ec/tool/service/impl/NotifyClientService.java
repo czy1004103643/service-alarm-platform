@@ -1,6 +1,7 @@
 package com.newegg.ec.tool.service.impl;
 
 
+import com.newegg.ec.tool.entity.MessageContent;
 import com.newegg.ec.tool.entity.Rule;
 import com.newegg.ec.tool.entity.ServiceModel;
 import com.newegg.ec.tool.entity.ServiceUrl;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -35,7 +37,7 @@ public class NotifyClientService implements INotifyService {
     public void notifyClient(ServiceModel serviceModel, ServiceUrl url, Rule rule, String realData) {
         if (serviceModel == null
                 || StringUtils.isBlank(serviceModel.getAlarmWay())
-               ) {
+        ) {
             return;
         }
         String alarmWays = serviceModel.getAlarmWay();
@@ -43,27 +45,38 @@ public class NotifyClientService implements INotifyService {
         List<String> alarmWayList = CommonUtils.stringToList(alarmWays);
         for (String way : alarmWayList) {
             String wechatAppName = serviceModel.getWechatAppName();
-//            switch (way) {
-//                case "WECHAT":
-//                    try {
-//                        System.err.println("================= Send Message =================");
-//                        MessageContent webMessageContent = CommonUtils.buildWebMessageContent(serviceModel, url, rule, realData);
-//                        boolean status = wechatSendMessageAPI.sendMessage(wechatAppName, webMessageContent );
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    break;
-//                case "ROCKETCHAT":
-//                    try {
-//                        MessageContent rocketMessage = CommonUtils.buildRocketMessageContent(serviceModel, url, rule, realData);
-//                        int code = defaultHttpClient.postRocketMessage(rocketMessage);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    break;
-//                default:
-//                    break;
-//            }
+            switch (way) {
+                case "WECHAT":
+                    try {
+                        System.err.println("================= Send Message =================");
+                        MessageContent webMessageContent = CommonUtils.buildWebMessageContent(serviceModel, url, rule, realData);
+                        if (StringUtils.isNotBlank(wechatAppName)) {
+                            List<String> apppNameList = CommonUtils.stringToList(wechatAppName);
+                            for (String appName : apppNameList) {
+                                if (StringUtils.isNotBlank(appName)) {
+                                    boolean status = wechatSendMessageAPI.sendMessage(appName, webMessageContent);
+                                    if (!status) {
+                                        logger.warn("send wechat message failed, appName=" + appName + ", webMessageContent=" + webMessageContent);
+                                    }
+                                }
+                            }
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case "ROCKETCHAT":
+                    try {
+                        MessageContent rocketMessage = CommonUtils.buildRocketMessageContent(serviceModel, url, rule, realData);
+                        int code = defaultHttpClient.postRocketMessage(rocketMessage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                default:
+                    break;
+            }
 
         }
     }

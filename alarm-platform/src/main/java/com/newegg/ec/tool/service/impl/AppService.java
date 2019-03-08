@@ -56,7 +56,6 @@ public class AppService implements IAppService {
             if (StringUtils.isNotBlank(alarmWay)) {
                 serviceModel.setAlarmWay(alarmWay.toUpperCase());
             }
-            serviceModel.setWechatAppName("ItemService");
             if (StringUtils.isBlank(serviceId)) {
                 serviceModel.setServiceId(CommonUtils.getUUID());
 

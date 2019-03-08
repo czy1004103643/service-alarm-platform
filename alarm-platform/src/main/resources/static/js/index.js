@@ -44,7 +44,6 @@ function buildPage(groupList) {
                 '</div>' +
                 '</div>' +
                 '</div>'
-
         }
         $("#group-list").html(html)
     }

@@ -36,6 +36,9 @@ public class WechatSendMessageAPI {
         if (wechatAppInfoMap == null) {
             return false;
         }
+        if (StringUtils.isBlank(appName)) {
+            return false;
+        }
         WechatAppInfo wechatAppInfo = wechatAppInfoMap.get(appName);
         if (wechatAppInfo == null) {
             return false;
