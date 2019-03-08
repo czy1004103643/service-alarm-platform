@@ -39,14 +39,6 @@ public class RegexNum {
 
 
     public static String getFormulaKey(String formula) {
-        /*String regex = "\\{(.*)}";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(regular);
-        String strs = null;
-        while (matcher.find()) {
-            strs = matcher.group(1);
-        }
-        return strs;*/
         List<String> formulaKeyList = getFormulaKeyList(formula);
         return formulaKeyList.size() > 0 ? formulaKeyList.get(0) : null;
     }

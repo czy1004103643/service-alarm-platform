@@ -13,7 +13,10 @@ import com.newegg.ec.tool.notify.wechat.api.WechatSendMessageAPI;
 import com.newegg.ec.tool.service.IGroupService;
 import com.newegg.ec.tool.service.INotifyService;
 import com.newegg.ec.tool.service.IRuleService;
-import com.newegg.ec.tool.service.impl.ApiGatewayService;
+import com.newegg.ec.tool.service.collection.ApiGateWayService;
+import com.newegg.ec.tool.service.collection.CommonCollectDataService;
+import com.newegg.ec.tool.service.collection.StaticWebService;
+import com.newegg.ec.tool.service.impl.OldApiGatewayService;
 import com.newegg.ec.tool.utils.CommonUtils;
 import com.newegg.ec.tool.utils.MathExpressionCalculateUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -34,7 +37,7 @@ import java.util.concurrent.TimeUnit;
  * @author Jay.H.Zou
  * @date 2019/2/27
  */
- //@Component
+//@Component
 public class MonitorBackend {
 
     private static final Logger logger = LoggerFactory.getLogger(MonitorBackend.class);
@@ -64,13 +67,26 @@ public class MonitorBackend {
     private ServiceUrlDao serviceUrlDao;
 
     @Autowired
-    private ApiGatewayService apiGatewayService;
+    private OldApiGatewayService oldApiGatewayService;
 
     @Autowired
     private INotifyService notifyClientService;
 
     @Autowired
+    private ApiGateWayService apiGateWayService;
+
+    @Autowired
+    private CommonCollectDataService commonCollectDataService;
+
+    @Autowired
+    private StaticWebService staticWebService;
+
+    @Autowired
     private WechatSendMessageAPI wechatSendMessageAPI;
+
+    private static final String API_GATEWAY_PREFIX_1 = "10.1.54.179";
+
+    private static final String K_NEWEGG_ORG = "k.newegg.org";
 
     @Scheduled(cron = "${backend.monitor}")
     public void executeCheckRule() {
@@ -78,16 +94,43 @@ public class MonitorBackend {
         List<ServiceUrl> serviceUrlList = serviceUrlDao.selectAllUrl();
         for (ServiceUrl url : serviceUrlList) {
             String urlId = url.getUrlId();
+            String urlContent = url.getUrlContent();
+            List<Map<String, List<BigDecimal>>> maps = null;
+            if (urlContent.contains(API_GATEWAY_PREFIX_1)) {
+                maps = apiGateWayService.collectData(urlId);
+            } else if (urlContent.contains(K_NEWEGG_ORG)){
+                maps = staticWebService.collectData(urlId);
+            } else {
+                maps = commonCollectDataService.collectData(urlId);
+            }
 
-            List<Rule> ruleList = ruleService.getRuleList(urlId);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            /*List<Rule> ruleList = ruleService.getRuleList(urlId);
             // key: String value:数值
             String requestType = url.getRequestType();
-            ArrayList<HashMap<String, Object>> list=new ArrayList<>();
+            ArrayList<HashMap<String, Object>> list = new ArrayList<>();
+
             if (requestType.equals("GET")) {
 
-            }else if(requestType.equals("POST")){
-                list=   apiGatewayService.dealByUrl(urlId);
+            } else if (requestType.equals("POST")) {
+                list = oldApiGatewayService.dealByUrl(urlId);
             }
 
             // realDataMap 可能会移除部分数据
@@ -98,7 +141,7 @@ public class MonitorBackend {
                 Map<String, Object> dataMapWithArray = processDataForArray(realDataMap);
                 processRuleAndData(url, ruleList, realDataMap);
                 processRuleAndDataForArray(url, ruleList, dataMapWithArray);
-            }
+            }*/
         }
     }
 
@@ -163,7 +206,6 @@ public class MonitorBackend {
             }
         }
     }
-
 
     private Map<String, Object> processDataForArray(Map<String, Object> realDataMap) {
         Iterator<Map.Entry<String, Object>> iterator = realDataMap.entrySet().iterator();

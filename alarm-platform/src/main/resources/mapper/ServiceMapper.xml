@@ -6,11 +6,20 @@
 
     <select id="selectServiceById" resultType="com.newegg.ec.tool.entity.ServiceModel" parameterType="java.lang.String">
         SELECT
-            *
+            service_id,
+            service.group_id as group_id,
+            group_name,
+            service_name,
+            wechat_app_name,
+            alarm_way,
+            service.description as description,
+            service.update_time as update_time
         FROM
-            service
+            service, service_group
         WHERE
-            service_id = #{serviceId}
+            service.group_id = service_group.group_id
+        AND
+            service.service_id = #{serviceId}
     </select>
 
     <select id="selectServiceByName" resultType="com.newegg.ec.tool.entity.ServiceModel">

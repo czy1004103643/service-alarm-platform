@@ -9,20 +9,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = AlarmPlatformApplication.class)
-public class ApiGatewayServiceTest {
+public class OldApiGatewayServiceTest {
 
     @Autowired
-    private ApiGatewayService apiGatewayService;
+    private OldApiGatewayService oldApiGatewayService;
 
     @Test
     public void dealByUrl() {
 
         String url = "1d076b19-5e84-4643-81fe-2ce548f61021";
-        ArrayList arrayList = apiGatewayService.dealByUrl(url);
+        ArrayList arrayList = oldApiGatewayService.dealByUrl(url);
         System.out.println(arrayList);
     }
 }

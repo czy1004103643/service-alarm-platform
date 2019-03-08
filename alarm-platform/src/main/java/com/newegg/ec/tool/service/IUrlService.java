@@ -19,6 +19,8 @@ public interface IUrlService {
 
     boolean deleteServiceUrlById(String urlId);
 
-    public Pair<Boolean, Object> checkUrl(ServiceUrl serviceUrl);
+    Pair<Boolean, Object> checkUrl(ServiceUrl serviceUrl);
+
+    boolean checkRequestParam(ServiceUrl serviceUrl);
 
 }

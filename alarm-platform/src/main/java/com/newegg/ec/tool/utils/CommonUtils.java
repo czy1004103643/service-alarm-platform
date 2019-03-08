@@ -88,34 +88,4 @@ public class CommonUtils {
         return min>30;
     }
 
-    //格式化输出rocket消息格式
-    public static  MessageContent buildRocketMessageContent(ServiceModel serviceModel, ServiceUrl serviceUrl, Rule rule, String realData) {
-        return   buildMessageContent(serviceModel,serviceUrl,rule,realData,"\\n");
-    }
-    //格式化输出web消息格式
-    public  static  MessageContent buildWebMessageContent(ServiceModel serviceModel, ServiceUrl serviceUrl, Rule rule, String realData) {
-        return  buildMessageContent(serviceModel,serviceUrl,rule,realData,"\n");
-    }
-
-    private static MessageContent buildMessageContent(ServiceModel serviceModel, ServiceUrl serviceUrl, Rule rule, String realData,String wrap) {
-        MessageContent messageContent = new MessageContent();
-        messageContent.setTitle(serviceModel.getServiceName());
-        StringBuffer buffer = new StringBuffer();
-
-        String alis=rule.getRuleAlias();
-        String[] realDatas=realData.split("=");
-        StringBuilder stringBuilder = new StringBuilder(realDatas[1]);
-        stringBuilder.insert(0, rule.getRuleAlias() + "=");
-        buffer.append("Group: ").append(serviceModel.getGroupId()).append(wrap)
-                .append("Service: ").append(serviceModel.getServiceName()).append(wrap)
-                .append("URL Desc: ").append(serviceUrl.getDescription()).append(wrap)
-                .append("Rule: ").append(rule.getRuleAlias()).append(wrap)
-                .append("Formula: ").append(rule.getFormula()).append(wrap)
-                .append("Monitor Data: ").append(stringBuilder.toString()).append(wrap)
-                .append("Rule Desc: ").append(rule.getDescription()).append(wrap)
-                .append("Time: ").append(CommonUtils.formatTime(System.currentTimeMillis()));
-        messageContent.setContent(buffer.toString());
-        return messageContent;
-    }
-
 }

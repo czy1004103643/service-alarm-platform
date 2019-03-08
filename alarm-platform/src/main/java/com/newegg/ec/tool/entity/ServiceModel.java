@@ -13,6 +13,8 @@ public class ServiceModel {
 
     private String groupId;
 
+    private String groupName;
+
     private String serviceName;
 
     private String wechatAppName;
@@ -37,6 +39,14 @@ public class ServiceModel {
 
     public void setGroupId(String groupId) {
         this.groupId = groupId;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 
     public String getServiceName() {
@@ -84,6 +94,7 @@ public class ServiceModel {
         final StringBuffer sb = new StringBuffer("ServiceModel{");
         sb.append("serviceId='").append(serviceId).append('\'');
         sb.append(", groupId='").append(groupId).append('\'');
+        sb.append(", groupName='").append(groupName).append('\'');
         sb.append(", serviceName='").append(serviceName).append('\'');
         sb.append(", wechatAppName='").append(wechatAppName).append('\'');
         sb.append(", alarmWay='").append(alarmWay).append('\'');

@@ -1,5 +1,6 @@
 package com.newegg.ec.tool.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,6 @@ public interface CollectDataInterface {
      * @param urlId
      * @return 
      */
-    List<Map<String, Object>> conllectData(String urlId);
+    List<Map<String, List<BigDecimal>>> collectData(String urlId);
 
 }

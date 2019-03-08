@@ -53,7 +53,7 @@ public class UrlService implements IUrlService {
 
     @Override
     public boolean saveServiceUrl(ServiceUrl serviceUrl) {
-        if (!checkRequest(serviceUrl)) {
+        if (!checkRequestParam(serviceUrl)) {
             return false;
         }
         try {
@@ -61,7 +61,7 @@ public class UrlService implements IUrlService {
             serviceUrl.setUpdateTime(CommonUtils.getCurrentTimestamp());
             String paramContent = serviceUrl.getParamContent();
             if (StringUtils.isNotBlank(paramContent)) {
-                serviceUrl.setParamContent(buildUrlParams(paramContent));
+                serviceUrl.setParamContent(jsonToParam(paramContent));
             }
             if (StringUtils.isBlank(urlId)) {
                 serviceUrl.setUrlId(CommonUtils.getUUID());
@@ -107,14 +107,14 @@ public class UrlService implements IUrlService {
     @Override
     public Pair<Boolean, Object> checkUrl(ServiceUrl serviceUrl) {
         Pair<Boolean, Object> statusAndResponse = new Pair<>(false, null);
-        if (!checkRequest(serviceUrl)) {
+        if (!checkRequestParam(serviceUrl)) {
             return statusAndResponse;
         }
         String requestType = serviceUrl.getRequestType();
         if (Objects.equals(requestType, GET)) {
             String paramContent = serviceUrl.getParamContent();
             String urlContent = serviceUrl.getUrlContent();
-            String url = urlContent + "?" + buildUrlParams(paramContent);
+            String url = urlContent + "?" + jsonToParam(paramContent);
             try {
                 Response response = defaultHttpClient.getMessage(url);
                 statusAndResponse = new Pair<>(true, response.body().string());
@@ -134,7 +134,8 @@ public class UrlService implements IUrlService {
         return statusAndResponse;
     }
 
-    private boolean checkRequest(ServiceUrl serviceUrl) {
+    @Override
+    public boolean checkRequestParam(ServiceUrl serviceUrl) {
         if (serviceUrl == null) {
             return false;
         }
@@ -145,7 +146,7 @@ public class UrlService implements IUrlService {
         return true;
     }
 
-    private String buildUrlParams(String paramJson) {
+    private String jsonToParam(String paramJson) {
         StringBuffer paramContent = new StringBuffer();
         if (StringUtils.isNotBlank(paramJson)) {
             try {

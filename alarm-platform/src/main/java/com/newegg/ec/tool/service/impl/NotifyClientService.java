@@ -29,15 +29,13 @@ public class NotifyClientService implements INotifyService {
 
     @Autowired
     private WechatSendMessageAPI wechatSendMessageAPI;
+
     @Autowired
     private DefaultHttpClient defaultHttpClient;
 
-
     @Override
     public void notifyClient(ServiceModel serviceModel, ServiceUrl url, Rule rule, String realData) {
-        if (serviceModel == null
-                || StringUtils.isBlank(serviceModel.getAlarmWay())
-        ) {
+        if (serviceModel == null || StringUtils.isBlank(serviceModel.getAlarmWay())) {
             return;
         }
         String alarmWays = serviceModel.getAlarmWay();
@@ -48,8 +46,8 @@ public class NotifyClientService implements INotifyService {
             switch (way) {
                 case "WECHAT":
                     try {
-                        System.err.println("================= Send Message =================");
-                        MessageContent webMessageContent = CommonUtils.buildWebMessageContent(serviceModel, url, rule, realData);
+                        logger.info("================= Send Message =================");
+                        MessageContent webMessageContent = buildWebMessageContent(serviceModel, url, rule, realData);
                         if (StringUtils.isNotBlank(wechatAppName)) {
                             List<String> apppNameList = CommonUtils.stringToList(wechatAppName);
                             for (String appName : apppNameList) {
@@ -61,17 +59,16 @@ public class NotifyClientService implements INotifyService {
                                 }
                             }
                         }
-
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        logger.error("send wechat error", e);
                     }
                     break;
                 case "ROCKETCHAT":
                     try {
-                        MessageContent rocketMessage = CommonUtils.buildRocketMessageContent(serviceModel, url, rule, realData);
+                        MessageContent rocketMessage = buildRocketMessageContent(serviceModel, url, rule, realData);
                         int code = defaultHttpClient.postRocketMessage(rocketMessage);
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        logger.error("send rocketchat error", e);
                     }
                     break;
                 default:
@@ -79,6 +76,43 @@ public class NotifyClientService implements INotifyService {
             }
 
         }
+    }
+
+    /**
+     * 格式化输出rocket消息格式
+     *
+     * @param serviceModel
+     * @param serviceUrl
+     * @param rule
+     * @param realData
+     * @return
+     */
+    private static MessageContent buildRocketMessageContent(ServiceModel serviceModel, ServiceUrl serviceUrl, Rule rule, String realData) {
+        return buildMessageContent(serviceModel, serviceUrl, rule, realData, "\\n");
+    }
+
+    /**
+     * 格式化输出web消息格式
+     */
+    private static MessageContent buildWebMessageContent(ServiceModel serviceModel, ServiceUrl serviceUrl, Rule rule, String realData) {
+        return buildMessageContent(serviceModel, serviceUrl, rule, realData, "\n");
+    }
+
+    private static MessageContent buildMessageContent(ServiceModel serviceModel, ServiceUrl serviceUrl, Rule rule, String realData, String wrap) {
+        MessageContent messageContent = new MessageContent();
+        messageContent.setTitle(serviceModel.getServiceName());
+        StringBuffer buffer = new StringBuffer();
+
+        buffer.append("Group: ").append(serviceModel.getServiceName()).append(wrap)
+                .append("Service: ").append(serviceModel.getServiceName()).append(wrap)
+                .append("URL Desc: ").append(serviceUrl.getDescription()).append(wrap)
+                .append("Rule: ").append(rule.getRuleAlias()).append(wrap)
+                .append("Formula: ").append(rule.getFormula()).append(wrap)
+                .append("Monitor Data: ").append(realData).append(wrap)
+                .append("Rule Desc: ").append(rule.getDescription()).append(wrap)
+                .append("Time: ").append(CommonUtils.formatTime(System.currentTimeMillis()));
+        messageContent.setContent(buffer.toString());
+        return messageContent;
     }
 
 

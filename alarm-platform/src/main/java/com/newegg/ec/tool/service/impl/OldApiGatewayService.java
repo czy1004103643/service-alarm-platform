@@ -31,8 +31,8 @@ import static com.newegg.ec.tool.utils.RegexNum.getFormulaKeyList;
  * @create: 2019-02-27 17:29
  **/
 @Service
-public class ApiGatewayService implements IDataService {
-    private static final Logger logger = LoggerFactory.getLogger(ApiGatewayService.class);
+public class OldApiGatewayService implements IDataService {
+    private static final Logger logger = LoggerFactory.getLogger(OldApiGatewayService.class);
 
     @Autowired
     ServiceUrlDao serviceUrlDao;
@@ -83,7 +83,7 @@ public class ApiGatewayService implements IDataService {
 
             Map<String, Object> map = new HashMap<>();
             for (Rule rule1 : rule) {
-                List<String> rules=getFormulaKeyList(rule1.getFormula());
+                List<String> rules = getFormulaKeyList(rule1.getFormula());
                 for (String strrule : rules) {
                     List<BigDecimal> bigDecimalList = JsonUtils.getValue(jsonObject, strrule);
                     if (bigDecimalList.size() == 1) {

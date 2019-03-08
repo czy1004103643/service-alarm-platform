@@ -163,8 +163,9 @@ public class HttpClientUtil {
     private static HttpGet getForm(String url) {
         HttpGet httpGet = new HttpGet(url);
         httpGet.setConfig(getRequestConfig());
-        httpGet.setHeader(CONNECTION, KEEP_ALIVE);
-        httpGet.setHeader(CONTENT_TYPE, APPLICATION_JSON);
+        httpGet.addHeader("Accept", APPLICATION_JSON);
+        httpGet.addHeader(CONNECTION, KEEP_ALIVE);
+        httpGet.addHeader(CONTENT_TYPE, APPLICATION_JSON);
         return httpGet;
     }
 
