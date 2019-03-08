@@ -3,7 +3,7 @@ package com.newegg.ec.tool.service.collection;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import com.newegg.ec.tool.entity.ServiceUrl;
-import com.newegg.ec.tool.service.CollectionDataAbstract;
+import com.newegg.ec.tool.service.CollectionDataAbstractI;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
@@ -15,7 +15,7 @@ import java.util.TimeZone;
  * @date 2019/3/8
  */
 @Component("apiGateWayService")
-public class ApiGateWayService extends CollectionDataAbstract {
+public class ApiGateWayService extends CollectionDataAbstractI {
 
     @Override
     public ServiceUrl reprocessingRequest(ServiceUrl serviceUrl) {

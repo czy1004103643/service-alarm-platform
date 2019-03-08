@@ -8,13 +8,13 @@ import java.util.Map;
  * @author Jay.H.Zou
  * @date 2019/3/7
  */
-public interface CollectDataInterface {
+public interface ICollectData {
 
     /**
      * collect monitor data by url
      * @param urlId
-     * @return 
+     * @return
      */
-    List<Map<String, List<BigDecimal>>> collectData(String urlId);
+    Map<String, List<BigDecimal>> collectData(String urlId);
 
 }

@@ -20,9 +20,9 @@ import java.util.*;
  * @author Jay.H.Zou
  * @date 2019/3/8
  */
-public abstract class CollectionDataAbstract implements CollectDataInterface {
+public abstract class CollectionDataAbstractI implements ICollectData {
 
-    protected static final Logger logger = LoggerFactory.getLogger(CollectionDataAbstract.class);
+    protected static final Logger logger = LoggerFactory.getLogger(CollectionDataAbstractI.class);
 
     @Autowired
     private IUrlService urlService;
@@ -31,8 +31,8 @@ public abstract class CollectionDataAbstract implements CollectDataInterface {
     private RuleService ruleService;
 
     @Override
-    public List<Map<String, List<BigDecimal>>> collectData(String urlId) {
-        List<Map<String, List<BigDecimal>>> result = new LinkedList<>();
+    public Map<String, List<BigDecimal>> collectData(String urlId) {
+        Map<String, List<BigDecimal>> result = new HashMap<>();
         if (StringUtils.isBlank(urlId)) {
             return result;
         }
@@ -78,8 +78,8 @@ public abstract class CollectionDataAbstract implements CollectDataInterface {
      * @param response
      * @return
      */
-    public List<Map<String, List<BigDecimal>>> processResult(String response, List<Rule> ruleList) {
-        List<Map<String, List<BigDecimal>>> result = new LinkedList<>();
+    public Map<String, List<BigDecimal>> processResult(String response, List<Rule> ruleList) {
+        Map<String, List<BigDecimal>> result = new HashMap<>();
         if (StringUtils.isBlank(response) || ruleList == null || ruleList.size() == 0) {
             return result;
         }
@@ -87,24 +87,12 @@ public abstract class CollectionDataAbstract implements CollectDataInterface {
             JSONObject responseJson = JSONObject.parseObject(response);
             for (Rule rule : ruleList) {
                 String formula = rule.getFormula();
-                List<String> formulaKeyList = RegexNum.getFormulaKeyList(formula);
-                Map<String, List<BigDecimal>> ruleDataMap = new HashMap<>();
-                if (formulaKeyList.size() == 1) {
-                    String formulaKey = formulaKeyList.get(0);
+                String formulaKey = RegexNum.getFormulaKey(formula);
+                if (StringUtils.isNotBlank(formulaKey)) {
                     List<BigDecimal> valueList = JsonUtils.getValue(responseJson, formulaKey);
                     if (valueList.size() > 0) {
-                        ruleDataMap.put(formulaKey, valueList);
+                        result.put(formula, valueList);
                     }
-                } else if (formulaKeyList.size() > 1) {
-                    for (String formulaKey : formulaKeyList) {
-                        List<BigDecimal> valueList = JsonUtils.getValue(responseJson, formulaKey);
-                        if (valueList.size() > 0) {
-                            ruleDataMap.put(formulaKey, valueList);
-                        }
-                    }
-                }
-                if (ruleDataMap.size() > 0) {
-                    result.add(ruleDataMap);
                 }
             }
         } catch (Exception e) {

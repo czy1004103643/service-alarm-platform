@@ -10,12 +10,10 @@ import com.newegg.ec.tool.entity.Rule;
 import com.newegg.ec.tool.entity.ServiceModel;
 import com.newegg.ec.tool.entity.ServiceUrl;
 import com.newegg.ec.tool.notify.wechat.api.WechatSendMessageAPI;
+import com.newegg.ec.tool.service.ICollectData;
 import com.newegg.ec.tool.service.IGroupService;
 import com.newegg.ec.tool.service.INotifyService;
 import com.newegg.ec.tool.service.IRuleService;
-import com.newegg.ec.tool.service.collection.ApiGateWayService;
-import com.newegg.ec.tool.service.collection.CommonCollectDataService;
-import com.newegg.ec.tool.service.collection.StaticWebService;
 import com.newegg.ec.tool.service.impl.OldApiGatewayService;
 import com.newegg.ec.tool.utils.CommonUtils;
 import com.newegg.ec.tool.utils.MathExpressionCalculateUtil;
@@ -73,13 +71,10 @@ public class MonitorBackend {
     private INotifyService notifyClientService;
 
     @Autowired
-    private ApiGateWayService apiGateWayService;
+    private ICollectData apiGateWayService;
 
     @Autowired
-    private CommonCollectDataService commonCollectDataService;
-
-    @Autowired
-    private StaticWebService staticWebService;
+    private ICollectData commonCollectDataService;
 
     @Autowired
     private WechatSendMessageAPI wechatSendMessageAPI;
@@ -95,34 +90,26 @@ public class MonitorBackend {
         for (ServiceUrl url : serviceUrlList) {
             String urlId = url.getUrlId();
             String urlContent = url.getUrlContent();
-            List<Map<String, List<BigDecimal>>> maps = null;
+            Map<String, List<BigDecimal>> ruleDataMap;
             if (urlContent.contains(API_GATEWAY_PREFIX_1)) {
-                maps = apiGateWayService.collectData(urlId);
-            } else if (urlContent.contains(K_NEWEGG_ORG)){
-                maps = staticWebService.collectData(urlId);
+                ruleDataMap = apiGateWayService.collectData(urlId);
             } else {
-                maps = commonCollectDataService.collectData(urlId);
+                ruleDataMap = commonCollectDataService.collectData(urlId);
             }
 
+            List<Rule> ruleList = ruleService.getRuleList(urlId);
+            if (ruleDataMap == null || ruleDataMap.isEmpty() || ruleList == null || ruleList.isEmpty()) {
+                continue;
+            }
+            for (Rule rule : ruleList) {
+                String formula = rule.getFormula();
+                // TODO: 仅支持单个表达式, 修改表达式正则，修改 rule.formula 唯一
+                List<BigDecimal> ruleDataList = ruleDataMap.get(formula);
+                if (ruleDataList != null && ruleDataList.size() > 0) {
 
+                }
+            }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            /*List<Rule> ruleList = ruleService.getRuleList(urlId);
             // key: String value:数值
             String requestType = url.getRequestType();
             ArrayList<HashMap<String, Object>> list = new ArrayList<>();
@@ -133,15 +120,13 @@ public class MonitorBackend {
                 list = oldApiGatewayService.dealByUrl(urlId);
             }
 
-            // realDataMap 可能会移除部分数据
-
             // key: String value: list
             for (HashMap<String, Object> realDataMap : list) {
                 // TODO: map 中如果出现 1-n 或 n-n 情况，则预警数据不准
                 Map<String, Object> dataMapWithArray = processDataForArray(realDataMap);
                 processRuleAndData(url, ruleList, realDataMap);
                 processRuleAndDataForArray(url, ruleList, dataMapWithArray);
-            }*/
+            }
         }
     }
 
