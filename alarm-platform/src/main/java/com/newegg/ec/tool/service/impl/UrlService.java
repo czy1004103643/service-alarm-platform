@@ -3,10 +3,12 @@ package com.newegg.ec.tool.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.newegg.ec.tool.dao.ServiceUrlDao;
 import com.newegg.ec.tool.entity.ServiceUrl;
+import com.newegg.ec.tool.notify.rocket.DefaultHttpClient;
 import com.newegg.ec.tool.service.IUrlService;
 import com.newegg.ec.tool.utils.CommonUtils;
 import com.newegg.ec.tool.utils.http.HttpClientUtil;
 import javafx.util.Pair;
+import okhttp3.Response;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +26,8 @@ import java.util.Objects;
  */
 @Service
 public class UrlService implements IUrlService {
+    @Autowired
+    DefaultHttpClient defaultHttpClient;
 
     private static final Logger logger = LoggerFactory.getLogger(UrlService.class);
 
@@ -112,8 +116,8 @@ public class UrlService implements IUrlService {
             String urlContent = serviceUrl.getUrlContent();
             String url = urlContent + "?" + buildUrlParams(paramContent);
             try {
-                String response = HttpClientUtil.getGetResponse(url);
-                statusAndResponse = new Pair<>(true, response);
+                Response response = defaultHttpClient.getMessage(url);
+                statusAndResponse = new Pair<>(true, response.body().string());
             } catch (Exception e) {
                 logger.error("check get url error.", e);
             }

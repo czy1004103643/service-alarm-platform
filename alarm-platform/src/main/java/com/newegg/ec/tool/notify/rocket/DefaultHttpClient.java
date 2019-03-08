@@ -49,7 +49,7 @@ public class DefaultHttpClient implements HttpClientInterface, ApplicationListen
         Request request = new Request.Builder()
                 .url(url)
                 .get()
-                .addHeader("cache-control", "no-cache")
+                .addHeader("Cookie", "JSESSIONID=node0s1bw8cgpo7p413kkzpo78xxbs464.node0; _ga=GA1.2.1198764541.1542369946; _gid=GA1.2.512651626.1551750181; _tid=1ldd84z9d4ezl1yz264kp7mbjj33orkk33z5vn81ybq0xobpz00m; _tname=gz75|Gump.G.Zhao; _hprkt=/ESQueryReportWeb/")
                 .build();
         Response response=null;
         try {
