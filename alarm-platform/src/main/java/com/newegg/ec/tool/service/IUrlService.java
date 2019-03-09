@@ -11,6 +11,8 @@ import java.util.List;
  */
 public interface IUrlService {
 
+    List<ServiceUrl> getServiceUrlList();
+
     List<ServiceUrl> getServiceUrlList(String serviceId);
 
     boolean saveServiceUrl(ServiceUrl serviceUrl);

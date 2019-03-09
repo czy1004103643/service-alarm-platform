@@ -12,6 +12,17 @@
         WHERE
           data_id = #{dataId}
     </select>
+    <select id="existMonitorData" parameterType="java.lang.String" resultType="com.newegg.ec.tool.entity.MonitorData">
+
+        SELECT
+            *
+        FROM
+            monitor_data
+        WHERE
+            rule_id = #{ruleId}
+        AND
+            update_time > DATE_SUB(NOW(),INTERVAL 5 MINUTE);
+    </select>
 
     <insert id="addMonitorData" parameterType="com.newegg.ec.tool.entity.MonitorData">
         INSERT INTO

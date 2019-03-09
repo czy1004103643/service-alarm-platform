@@ -39,6 +39,16 @@ public class UrlService implements IUrlService {
     private ServiceUrlDao serviceUrlDao;
 
     @Override
+    public List<ServiceUrl> getServiceUrlList() {
+        try {
+            return serviceUrlDao.selectAllUrl();
+        } catch (Exception e) {
+            logger.error("get url list error.", e);
+            return null;
+        }
+    }
+
+    @Override
     public List<ServiceUrl> getServiceUrlList(String serviceId) {
         if (StringUtils.isBlank(serviceId)) {
             return null;

@@ -1,10 +1,7 @@
 package com.newegg.ec.tool.service.impl;
 
 
-import com.newegg.ec.tool.entity.MessageContent;
-import com.newegg.ec.tool.entity.Rule;
-import com.newegg.ec.tool.entity.ServiceModel;
-import com.newegg.ec.tool.entity.ServiceUrl;
+import com.newegg.ec.tool.entity.*;
 import com.newegg.ec.tool.notify.rocket.DefaultHttpClient;
 import com.newegg.ec.tool.notify.wechat.api.WechatSendMessageAPI;
 import com.newegg.ec.tool.service.INotifyService;
@@ -44,17 +41,17 @@ public class NotifyClientService implements INotifyService {
         for (String way : alarmWayList) {
             String wechatAppName = serviceModel.getWechatAppName();
             switch (way) {
-                case "WECHAT":
+                case "WECHAT" :
                     try {
-                        logger.info("================= Send Message =================");
-                        MessageContent webMessageContent = buildWebMessageContent(serviceModel, url, rule, realData);
+                        logger.info("*************************** Send Message ***************************");
+                        MessageContent textMessageContent = buildTextMessageContent(serviceModel, url, rule, realData);
                         if (StringUtils.isNotBlank(wechatAppName)) {
                             List<String> apppNameList = CommonUtils.stringToList(wechatAppName);
                             for (String appName : apppNameList) {
                                 if (StringUtils.isNotBlank(appName)) {
-                                    boolean status = wechatSendMessageAPI.sendMessage(appName, webMessageContent);
+                                    boolean status = wechatSendMessageAPI.sendMessage(appName, textMessageContent);
                                     if (!status) {
-                                        logger.warn("send wechat message failed, appName=" + appName + ", webMessageContent=" + webMessageContent);
+                                        logger.warn("send wechat message failed, appName=" + appName + ", textMessageContent=" + textMessageContent);
                                     }
                                 }
                             }
@@ -74,7 +71,6 @@ public class NotifyClientService implements INotifyService {
                 default:
                     break;
             }
-
         }
     }
 
@@ -92,9 +88,9 @@ public class NotifyClientService implements INotifyService {
     }
 
     /**
-     * 格式化输出web消息格式
+     * 格式化输出wechat消息格式
      */
-    private static MessageContent buildWebMessageContent(ServiceModel serviceModel, ServiceUrl serviceUrl, Rule rule, String realData) {
+    private static MessageContent buildTextMessageContent(ServiceModel serviceModel, ServiceUrl serviceUrl, Rule rule, String realData) {
         return buildMessageContent(serviceModel, serviceUrl, rule, realData, "\n");
     }
 
@@ -114,6 +110,4 @@ public class NotifyClientService implements INotifyService {
         messageContent.setContent(buffer.toString());
         return messageContent;
     }
-
-
 }
