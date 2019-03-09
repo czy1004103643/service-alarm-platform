@@ -170,7 +170,7 @@ $("body").delegate(".prop", "click", function () {
     getHierarchy(currentDom)
     keyStr = "$." + keyStr
     var lastIndex = keyStr.lastIndexOf("\.")
-    var tempPrefix = keyStr.substring(0, lastIndex - 1)
+    var tempPrefix = keyStr.substring(0, lastIndex)
     var tempLastField = keyStr.substring(lastIndex + 1, keyStr.length)
     keyStr = tempPrefix + '[?(@.' + tempLastField + ' > ' + keyValue + ')]'
     $("#formula").val(keyStr)
