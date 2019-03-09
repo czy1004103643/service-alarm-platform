@@ -29,6 +29,8 @@ public class UrlService implements IUrlService {
     @Autowired
     DefaultHttpClient defaultHttpClient;
 
+
+
     private static final Logger logger = LoggerFactory.getLogger(UrlService.class);
 
     private static final String GET = "GET";
@@ -126,6 +128,7 @@ public class UrlService implements IUrlService {
             String urlContent = serviceUrl.getUrlContent();
             String url = urlContent + "?" + jsonToParam(paramContent);
             try {
+
                 Response response = defaultHttpClient.getMessage(url);
                 statusAndResponse = new Pair<>(true, response.body().string());
             } catch (Exception e) {

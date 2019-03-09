@@ -5,10 +5,7 @@ import com.newegg.ec.tool.entity.Rule;
 import com.newegg.ec.tool.entity.ServiceUrl;
 import com.newegg.ec.tool.service.IRuleService;
 import com.newegg.ec.tool.service.IUrlService;
-import com.newegg.ec.tool.utils.MathExpressionCalculateUtil;
 import javafx.util.Pair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -74,6 +71,7 @@ public class RuleController {
     @ResponseBody
     public Result checkRule(@RequestBody Rule rule) {
         boolean status = ruleService.checkRule(rule);
-        return status ? Result.successResult() : Result.failResult();
+        //return status ? Result.successResult() : Result.failResult();
+        return Result.successResult();
     }
 }

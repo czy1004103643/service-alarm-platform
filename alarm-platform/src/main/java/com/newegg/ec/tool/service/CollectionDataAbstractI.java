@@ -1,6 +1,7 @@
 package com.newegg.ec.tool.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jayway.jsonpath.JsonPath;
 import com.newegg.ec.tool.entity.RequestMethod;
 import com.newegg.ec.tool.entity.Rule;
 import com.newegg.ec.tool.entity.ServiceUrl;
@@ -8,6 +9,7 @@ import com.newegg.ec.tool.service.impl.RuleService;
 import com.newegg.ec.tool.utils.JsonUtils;
 import com.newegg.ec.tool.utils.RegexNum;
 import com.newegg.ec.tool.utils.http.HttpClientUtil;
+import net.minidev.json.JSONArray;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,8 +33,8 @@ public abstract class CollectionDataAbstractI implements ICollectData {
     private RuleService ruleService;
 
     @Override
-    public Map<String, List<BigDecimal>> collectData(String urlId) {
-        Map<String, List<BigDecimal>> result = new HashMap<>();
+    public Map<Rule, JSONArray> collectData(String urlId) {
+        Map<Rule, JSONArray> result = new HashMap<>();
         if (StringUtils.isBlank(urlId)) {
             return result;
         }
@@ -65,7 +67,15 @@ public abstract class CollectionDataAbstractI implements ICollectData {
                 return result;
             }
             List<Rule> ruleList = ruleService.getRuleList(urlId);
-            return processResult(response, ruleList);
+            for(Rule rule:ruleList){
+                String r = rule.getFormula();
+                JSONArray array= JsonPath.read(response,rule.getFormula());
+                if (array.size() > 0) {
+                    result.put(rule, array);
+                }
+            }
+
+
         } catch (Exception e) {
             logger.error("collect data error, serviceUrl=" + newServiceUrl, e);
         }

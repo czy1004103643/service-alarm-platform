@@ -1,7 +1,8 @@
 package com.newegg.ec.tool.service;
 
-import java.math.BigDecimal;
-import java.util.List;
+import com.newegg.ec.tool.entity.Rule;
+import net.minidev.json.JSONArray;
+
 import java.util.Map;
 
 /**
@@ -15,6 +16,6 @@ public interface ICollectData {
      * @param urlId
      * @return
      */
-    Map<String, List<BigDecimal>> collectData(String urlId);
+    Map<Rule, JSONArray> collectData(String urlId);
 
 }

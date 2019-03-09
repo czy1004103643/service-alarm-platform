@@ -40,6 +40,8 @@ public class HttpClientUtil {
 
     private static final String UTF8 = "utf-8";
 
+    private static final String COOKIE = "JSESSIONID=node0ckl4d6ucq5oeg7a26fqjlzdd523.node0; _ga=GA1.2.1198764541.1542369946; _gid=GA1.2.512651626.1551750181; _hprkt=/ESQueryReportWeb/; _tid=149fgcdmsc9ze245xmhb24hy790e5e516hsxxek265eol8eio5jz; _tname=gz75|Gump.G.Zhao";
+
     private static CloseableHttpClient httpclient;
 
     static {
@@ -166,6 +168,7 @@ public class HttpClientUtil {
         httpGet.addHeader("Accept", APPLICATION_JSON);
         httpGet.addHeader(CONNECTION, KEEP_ALIVE);
         httpGet.addHeader(CONTENT_TYPE, APPLICATION_JSON);
+        httpGet.addHeader("Cookie",COOKIE);
         return httpGet;
     }
 
