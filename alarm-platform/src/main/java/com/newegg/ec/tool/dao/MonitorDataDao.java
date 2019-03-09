@@ -18,4 +18,8 @@ public interface MonitorDataDao {
 
     List<MonitorData> existMonitorData(String ruleId);
 
+    List<MonitorData> existData(String dataId);
+
+    boolean updataMonitorData(String dataId);
+
 }

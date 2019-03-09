@@ -14,15 +14,13 @@ import com.newegg.ec.tool.service.impl.AppService;
 import com.newegg.ec.tool.service.impl.MonitorDataService;
 import com.newegg.ec.tool.service.impl.OldApiGatewayService;
 import com.newegg.ec.tool.service.impl.UrlService;
-import com.newegg.ec.tool.utils.MathExpressionCalculateUtil;
-import com.newegg.ec.tool.utils.RegexNum;
+import net.minidev.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.SynchronousQueue;
@@ -88,62 +86,65 @@ public class MonitorBackend {
         for (ServiceUrl url : serviceUrlList) {
             String urlId = url.getUrlId();
             String urlContent = url.getUrlContent();
-            Map<String, List<BigDecimal>> ruleDataMap;
+            Map<Rule, JSONArray> ruleDataMap = new HashMap<>();
             if (urlContent.contains(API_GATEWAY_PREFIX_1)) {
-                ruleDataMap = apiGateWayService.collectData(urlId);
+               ruleDataMap = apiGateWayService.collectData(urlId);
             } else {
                 ruleDataMap = commonCollectDataService.collectData(urlId);
             }
 
-            List<Rule> ruleList = ruleService.getRuleList(urlId);
-            if (ruleDataMap == null || ruleDataMap.isEmpty() || ruleList == null || ruleList.isEmpty()) {
-                continue;
-            }
-            for (Rule rule : ruleList) {
-                String formula = rule.getFormula();
-                String formulaKey = RegexNum.getFormulaKey(formula);
-                // TODO: 仅支持单个表达式, 修改表达式正则，修改 rule.formula 唯一
-                List<BigDecimal> ruleDataList = ruleDataMap.get(formula);
-                if (ruleDataList != null && ruleDataList.size() > 0) {
-                    for (BigDecimal ruleData : ruleDataList) {
-                        Map<String, Object> dataMap = new HashMap<>(1);
-                        dataMap.put(formulaKey, ruleData);
-                        processRuleAndData(formula, dataMap, rule, url);
-                    }
-                }
-            }
+           processRuleAndData(ruleDataMap,url);
+
         }
     }
 
-    private void processRuleAndData(String formula, Map<String, Object> dataMap, Rule rule, ServiceUrl url) {
-        boolean calculate = false;
-        try {
-            calculate = Boolean.parseBoolean(String.valueOf(MathExpressionCalculateUtil.calculate(formula, dataMap)));
-        } catch (Exception e) {
-            logger.error("Rule verification failed", e);
-        }
-        String realData = MathExpressionCalculateUtil.getRuleDataStr(formula, dataMap);
-        boolean isSend = filterAlarmMessage(rule, url,realData);
-        // 如果满足，则获取其service对象
-        if (isSend && calculate) {
+    private void processRuleAndData(Map<Rule, JSONArray> map, ServiceUrl url) {
+
+        Iterator<Map.Entry<Rule, JSONArray>> iterable = map.entrySet().iterator();
+        Map.Entry<Rule, JSONArray> entry = iterable.next();
+        Rule rule = entry.getKey();
+        JSONArray array = entry.getValue();
+        LinkedHashMap firElem = (LinkedHashMap) array.get(0);
+        String str = rule.getFormula();
+        String realKey = str.substring(str.indexOf("@.") + 2, str.lastIndexOf(">")-1);
+        String realData = realKey +"="+ firElem.get(realKey);
+        boolean isSend = filterAlarmMessage(rule, url, realData);
+        if (isSend) {
             ServiceModel serviceModel = appService.getServiceModelById(url.getServiceId());
             notifyClientService.notifyClient(serviceModel, url, rule, realData);
         }
+
+
     }
 
     private boolean filterAlarmMessage(Rule rule, ServiceUrl url, String realData) {
-        List<MonitorData> monitorDataList = monitorDataService.existMonitorData(rule.getRuleId());
-        if (monitorDataList != null && monitorDataList.size() > 0){
-            // 半小时内有报警过此规则
-            return false;
-        } else {
+
+        String dataid=rule.getRuleId()+url.getUrlId();
+
+        List<MonitorData> dataList = monitorDataService.existData(String.valueOf(dataid.hashCode()));
+
+        if(dataList.size()==0){
             MonitorData monitorData = new MonitorData();
             monitorData.setUrlId(url.getUrlId());
             monitorData.setRuleId(rule.getRuleId());
             monitorData.setDataContent(realData);
             monitorDataService.saveMonitorData(monitorData);
-            return true;
+            return  true;
+        }else {
+            List<MonitorData> monitorDataList = monitorDataService.existMonitorData(String.valueOf(dataid.hashCode()));
+            if (monitorDataList != null && monitorDataList.size() > 0) {
+                // 半小时内有报警过此规则
+                monitorDataService.updataMonitorData(monitorDataList.get(0));
+                return true;
+            } else {
+                return false;
+            }
+
         }
+
+
+
+
     }
 
 }

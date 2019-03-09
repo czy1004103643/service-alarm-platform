@@ -32,7 +32,8 @@ public class MonitorDataService implements IMonitorDataService {
             return false;
         }
         try {
-            monitorData.setDataId(CommonUtils.getUUID());
+            String dataid=monitorData.getRuleId()+monitorData.getUrlId();
+            monitorData.setDataId(String.valueOf(dataid.hashCode()));
             monitorData.setUpdateTime(CommonUtils.getCurrentTimestamp());
             return monitorDataDao.addMonitorData(monitorData) > 0;
         } catch (Exception e) {
@@ -66,4 +67,33 @@ public class MonitorDataService implements IMonitorDataService {
         }
         return null;
     }
+
+    public List<MonitorData> existData(String dataId) {
+        if (StringUtils.isBlank(dataId)) {
+            return null;
+        }
+        try {
+            return monitorDataDao.existData(dataId);
+        } catch (Exception e) {
+            logger.error("get monitor data via rule id error.", e);
+        }
+        return null;
+    }
+
+    public boolean updataMonitorData(MonitorData monitorData) {
+        if (StringUtils.isBlank(monitorData.getDataId())) {
+            return false;
+        }
+        try {
+            return monitorDataDao.updataMonitorData(monitorData.getDataId());
+        } catch (Exception e) {
+            logger.error("get monitor data via rule id error.", e);
+        }
+        return false;
+    }
+
+
+
+
+
 }

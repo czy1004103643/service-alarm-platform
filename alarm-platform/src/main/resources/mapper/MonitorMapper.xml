@@ -19,10 +19,28 @@
         FROM
             monitor_data
         WHERE
-            rule_id = #{ruleId}
+            data_id = #{dataId}
         AND
-            update_time > DATE_SUB(NOW(),INTERVAL 5 MINUTE);
+            update_time &lt;DATE_SUB(NOW(),INTERVAL 5 MINUTE);
     </select>
+
+    <select id="existData" parameterType="java.lang.String" resultType="com.newegg.ec.tool.entity.MonitorData">
+
+        SELECT
+            *
+        FROM
+            monitor_data
+        WHERE
+            data_id = #{dataId}
+    </select>
+
+
+
+    <update id="updataMonitorData" parameterType="java.lang.String" >
+
+       UPDATE monitor_data SET update_time=NOW() WHERE   data_id = #{dataId}
+    </update>
+
 
     <insert id="addMonitorData" parameterType="com.newegg.ec.tool.entity.MonitorData">
         INSERT INTO
@@ -39,7 +57,7 @@
             #{urlId},
             #{ruleId},
             #{dataContent},
-            #{updateTime}
+            NOW()
         )
     </insert>
 </mapper>
