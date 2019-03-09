@@ -31,6 +31,7 @@ $("body").delegate(".url-edit", "click", function () {
         var url = result.data
 
         $("#url-content").val(url.urlContent)
+        $("#description").val(url.description)
         var requestType = url.requestType
         if (requestType == "GET") {
             var paramJson = JSON.parse(url.paramContent)

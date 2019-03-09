@@ -22,7 +22,6 @@ function initRulePage(urlId) {
 
 
 function buildRuleTable(ruleList) {
-    console.log(ruleList)
     if (ruleList != null && ruleList.length > 0) {
         var html = ''
         var size = ruleList.length
@@ -50,7 +49,6 @@ function buildRuleTable(ruleList) {
 $("#request-url").on("click", function () {
     var urlId = getUrlParam("urlId")
     get("/rule/requestUrl?urlId=" + urlId, function (result) {
-        console.log(result)
         var data = result.data
         if (data.key) {
             $("#response-data").JSONView(data.value);
@@ -65,7 +63,6 @@ $("#request-url").on("click", function () {
 $("body").delegate(".rule-edit", "click", function () {
     var ruleId = $(this).attr("data-id")
     $("#rule-save").attr("data-id", ruleId)
-    console.log(ruleId)
     get("/rule/getRuleById?ruleId=" + ruleId, function (result) {
         var rule = result.data
         $("#modalContactForm label").addClass("active")
@@ -151,6 +148,49 @@ $("#rule-save").on("click", function () {
     })
 
 })
+
+var keyStr = ''
+var keyType = ''
+var keyValue
+$("body").delegate(".prop", "click", function () {
+
+    var currentDom = $(this)
+    var keyType = currentDom.next().attr("class")
+    if (isEmpty(keyType)) {
+        alert("bad choose!")
+        return
+    }
+    keyValue = currentDom.next().text()
+    var currentKey = currentDom.text().replace(new RegExp('"', 'g'), '')
+    keyStr = currentKey
+    getHierarchy(currentDom)
+    keyStr = "$." + keyStr
+    var lastIndex = keyStr.lastIndexOf("\.")
+    var tempPrefix = keyStr.substring(0, lastIndex - 1)
+    var tempLastField = keyStr.substring(lastIndex + 1, keyStr.length)
+    keyStr = tempPrefix + '[?(@.' + tempLastField + ' > ' + keyValue + ')]'
+    $("#formula").val(keyStr)
+})
+
+function getHierarchy(currentDom) {
+    var parentDom = currentDom.parent()
+    var classes = parentDom.attr("class")
+    if (!isEmpty(classes)) {
+        if (classes == "jsonview") {
+            return keyStr
+        } else {
+            if (classes.indexOf("collapsible") > 0) {
+                parentDom = parentDom.prev()
+                classes = parentDom.attr("class")
+                if (classes == "prop") {
+                    var currentKey = parentDom.text().replace(new RegExp('"', 'g'), '')
+                    keyStr = currentKey + "." + keyStr
+                }
+            }
+        }
+    }
+    getHierarchy(parentDom)
+}
 
 function getKeyPath(formula) {
 
