@@ -174,6 +174,7 @@ $("body").delegate(".prop", "click", function () {
     var tempLastField = keyStr.substring(lastIndex + 1, keyStr.length)
     keyStr = tempPrefix + '[?(@.' + tempLastField + ' > ' + keyValue + ')]'
     $("#formula").val(keyStr)
+    $("#formula").next().addClass("active")
 })
 
 function getHierarchy(currentDom) {
@@ -181,7 +182,7 @@ function getHierarchy(currentDom) {
     var classes = parentDom.attr("class")
     if (!isEmpty(classes)) {
         if (classes == "jsonview") {
-            return keyStr
+            return
         } else {
             if (classes.indexOf("collapsible") > 0) {
                 parentDom = parentDom.prev()
@@ -196,13 +197,6 @@ function getHierarchy(currentDom) {
     getHierarchy(parentDom)
 }
 
-function getKeyPath(formula) {
-
-}
-
-function checkKeyPath(keyPath, response) {
-
-}
 
 
 const jsonStr = '{"_shards":{"total":80,"failed":0,"successful":80,"skipped":0},"hits":{"hits":[],"total":14516204,"max_score":0},"took":424,"timed_out":false,"aggregations":{"result":{"doc_count_error_upper_bound":0,"sum_other_doc_count":0,"buckets":[{"doc_count":725556,"key":"2019022000"},{"doc_count":776835,"key":"2019022001"},{"doc_count":793158,"key":"2019022002"}]}}}';
