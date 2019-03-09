@@ -149,6 +149,10 @@ $("#rule-save").on("click", function () {
 
 })
 
+$("#formula-tip").on("click", function() {
+    $("#formula-tip-content").show()
+})
+
 var keyStr = ''
 var keyType = ''
 var keyValue
