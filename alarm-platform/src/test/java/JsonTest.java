@@ -2,6 +2,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import com.newegg.ec.tool.utils.JsonUtils;
+import net.minidev.json.JSONArray;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -558,6 +559,21 @@ public class JsonTest {
                 "}";
 
 
+
+
+        Object object1=JsonPath.read(str,"$.data..loglevel[?(@.warn > 100)]");
+        JSONArray array=JsonPath.read(str,"$.data..time");
+        for (Object objec : array) {
+            System.out.println(objec);
+        }
+
+
+
+
+
+
+
+       // System.out.println(map.size());
         LinkedHashMap linkedHashMap= JsonPath.read(str, "$.data");
 
         Iterator<Map.Entry> iterator= linkedHashMap.entrySet().iterator();
@@ -565,10 +581,10 @@ public class JsonTest {
         while(iterator.hasNext())
         {
             Map.Entry entry = iterator.next();
-            System.out.println(entry.getKey()+":"+entry.getValue());
+          //  System.out.println(entry.getKey()+":"+entry.getValue());
         }
 
-        JsonPath strs=  JsonPath.read(str, "$.data.e4web08");
+        //JsonPath strs=  JsonPath.read(str, "$.data.e4web08");
 
 
 
