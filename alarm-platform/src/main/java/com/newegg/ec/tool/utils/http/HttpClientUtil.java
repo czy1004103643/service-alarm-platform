@@ -40,6 +40,9 @@ public class HttpClientUtil {
 
     private static final String UTF8 = "utf-8";
 
+    /**
+     * just for rocketchat
+     */
     private static final String COOKIE = "JSESSIONID=node0ckl4d6ucq5oeg7a26fqjlzdd523.node0; _ga=GA1.2.1198764541.1542369946; _gid=GA1.2.512651626.1551750181; _hprkt=/ESQueryReportWeb/; _tid=149fgcdmsc9ze245xmhb24hy790e5e516hsxxek265eol8eio5jz; _tname=gz75|Gump.G.Zhao";
 
     private static CloseableHttpClient httpclient;
@@ -89,7 +92,7 @@ public class HttpClientUtil {
      *
      * @return
      */
-    public static RequestConfig getRequestConfig() {
+    /*public static RequestConfig getRequestConfig() {
         HttpHost proxy = new HttpHost("10.16.46.161", 3333);
         RequestConfig requestConfig = RequestConfig.custom()
                 .setProxy(proxy)
@@ -98,7 +101,7 @@ public class HttpClientUtil {
                 .setConnectionRequestTimeout(3000)
                 .build();
         return requestConfig;
-    }
+    }*/
 
     /**
      * @param url
@@ -129,7 +132,7 @@ public class HttpClientUtil {
      */
     private static HttpPost postForm(String url, JSONObject postJson) {
         HttpPost httpPost = new HttpPost(url);
-        httpPost.setConfig(getRequestConfig());
+        //httpPost.setConfig(getRequestConfig());
         httpPost.setHeader(CONNECTION, KEEP_ALIVE);
         httpPost.setHeader(CONTENT_TYPE, APPLICATION_JSON);
         httpPost.setHeader(ACCEPT, APPLICATION_JSON);
@@ -164,7 +167,7 @@ public class HttpClientUtil {
      */
     private static HttpGet getForm(String url) {
         HttpGet httpGet = new HttpGet(url);
-        httpGet.setConfig(getRequestConfig());
+        //httpGet.setConfig(getRequestConfig());
         httpGet.addHeader("Accept", APPLICATION_JSON);
         httpGet.addHeader(CONNECTION, KEEP_ALIVE);
         httpGet.addHeader(CONTENT_TYPE, APPLICATION_JSON);

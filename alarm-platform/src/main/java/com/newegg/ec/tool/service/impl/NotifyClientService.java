@@ -41,17 +41,17 @@ public class NotifyClientService implements INotifyService {
         for (String way : alarmWayList) {
             String wechatAppName = serviceModel.getWechatAppName();
             switch (way) {
-                case "WECHAT" :
+                case "WECHAT":
                     try {
                         logger.info("*************************** Send Message ***************************");
-                        MessageContent textMessageContent = buildTextMessageContent(serviceModel, url, rule, realData);
+                        MessageContent messageContent = buildTextMessageContent(serviceModel, url, rule, realData);
                         if (StringUtils.isNotBlank(wechatAppName)) {
                             List<String> apppNameList = CommonUtils.stringToList(wechatAppName);
                             for (String appName : apppNameList) {
                                 if (StringUtils.isNotBlank(appName)) {
-                                    boolean status = wechatSendMessageAPI.sendMessage(appName, textMessageContent);
+                                    boolean status = wechatSendMessageAPI.sendTextMessage(appName, messageContent);
                                     if (!status) {
-                                        logger.warn("send wechat message failed, appName=" + appName + ", textMessageContent=" + textMessageContent);
+                                        logger.warn("send wechat message failed, appName=" + appName + ", messageContent=" + messageContent);
                                     }
                                 }
                             }
@@ -99,7 +99,7 @@ public class NotifyClientService implements INotifyService {
         messageContent.setTitle(serviceModel.getServiceName());
         StringBuffer buffer = new StringBuffer();
 
-        buffer.append("Group: ").append(serviceModel.getServiceName()).append(wrap)
+        buffer.append("Group: ").append(serviceModel.getGroupName()).append(wrap)
                 .append("Service: ").append(serviceModel.getServiceName()).append(wrap)
                 .append("URL Desc: ").append(serviceUrl.getDescription()).append(wrap)
                 .append("Rule: ").append(rule.getRuleAlias()).append(wrap)
@@ -108,6 +108,25 @@ public class NotifyClientService implements INotifyService {
                 .append("Rule Desc: ").append(rule.getDescription()).append(wrap)
                 .append("Time: ").append(CommonUtils.formatTime(System.currentTimeMillis()));
         messageContent.setContent(buffer.toString());
+        return messageContent;
+    }
+
+    private static MessageContent buildTextCardMessage(ServiceModel serviceModel, ServiceUrl serviceUrl, Rule rule, String realData) {
+        MessageContent messageContent = new MessageContent();
+        messageContent.setTitle(serviceModel.getGroupName() + " \n" + serviceModel.getServiceName() + " " + serviceUrl.getDescription());
+        messageContent.setUrl("https://www.newegg.com/");
+        messageContent.setBtntxt("没有更多了");
+        StringBuffer description = new StringBuffer();
+        description.append("<div class=\"gray\">")
+                .append(CommonUtils.formatTime(System.currentTimeMillis()))
+                .append("</div> <div class=\"highlight\">")
+                .append(rule.getRuleAlias())
+                .append(": ")
+                .append(rule.getFormula())
+                .append(" ")
+                .append(realData)
+                .append("</div>");
+        messageContent.setDescription(description.toString());
         return messageContent;
     }
 }

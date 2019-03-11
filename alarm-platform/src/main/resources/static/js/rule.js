@@ -53,7 +53,7 @@ $("#request-url").on("click", function () {
         if (data.key) {
             $("#response-data").JSONView(data.value);
         } else {
-            alert("request error, please check url and params")
+            layer.msg("request error, please check url and params")
         }
     }, function (e) {
         console.log(e)
@@ -86,11 +86,11 @@ $("#delete-yes").on("click", function () {
     del("/rule/deleteRuleById", dataJson, function (result) {
         if (result.code == 0) {
             $("#close").click()
-            message(2000, function () {
-                alert("Delete Success")
+            message(1000, function () {
+                layer.msg("Delete Success")
             })
         } else {
-            alert("delete error")
+            layer.msg("delete error")
         }
 
     }, function (e) {
@@ -112,12 +112,12 @@ $("#rule-save").on("click", function () {
     var description = $("#description").val()
 
     if (isEmpty(ruleAlias)) {
-        alert("rule alias is empty!")
+        layer.msg("rule alias is empty!")
         return
     }
 
     if (isEmpty(formula)) {
-        alert("formula is empty!")
+        layer.msg("formula is empty!")
         return
     }
 
@@ -135,13 +135,13 @@ $("#rule-save").on("click", function () {
                 if (result2.code == 0) {
                     window.location.reload()
                 } else {
-                    alert("save rule error")
+                    layer.msg("save rule error")
                 }
             }, function (e) {
                 console.log(e)
             })
         } else {
-            alert("formula verification failed, please check")
+            layer.msg("formula verification failed, please check")
         }
     }, function (e) {
 
@@ -161,7 +161,7 @@ $("body").delegate(".prop", "click", function () {
     var currentDom = $(this)
     var keyType = currentDom.next().attr("class")
     if (isEmpty(keyType)) {
-        alert("bad choose!")
+        layer.msg("bad choose!")
         return
     }
     keyValue = currentDom.next().text()

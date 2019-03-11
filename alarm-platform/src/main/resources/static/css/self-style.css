@@ -121,7 +121,7 @@ body > input, textarea, input:focus, textarea:focus {
     cursor: pointer !important;
 }
 
-.flex-end {
-    justify-content: flex-end;
+.flex-between {
+    justify-content: space-between;
     display: flex;
 }

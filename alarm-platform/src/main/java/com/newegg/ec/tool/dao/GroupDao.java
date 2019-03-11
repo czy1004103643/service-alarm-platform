@@ -2,6 +2,7 @@ package com.newegg.ec.tool.dao;
 
 import com.newegg.ec.tool.entity.Group;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -9,6 +10,7 @@ import java.util.List;
  * @author Jay.H.Zou
  * @date 2019/3/7
  */
+@Repository
 public interface GroupDao {
 
     List<Group> selectGroupList();

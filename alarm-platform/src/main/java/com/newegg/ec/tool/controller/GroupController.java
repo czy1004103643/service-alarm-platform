@@ -5,6 +5,7 @@ import com.newegg.ec.tool.entity.Result;
 import com.newegg.ec.tool.service.IGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,4 +37,19 @@ public class GroupController {
         Group group = groupService.getGroupById(groupId);
         return Result.successResult(group);
     }
+
+    @RequestMapping(value = "/saveGroup", method = RequestMethod.POST)
+    @ResponseBody
+    public Result saveGroup(@RequestBody Group group) {
+        boolean status = groupService.saveGroup(group);
+        return status ? Result.successResult() : Result.failResult();
+    }
+
+    @RequestMapping(value = "/deleteGroupById", method = RequestMethod.POST)
+    @ResponseBody
+    public Result deleteGroupById(String groupId) {
+        boolean status = groupService.deleteGroupById(groupId);
+        return status ? Result.successResult() : Result.successResult();
+    }
+
 }

@@ -16,7 +16,7 @@ $("#url-save").on("click", function () {
         if (result.code == 0) {
             window.location.reload()
         } else {
-            alert("save url error")
+            layer.msg("save url error")
         }
     }, function (e) {
         console.log(e)
@@ -42,7 +42,7 @@ $("body").delegate(".url-edit", "click", function () {
         }
 
     }, function (e) {
-
+        console.log(e)
     })
 })
 
@@ -59,10 +59,10 @@ $("#delete-yes").on("click", function () {
         if (result.code == 0) {
             $("#close").click()
             message(2000, function () {
-                alert("Delete Success")
+                layer.msg("Delete Success")
             })
         } else {
-            alert("delete error")
+            layer.msg("delete error")
         }
 
     }, function (e) {
@@ -135,14 +135,12 @@ $("#url-test").on("click", function () {
             if (data.key) {
                 $("#response-data").JSONView(data.value);
             } else {
-                alert("request error, please check url and params")
+                layer.msg("request error, please check url and params")
             }
         }, function (e) {
             console.log(e)
         })
         $("#url-save").show()
-    } else {
-        alert("略略略")
     }
 })
 
@@ -158,7 +156,7 @@ function getInputValues() {
     var paramJSON = new Object()
 
     if (isEmpty(urlContent)) {
-        alert("url is empty!")
+        layer.msg("url is empty!")
         return
     }
 
@@ -166,8 +164,8 @@ function getInputValues() {
         var key = paramList[index].value
         var val = paramList[index + 1].value
         if ((!isEmpty(key) && isEmpty(val)) || (isEmpty(key) && !isEmpty(val))) {
-            alert("param value is empty!")
-            return;
+            layer.msg("param value is empty!")
+            return
         } else if (isEmpty(key) && isEmpty(val)) {
             continue
         }
@@ -179,11 +177,11 @@ function getInputValues() {
     } else if (requestType == 'POST') {
         paramMap = new Map()
     } else {
-        alert("request type not found")
+        layer.msg("request type not found")
         return
     }
     if (isEmpty(description)) {
-        alert("description is empty")
+        layer.msg("description is empty")
         return
     }
     var paramContent = JSON.stringify(paramJSON)
@@ -201,9 +199,6 @@ function getInputValues() {
     console.log(urlJson)
     return urlJson
 }
-// $("#add-new-url").on("tigger", function () {
-
-// })
 
 $("#add-param").on("click", function () {
 

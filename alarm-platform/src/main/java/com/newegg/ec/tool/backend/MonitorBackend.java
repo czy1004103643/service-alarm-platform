@@ -88,12 +88,12 @@ public class MonitorBackend {
             String urlContent = url.getUrlContent();
             Map<Rule, JSONArray> ruleDataMap = new HashMap<>();
             if (urlContent.contains(API_GATEWAY_PREFIX_1)) {
-               ruleDataMap = apiGateWayService.collectData(urlId);
+                ruleDataMap = apiGateWayService.collectData(urlId);
             } else {
                 ruleDataMap = commonCollectDataService.collectData(urlId);
             }
 
-           processRuleAndData(ruleDataMap,url);
+            processRuleAndData(ruleDataMap, url);
 
         }
     }
@@ -106,32 +106,30 @@ public class MonitorBackend {
         JSONArray array = entry.getValue();
         LinkedHashMap firElem = (LinkedHashMap) array.get(0);
         String str = rule.getFormula();
-        String realKey = str.substring(str.indexOf("@.") + 2, str.lastIndexOf(">")-1);
-        String realData = realKey +"="+ firElem.get(realKey);
+        String realKey = str.substring(str.indexOf("@.") + 2, str.lastIndexOf(">") - 1);
+        String realData = realKey + "=" + firElem.get(realKey);
         boolean isSend = filterAlarmMessage(rule, url, realData);
         if (isSend) {
             ServiceModel serviceModel = appService.getServiceModelById(url.getServiceId());
             notifyClientService.notifyClient(serviceModel, url, rule, realData);
         }
-
-
     }
 
     private boolean filterAlarmMessage(Rule rule, ServiceUrl url, String realData) {
 
-        String dataid=rule.getRuleId()+url.getUrlId();
+        String dataId = rule.getRuleId() + url.getUrlId();
 
-        List<MonitorData> dataList = monitorDataService.existData(String.valueOf(dataid.hashCode()));
+        List<MonitorData> dataList = monitorDataService.existData(String.valueOf(dataId.hashCode()));
 
-        if(dataList.size()==0){
+        if (dataList.size() == 0) {
             MonitorData monitorData = new MonitorData();
             monitorData.setUrlId(url.getUrlId());
             monitorData.setRuleId(rule.getRuleId());
             monitorData.setDataContent(realData);
             monitorDataService.saveMonitorData(monitorData);
-            return  true;
-        }else {
-            List<MonitorData> monitorDataList = monitorDataService.existMonitorData(String.valueOf(dataid.hashCode()));
+            return true;
+        } else {
+            List<MonitorData> monitorDataList = monitorDataService.existMonitorData(String.valueOf(dataId.hashCode()));
             if (monitorDataList != null && monitorDataList.size() > 0) {
                 // 半小时内有报警过此规则
                 monitorDataService.updataMonitorData(monitorDataList.get(0));
@@ -139,12 +137,7 @@ public class MonitorBackend {
             } else {
                 return false;
             }
-
         }
-
-
-
-
     }
 
 }
