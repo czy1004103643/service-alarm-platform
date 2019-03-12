@@ -93,7 +93,10 @@ public class MonitorBackend {
                 ruleDataMap = commonCollectDataService.collectData(urlId);
             }
 
-           processRuleAndData(ruleDataMap,url);
+            if(ruleDataMap.size()>0){
+                processRuleAndData(ruleDataMap,url);
+            }
+
 
         }
     }

@@ -37,6 +37,7 @@ public class DefaultHttpClient implements HttpClientInterface, ApplicationListen
         Response response = null;
         try {
             response = httpClient.newCall(request).execute();
+            response.close();
         } catch (IOException e) {
             loger.error("post Rocket failture",e);
         }
@@ -54,6 +55,7 @@ public class DefaultHttpClient implements HttpClientInterface, ApplicationListen
         Response response=null;
         try {
               response = client.newCall(request).execute();
+              response.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -94,6 +96,7 @@ public class DefaultHttpClient implements HttpClientInterface, ApplicationListen
                 .build();
         OkHttpClient client = new OkHttpClient();
         Response response = client.newCall(request).execute();
+        response.close();
         return response;
     }
 
@@ -115,6 +118,7 @@ public class DefaultHttpClient implements HttpClientInterface, ApplicationListen
                 .build();
         OkHttpClient client = new OkHttpClient();
         Response response = client.newCall(request).execute();
+        response.close();
         return response.code();
     }
 

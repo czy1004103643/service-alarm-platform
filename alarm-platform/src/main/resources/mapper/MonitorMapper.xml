@@ -21,7 +21,7 @@
         WHERE
             data_id = #{dataId}
         AND
-            update_time &lt;DATE_SUB(NOW(),INTERVAL 5 MINUTE);
+            update_time &lt;DATE_SUB(NOW(),INTERVAL 30 MINUTE);
     </select>
 
     <select id="existData" parameterType="java.lang.String" resultType="com.newegg.ec.tool.entity.MonitorData">
