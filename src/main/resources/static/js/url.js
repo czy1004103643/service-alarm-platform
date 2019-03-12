@@ -5,25 +5,30 @@ $(function () {
 
 $("#add-new-url").on("click", function () {
     $(this).attr("data-id", "")
-    // TODO: 置空
     $("#modalContactForm input").val("")
     $("#modalContactForm textarea").val("")
 })
 
 $("#url-save").on("click", function () {
     var urlJson = getInputValues()
+    layer.load(2)
     post("/url/saveUrl", urlJson, function (result) {
         if (result.code == 0) {
             window.location.reload()
         } else {
             layer.msg("save url error")
         }
+        setTimeout(function () {
+            layer.closeAll('loading');
+        }, 10)
     }, function (e) {
         console.log(e)
     })
 })
 
 $("body").delegate(".url-edit", "click", function () {
+    $('#modalContactForm').addClass('show')
+    $("add-new-url").attr("aria-expanded", true)
     var urlId = $(this).attr("data-id")
     $("#url-save").attr("data-id", urlId)
     get("/url/getUrlById?urlId=" + urlId, function (result) {
@@ -33,8 +38,12 @@ $("body").delegate(".url-edit", "click", function () {
         $("#description").val(url.description)
         var requestType = url.requestType
         if (requestType == "GET") {
-            var paramJson = JSON.parse(url.paramContent)
-            buildParamList(paramJson)
+            var paramCoantent = url.paramContent
+            if (!isEmpty(paramCoantent)) {
+                var paramJson = JSON.parse(paramCoantent)
+                buildParamList(paramJson)
+            }
+
         } else if (requestType == "POST") {
             $("#url-post").click()
             $("#body-content").val(url.bodyContent)
@@ -57,7 +66,7 @@ $("#delete-yes").on("click", function () {
     del("/url/deleteUrlById", dataJson, function (result) {
         if (result.code == 0) {
             $("#close").click()
-            message(2000, function () {
+            message(1000, function () {
                 layer.msg("Delete Success")
             })
         } else {
@@ -113,7 +122,7 @@ function buildUrlTable(urlList) {
                 '<td>' + url.description + '</td>' +
                 '<td>' + time + '</td>' +
                 '<td>' +
-                '<i class="fas fa-edit text-default url-edit"  data-toggle="collapse" data-target="#modalContactForm" data-id="' + urlId + '"></i>' +
+                '<i class="fas fa-edit text-default url-edit" data-id="' + urlId + '"></i>' +
                 '<i class="fas fa-trash-alt text-orange url-delete" data-toggle="modal" data-target="#modalConfirmDelete" data-id="' + urlId + '"></i>' +
                 '</td>' +
                 '</tr>'

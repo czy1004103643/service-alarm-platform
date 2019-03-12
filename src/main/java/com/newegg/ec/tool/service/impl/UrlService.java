@@ -131,7 +131,7 @@ public class UrlService implements IUrlService {
             String urlContent = serviceUrl.getUrlContent();
             String url = urlContent;
             if (StringUtils.isNotBlank(paramContent)) {
-                url = url + "?" + JsonUtils.jsonToParam(paramContent);
+                url = url + "?" + paramContent;
             }
             try {
                 Map<String, String> headers = new HashMap<>();

@@ -36,7 +36,7 @@ function buildRuleTable(ruleList) {
                 '<td>' + rule.description + '</td>' +
                 '<td>' + time + '</td>' +
                 '<td>' +
-                '<i class="fas fa-edit text-default rule-edit" data-toggle="collapse" data-target="#modalContactForm" data-id="' + ruleId + '"></i>' +
+                '<i class="fas fa-edit text-default rule-edit" data-id="' + ruleId + '"></i>' +
                 '<i class="fas fa-trash-alt text-orange rule-delete" data-toggle="modal" data-target="#modalConfirmDelete" data-id="' + ruleId + '"></i>' +
                 '</td>' +
                 '</tr>'
@@ -50,21 +50,23 @@ $("#request-url").on("click", function () {
     var urlId = getUrlParam("urlId")
     layer.load(2)
     get("/rule/requestUrl?urlId=" + urlId, function (result) {
-        setTimeout(function () {
-            layer.closeAll('loading');
-        }, 10)
         var data = result.data
         if (data.key) {
             $("#response-data").JSONView(data.value);
         } else {
             layer.msg("request error, please check url and params")
         }
+        setTimeout(function () {
+            layer.closeAll('loading');
+        }, 10)
     }, function (e) {
         console.log(e)
     })
 })
 
 $("body").delegate(".rule-edit", "click", function () {
+    $('#modalContactForm').addClass('show')
+    $("add-new-rule").attr("aria-expanded", true)
     var ruleId = $(this).attr("data-id")
     $("#rule-save").attr("data-id", ruleId)
     get("/rule/getRuleById?ruleId=" + ruleId, function (result) {
@@ -90,13 +92,12 @@ $("#delete-yes").on("click", function () {
     del("/rule/deleteRuleById", dataJson, function (result) {
         if (result.code == 0) {
             $("#close").click()
-            message(1000, function () {
-                layer.msg("Delete Success")
-            })
         } else {
             layer.msg("delete error")
         }
-
+        message(1000, function () {
+            layer.msg("Delete Success")
+        })
     }, function (e) {
         console.log(e)
     })
