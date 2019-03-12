@@ -1,0 +1,32 @@
+server:
+  port: 8184
+
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: com.newegg.ec.tool.dao
+  configuration:
+    # user_name -> userName
+    map-underscore-to-camel-case: true
+
+backend:
+  monitor: 0/5 * * * * ?
+
+alarm:
+  notify:
+    wechat:
+      # company ID
+      corpId: ww0f00cb4440ed3cf1
+      # users: default @all
+      appList:
+      - appName: BigData
+        agentId: 1000003
+        corpSecret: _jUmcToZW-0BnJE9nAT4huTatCfn-dPQeeGq3TrBD34
+        users: zouhuajian
+      - appName: SSL
+        agentId: 1000002
+        corpSecret: Gd55K7N0q2WGEMob-PJ0oz3ePsk9zqndiDVgQyQPgk0
+        users: zouhuajian|zhaoguangsong
+    rocketchat:
+        token: -8Nt7c_lkiA-QFakZER6m09T1m4lYL-oQyHPp1jAbPC
+        userID: jAmcTfGvSzWoBzD7Q
+        chanel: bigdata_monitor

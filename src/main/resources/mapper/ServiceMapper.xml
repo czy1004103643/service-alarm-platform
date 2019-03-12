@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newegg.ec.tool.dao.AppServiceDao">
+
+    <select id="selectServiceById" resultType="com.newegg.ec.tool.entity.ServiceModel" parameterType="java.lang.String">
+        SELECT
+            service_id,
+            service.group_id as group_id,
+            group_name,
+            service_name,
+            wechat_app_name,
+            alarm_way,
+            service.description as description,
+            service.update_time as update_time
+        FROM
+            service, service_group
+        WHERE
+            service.group_id = service_group.group_id
+        AND
+            service.service_id = #{serviceId}
+    </select>
+
+    <select id="selectServiceByName" resultType="com.newegg.ec.tool.entity.ServiceModel">
+        SELECT
+            *
+        FROM
+            service
+        WHERE
+            service_name = #{serviceName}
+        <if test="serviceId != null">
+            AND
+            service_id
+            NOT IN
+            (#{serviceId})
+        </if>
+        <if test="groupId != null">
+            AND
+            group_id
+            IN
+            (#{groupId})
+        </if>
+    </select>
+
+    <select id="selectServiceByGroupId" resultType="com.newegg.ec.tool.entity.ServiceModel">
+        SELECT
+            *
+        FROM
+            service
+        WHERE
+            group_id = #{groupId}
+    </select>
+
+    <insert id="addService" parameterType="com.newegg.ec.tool.entity.ServiceModel">
+        INSERT INTO
+            service
+        (
+            service_id,
+            group_id,
+            service_name,
+            wechat_app_name,
+            alarm_way,
+            description,
+            update_time
+        )
+        VALUES (
+            #{serviceId},
+            #{groupId},
+            #{serviceName},
+            #{wechatAppName},
+            #{alarmWay},
+            #{description},
+            #{updateTime}
+        )
+    </insert>
+
+    <update id="updateService" parameterType="com.newegg.ec.tool.entity.ServiceModel">
+        UPDATE
+            service
+        SET
+            service_name = #{serviceName},
+            group_id = #{groupId},
+            wechat_app_name = #{wechatAppName},
+            alarm_way = #{alarmWay},
+            description = #{description},
+            update_time = #{updateTime}
+        WHERE
+            service_id = #{serviceId}
+    </update>
+
+    <delete id="deleteServiceById" parameterType="java.lang.String">
+        DELETE FROM
+            service
+        WHERE
+            service_id = #{serviceId}
+    </delete>
+
+</mapper>
