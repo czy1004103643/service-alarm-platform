@@ -93,8 +93,6 @@ public class MonitorBackend {
             if (ruleDataMap.size() > 0) {
                 processRuleAndData(ruleDataMap, url);
             }
-
-
         }
     }
 
@@ -104,18 +102,15 @@ public class MonitorBackend {
         Rule rule = entry.getKey();
         JSONArray array = entry.getValue();
         LinkedHashMap firElem = (LinkedHashMap) array.get(0);
-        String realkey = RegexNum.getRealKey(rule);
-        if(realkey!=null){
-            String realData = realkey + "=" + firElem.get(realkey);
+        String realKey = RegexNum.getRealKey(rule.getFormula());
+        if (realKey != null) {
+            String realData = realKey + "=" + firElem.get(realKey);
             boolean isSend = filterAlarmMessage(rule, url, realData);
             if (isSend) {
                 ServiceModel serviceModel = appService.getServiceModelById(url.getServiceId());
                 notifyClientService.notifyClient(serviceModel, url, rule, realData);
             }
         }
-
-
-
     }
 
     private boolean filterAlarmMessage(Rule rule, ServiceUrl url, String realData) {

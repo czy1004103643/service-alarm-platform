@@ -7,6 +7,9 @@
     </Properties>
 
     <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+        </Console>
 
         <RollingRandomAccessFile   name="INFO" fileName="${logBasePath}/info.log"
                                    filePattern="${logBasePath}/info.log.%d{yyyy-MM-dd}_%i.log"
@@ -52,6 +55,7 @@
     <Loggers>
 
         <Root level="INFO">
+            <AppenderRef ref="Console" />
             <AppenderRef ref="INFO" />
             <AppenderRef ref="ERROR" />
         </Root>

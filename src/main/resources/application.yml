@@ -30,3 +30,6 @@ alarm:
         token: -8Nt7c_lkiA-QFakZER6m09T1m4lYL-oQyHPp1jAbPC
         userID: jAmcTfGvSzWoBzD7Q
         chanel: bigdata_monitor
+
+logging:
+  config: classpath:common/log4j2.xml

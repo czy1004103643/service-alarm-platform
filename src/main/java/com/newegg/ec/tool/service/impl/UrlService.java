@@ -146,7 +146,7 @@ public class UrlService implements IUrlService {
             try {
                 String bodyContent = serviceUrl.getBodyContent();
                 String urlContent = serviceUrl.getUrlContent();
-                 response= HttpClientUtil.getPostResponse(urlContent, JSONObject.parseObject(bodyContent));
+                response = HttpClientUtil.getPostResponse(urlContent, JSONObject.parseObject(bodyContent));
 
             } catch (Exception e) {
                 logger.error("check post url error.", e);

@@ -49,18 +49,16 @@ public class RegexNum {
         return formulaKeyList.size() > 0 ? formulaKeyList.get(0) : null;
     }
 
-    public static  String getRealKey(Rule rule){
-        String str = rule.getFormula();
+    public static String getRealKey(String formula) {
         Pattern pattern = Pattern.compile(".*@\\.(.*)(<|>|==)");
-        Matcher m = pattern.matcher(str);
-        String realkey = null;
+        Matcher m = pattern.matcher(formula);
+        String realKey = null;
         if (m.find()) {
-            realkey = m.group(1).trim();
+            realKey = m.group(1).trim();
         } else {
-            logger.error("============== No match ==============" + str);
+            logger.error("============== No match ==============" + formula);
         }
-        return  realkey;
-
+        return realKey;
     }
 
 
