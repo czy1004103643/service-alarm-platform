@@ -1,5 +1,9 @@
 package com.newegg.ec.tool.utils;
 
+import com.newegg.ec.tool.entity.Rule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -13,6 +17,8 @@ import static com.newegg.ec.tool.utils.MathExpressionCalculateUtil.VAR_PATTERN;
  * @create: 2019-02-27 23:40
  **/
 public class RegexNum {
+
+    private static final Logger logger = LoggerFactory.getLogger(RegexNum.class);
 
     //判断字符串是不是以数字开头
     public static boolean isStartWithNumber(String str) {
@@ -43,6 +49,21 @@ public class RegexNum {
         return formulaKeyList.size() > 0 ? formulaKeyList.get(0) : null;
     }
 
+    public static  String getRealKey(Rule rule){
+        String str = rule.getFormula();
+        Pattern pattern = Pattern.compile(".*@\\.(.*)(<|>|==)");
+        Matcher m = pattern.matcher(str);
+        String realkey = null;
+        if (m.find()) {
+            realkey = m.group(1).trim();
+        } else {
+            logger.error("============== No match ==============" + str);
+        }
+        return  realkey;
+
+    }
+
+
     public static List<String> getFormulaKeyList(String formula) {
         Matcher matcher = VAR_PATTERN.matcher(formula);
         List<String> unitFormulaList = new LinkedList<>();
@@ -54,9 +75,5 @@ public class RegexNum {
         return unitFormulaList;
     }
 
-    public static void main(String[] args) {
-        /*String formula = getFormula("@{aggregations.result.buckets.doc_count}>1442301");
-        System.out.println(formula);*/
-        // System.out.println(getFormulaKeyList("@{aggregations.result.buckets.doc_count}-@{aggregations.result.buckets.key}>1442301"));
-    }
+
 }

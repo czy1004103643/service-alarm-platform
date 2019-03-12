@@ -13,6 +13,7 @@ import com.newegg.ec.tool.service.IRuleService;
 import com.newegg.ec.tool.service.impl.AppService;
 import com.newegg.ec.tool.service.impl.MonitorDataService;
 import com.newegg.ec.tool.service.impl.UrlService;
+import com.newegg.ec.tool.utils.RegexNum;
 import net.minidev.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,8 +26,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author Jay.H.Zou
@@ -100,27 +99,21 @@ public class MonitorBackend {
     }
 
     private void processRuleAndData(Map<Rule, JSONArray> map, ServiceUrl url) {
-
         Iterator<Map.Entry<Rule, JSONArray>> iterable = map.entrySet().iterator();
         Map.Entry<Rule, JSONArray> entry = iterable.next();
         Rule rule = entry.getKey();
         JSONArray array = entry.getValue();
         LinkedHashMap firElem = (LinkedHashMap) array.get(0);
-        String str = rule.getFormula();
-        Pattern pattern = Pattern.compile(".*@\\.(.*)(<|>|==)");
-        Matcher m = pattern.matcher(str);
-        String realkey = "";
-        if (m.find()) {
-            realkey = m.group(1).trim();
-        } else {
-            logger.error("============== No match ==============" + str);
+        String realkey = RegexNum.getRealKey(rule);
+        if(realkey!=null){
+            String realData = realkey + "=" + firElem.get(realkey);
+            boolean isSend = filterAlarmMessage(rule, url, realData);
+            if (isSend) {
+                ServiceModel serviceModel = appService.getServiceModelById(url.getServiceId());
+                notifyClientService.notifyClient(serviceModel, url, rule, realData);
+            }
         }
-        String realData = realkey + "=" + firElem.get(realkey);
-        boolean isSend = filterAlarmMessage(rule, url, realData);
-        if (isSend) {
-            ServiceModel serviceModel = appService.getServiceModelById(url.getServiceId());
-            notifyClientService.notifyClient(serviceModel, url, rule, realData);
-        }
+
 
 
     }
