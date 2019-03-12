@@ -33,7 +33,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                         </li>
                         <!-- Dropdown -->
@@ -88,10 +88,14 @@
                                     </div>
                                     <!-- Default input -->
                                     <div class="form-group col-md-6">
-                                        <div class="md-form md-outline">
+                                        <div class="md-form md-outline" style="display: -webkit-box;">
                                             <input type="text" id="formula" class="form-control">
                                             <label for="formula">Formula</label>
+                                            <span class="badge badge-pill orange ml-1 cursor-pointer" id="formula-tip" title="how to enter formula"><i class="fas fa-info" ></i></span>
                                         </div>
+                                        <div class="alert alert-info" role="alert" style="display:none;" id="formula-tip-content" >
+                                            <a href="http://www.ibloger.net/article/2329.html" target="_blank">JsonPath 语法教程</a>
+                                          </div>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <div class="md-form md-outline">
@@ -190,6 +194,7 @@
     <script type="text/javascript" src="/static/lib/mdb-free/js/addons/datatables-select.min.js"></script>
     <script type="text/javascript" src="/static/lib/mdb-free/js/modules/enhanced-modals.js"></script>
     <script type="text/javascript" src="/static/lib/jsonview/jquery.jsonview.js"></script>
+    <script type="text/javascript" src="/static/lib/layer/layer.js"></script>
     <script type="text/javascript" src="/static/js/common.js"></script>
     <script type="text/javascript" src="/static/js/rule.js"></script>
     <script>

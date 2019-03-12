@@ -4,7 +4,7 @@ package com.newegg.ec.tool.notify.wechat.entity.message;
  * @author Jay.H.Zou
  * @date 2019/2/23
  */
-public abstract class AbstractWechatMessage {
+public abstract class WechatMessage {
 
     private String touser;
 

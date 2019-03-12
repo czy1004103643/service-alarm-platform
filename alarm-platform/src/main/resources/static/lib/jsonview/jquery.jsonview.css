@@ -48,3 +48,7 @@
     padding: 0; }
   .jsonview h1 {
     font-size: 1.2em; }
+
+.prop {
+  cursor: pointer;
+}

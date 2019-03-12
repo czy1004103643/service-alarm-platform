@@ -50,7 +50,6 @@ $("body").delegate(".service-edit", "click", function () {
                 var alarmWayList = alarmWay.split("|")
                 for (var index = 0; index < alarmWayList.length; index++) {
                     var wayName = alarmWayList[index].toLowerCase()
-                    console.log("=====" + wayName)
                     if (isEmpty(wayName)) {
                         continue
                     }
@@ -103,7 +102,7 @@ $("#save-service").on("click", function () {
     })
 
     if (isEmpty(serviceName)) {
-        alert("service name is empty!")
+        layer.msg('service name is empty!')
         return
     }
     var serviceModel = {
@@ -117,11 +116,11 @@ $("#save-service").on("click", function () {
     post("/service/saveServiceModel", serviceModel, function (result) {
         if (result.code == 0) {
             $("#close-edit").click()
-            message(2000, function () {
-                alert("Save Success")
+            message(1000, function () {
+                layer.msg('Save Success')
             })
         } else {
-            alert("save error")
+            layer.msg('save error', function(){})
         }
 
     }, function (e) {
@@ -136,16 +135,15 @@ $("body").delegate(".service-delete", "click", function () {
 
 $("#delete-yes").on("click", function () {
     var serviceId = $(this).attr("data-id")
-    console.log(serviceId)
     var dataJson = { "serviceId": serviceId }
     del("/service/deleteServiceById", dataJson, function (result) {
         if (result.code == 0) {
             $("#close").click()
-            message(2000, function () {
-                alert("Delete Success")
+            message(1000, function () {
+                layer.msg("Delete Success")
             })
         } else {
-            alert("delete error")
+            layer.msg("delete error")
         }
 
     }, function (e) {
@@ -167,7 +165,6 @@ function initServiceList(groupId) {
 
 
 function buildServiceTable(serviceList) {
-    console.log(serviceList)
     var html = ''
     var wechatHtml = '<i class="fab fa-weixin text-success margin-r-1"></i>'
     var rocketchatHtml = '<i class="fab fa-rocketchat text-danger margin-r-1"></i>'

@@ -40,6 +40,9 @@ public class HttpClientUtil {
 
     private static final String UTF8 = "utf-8";
 
+    /**
+     * just for rocketchat
+     */
     private static final String COOKIE = "JSESSIONID=node0ckl4d6ucq5oeg7a26fqjlzdd523.node0; _ga=GA1.2.1198764541.1542369946; _gid=GA1.2.512651626.1551750181; _hprkt=/ESQueryReportWeb/; _tid=149fgcdmsc9ze245xmhb24hy790e5e516hsxxek265eol8eio5jz; _tname=gz75|Gump.G.Zhao";
 
     private static CloseableHttpClient httpclient;

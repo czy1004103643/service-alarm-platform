@@ -32,7 +32,7 @@ public class WechatBaseInfoConfigTest {
         MessageContent messageContent = new MessageContent();
         messageContent.setContent("Test Message from IDEA");
         try {
-            System.out.println(wechatSendMessageAPI.sendMessage("ItemService", messageContent));
+            System.out.println(wechatSendMessageAPI.sendTextMessage("ItemService", messageContent));
         } catch (IOException e) {
             e.printStackTrace();
         }

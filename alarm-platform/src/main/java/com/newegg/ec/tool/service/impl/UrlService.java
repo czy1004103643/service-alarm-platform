@@ -26,6 +26,7 @@ import java.util.Objects;
  */
 @Service
 public class UrlService implements IUrlService {
+
     @Autowired
     DefaultHttpClient defaultHttpClient;
 

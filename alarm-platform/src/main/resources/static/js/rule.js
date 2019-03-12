@@ -22,7 +22,6 @@ function initRulePage(urlId) {
 
 
 function buildRuleTable(ruleList) {
-    console.log(ruleList)
     if (ruleList != null && ruleList.length > 0) {
         var html = ''
         var size = ruleList.length
@@ -50,12 +49,11 @@ function buildRuleTable(ruleList) {
 $("#request-url").on("click", function () {
     var urlId = getUrlParam("urlId")
     get("/rule/requestUrl?urlId=" + urlId, function (result) {
-        console.log(result)
         var data = result.data
         if (data.key) {
             $("#response-data").JSONView(data.value);
         } else {
-            alert("request error, please check url and params")
+            layer.msg("request error, please check url and params")
         }
     }, function (e) {
         console.log(e)
@@ -65,7 +63,6 @@ $("#request-url").on("click", function () {
 $("body").delegate(".rule-edit", "click", function () {
     var ruleId = $(this).attr("data-id")
     $("#rule-save").attr("data-id", ruleId)
-    console.log(ruleId)
     get("/rule/getRuleById?ruleId=" + ruleId, function (result) {
         var rule = result.data
         $("#modalContactForm label").addClass("active")
@@ -89,11 +86,11 @@ $("#delete-yes").on("click", function () {
     del("/rule/deleteRuleById", dataJson, function (result) {
         if (result.code == 0) {
             $("#close").click()
-            message(2000, function () {
-                alert("Delete Success")
+            message(1000, function () {
+                layer.msg("Delete Success")
             })
         } else {
-            alert("delete error")
+            layer.msg("delete error")
         }
 
     }, function (e) {
@@ -115,12 +112,12 @@ $("#rule-save").on("click", function () {
     var description = $("#description").val()
 
     if (isEmpty(ruleAlias)) {
-        alert("rule alias is empty!")
+        layer.msg("rule alias is empty!")
         return
     }
 
     if (isEmpty(formula)) {
-        alert("formula is empty!")
+        layer.msg("formula is empty!")
         return
     }
 
@@ -138,13 +135,13 @@ $("#rule-save").on("click", function () {
                 if (result2.code == 0) {
                     window.location.reload()
                 } else {
-                    alert("save rule error")
+                    layer.msg("save rule error")
                 }
             }, function (e) {
                 console.log(e)
             })
         } else {
-            alert("formula verification failed, please check")
+            layer.msg("formula verification failed, please check")
         }
     }, function (e) {
 
@@ -152,13 +149,54 @@ $("#rule-save").on("click", function () {
 
 })
 
-function getKeyPath(formula) {
+$("#formula-tip").on("click", function() {
+    $("#formula-tip-content").show()
+})
 
+var keyStr = ''
+var keyType = ''
+var keyValue
+$("body").delegate(".prop", "click", function () {
+
+    var currentDom = $(this)
+    var keyType = currentDom.next().attr("class")
+    if (isEmpty(keyType)) {
+        layer.msg("bad choose!")
+        return
+    }
+    keyValue = currentDom.next().text()
+    var currentKey = currentDom.text().replace(new RegExp('"', 'g'), '')
+    keyStr = currentKey
+    getHierarchy(currentDom)
+    keyStr = "$." + keyStr
+    var lastIndex = keyStr.lastIndexOf("\.")
+    var tempPrefix = keyStr.substring(0, lastIndex)
+    var tempLastField = keyStr.substring(lastIndex + 1, keyStr.length)
+    keyStr = tempPrefix + '[?(@.' + tempLastField + ' > ' + keyValue + ')]'
+    $("#formula").val(keyStr)
+    $("#formula").next().addClass("active")
+})
+
+function getHierarchy(currentDom) {
+    var parentDom = currentDom.parent()
+    var classes = parentDom.attr("class")
+    if (!isEmpty(classes)) {
+        if (classes == "jsonview") {
+            return
+        } else {
+            if (classes.indexOf("collapsible") > 0) {
+                parentDom = parentDom.prev()
+                classes = parentDom.attr("class")
+                if (classes == "prop") {
+                    var currentKey = parentDom.text().replace(new RegExp('"', 'g'), '')
+                    keyStr = currentKey + "." + keyStr
+                }
+            }
+        }
+    }
+    getHierarchy(parentDom)
 }
 
-function checkKeyPath(keyPath, response) {
-
-}
 
 
 const jsonStr = '{"_shards":{"total":80,"failed":0,"successful":80,"skipped":0},"hits":{"hits":[],"total":14516204,"max_score":0},"took":424,"timed_out":false,"aggregations":{"result":{"doc_count_error_upper_bound":0,"sum_other_doc_count":0,"buckets":[{"doc_count":725556,"key":"2019022000"},{"doc_count":776835,"key":"2019022001"},{"doc_count":793158,"key":"2019022002"}]}}}';

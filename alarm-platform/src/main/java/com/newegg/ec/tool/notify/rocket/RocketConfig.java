@@ -13,13 +13,13 @@ import org.springframework.context.event.ContextRefreshedEvent;
  **/
 @Configuration
 @ConfigurationProperties(prefix = "alarm.notify.rocketchat", ignoreInvalidFields = true, ignoreUnknownFields = true)
-public class RocketConfig  implements ApplicationListener<ContextRefreshedEvent> {
+public class RocketConfig {
+
     private String token;
+
     private String userID;
+
     private String chanel;
-
-
-
 
     public String getToken() {
         return token;
@@ -45,7 +45,4 @@ public class RocketConfig  implements ApplicationListener<ContextRefreshedEvent>
         this.chanel = chanel;
     }
 
-    @Override
-    public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-    }
 }

@@ -2,13 +2,13 @@ package com.newegg.ec.tool.notify.wechat.entity;
 
 
 import com.newegg.ec.tool.entity.MessageContent;
-import com.newegg.ec.tool.notify.wechat.entity.message.AbstractWechatMessage;
+import com.newegg.ec.tool.notify.wechat.entity.message.WechatMessage;
 
 /**
  * @author Jay.H.Zou
  * @date 2019/2/23
  */
-public class WechatTextMessage extends AbstractWechatMessage {
+public class WechatTextMessage extends WechatMessage {
 
     private MessageContent text;
 
