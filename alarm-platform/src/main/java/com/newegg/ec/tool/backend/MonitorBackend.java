@@ -26,6 +26,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Jay.H.Zou
@@ -88,12 +90,15 @@ public class MonitorBackend {
             String urlContent = url.getUrlContent();
             Map<Rule, JSONArray> ruleDataMap = new HashMap<>();
             if (urlContent.contains(API_GATEWAY_PREFIX_1)) {
-                ruleDataMap = apiGateWayService.collectData(urlId);
+               ruleDataMap = apiGateWayService.collectData(urlId);
             } else {
                 ruleDataMap = commonCollectDataService.collectData(urlId);
             }
 
-            processRuleAndData(ruleDataMap, url);
+            if(ruleDataMap.size()>0){
+                processRuleAndData(ruleDataMap,url);
+            }
+
 
         }
     }
@@ -106,30 +111,39 @@ public class MonitorBackend {
         JSONArray array = entry.getValue();
         LinkedHashMap firElem = (LinkedHashMap) array.get(0);
         String str = rule.getFormula();
-        String realKey = str.substring(str.indexOf("@.") + 2, str.lastIndexOf(">") - 1);
-        String realData = realKey + "=" + firElem.get(realKey);
+        Pattern pattern = Pattern.compile(".*@\\.(.*)(<|>|==)");
+        Matcher m = pattern.matcher(str);
+        String realkey = "";
+        if (m.find( )) {
+            realkey= m.group(1).trim();
+        } else {
+            logger.error("============== No match =============="+str);
+        }
+        String realData =realkey +"="+ firElem.get(realkey);
         boolean isSend = filterAlarmMessage(rule, url, realData);
         if (isSend) {
             ServiceModel serviceModel = appService.getServiceModelById(url.getServiceId());
             notifyClientService.notifyClient(serviceModel, url, rule, realData);
         }
+
+
     }
 
     private boolean filterAlarmMessage(Rule rule, ServiceUrl url, String realData) {
 
-        String dataId = rule.getRuleId() + url.getUrlId();
+        String dataid=rule.getRuleId()+url.getUrlId();
 
-        List<MonitorData> dataList = monitorDataService.existData(String.valueOf(dataId.hashCode()));
+        List<MonitorData> dataList = monitorDataService.existData(String.valueOf(dataid.hashCode()));
 
-        if (dataList.size() == 0) {
+        if(dataList.size()==0){
             MonitorData monitorData = new MonitorData();
             monitorData.setUrlId(url.getUrlId());
             monitorData.setRuleId(rule.getRuleId());
             monitorData.setDataContent(realData);
             monitorDataService.saveMonitorData(monitorData);
-            return true;
-        } else {
-            List<MonitorData> monitorDataList = monitorDataService.existMonitorData(String.valueOf(dataId.hashCode()));
+            return  true;
+        }else {
+            List<MonitorData> monitorDataList = monitorDataService.existMonitorData(String.valueOf(dataid.hashCode()));
             if (monitorDataList != null && monitorDataList.size() > 0) {
                 // 半小时内有报警过此规则
                 monitorDataService.updataMonitorData(monitorDataList.get(0));
@@ -137,7 +151,12 @@ public class MonitorBackend {
             } else {
                 return false;
             }
+
         }
+
+
+
+
     }
 
 }

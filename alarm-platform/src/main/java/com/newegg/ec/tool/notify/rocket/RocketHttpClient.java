@@ -31,7 +31,7 @@ public class RocketHttpClient implements HttpClientInterface, ApplicationListene
     private Request request;
 
     @Override
-    public Response postMessage(String url, MessageContent data) {
+    public Response postMessage(String url, MessageContent data)  {
         request.newBuilder().url(url);
         MediaType mediaType = MediaType.parse("application/json");
         String str = "{ \"channel\": \"" + rocketConfig.getChanel() + "\", \"text\": \"" + data.getContent() + "\"}";
@@ -39,8 +39,9 @@ public class RocketHttpClient implements HttpClientInterface, ApplicationListene
         Response response = null;
         try {
             response = httpClient.newCall(request).execute();
+            response.close();
         } catch (IOException e) {
-            loger.error("post Rocket failture", e);
+            loger.error("post Rocket failture",e);
         }
         return response;
     }
@@ -53,9 +54,10 @@ public class RocketHttpClient implements HttpClientInterface, ApplicationListene
                 .get()
                 .addHeader("Cookie", "JSESSIONID=node0s1bw8cgpo7p413kkzpo78xxbs464.node0; _ga=GA1.2.1198764541.1542369946; _gid=GA1.2.512651626.1551750181; _tid=1ldd84z9d4ezl1yz264kp7mbjj33orkk33z5vn81ybq0xobpz00m; _tname=gz75|Gump.G.Zhao; _hprkt=/ESQueryReportWeb/")
                 .build();
-        Response response = null;
+        Response response=null;
         try {
-            response = client.newCall(request).execute();
+              response = client.newCall(request).execute();
+              response.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -63,27 +65,28 @@ public class RocketHttpClient implements HttpClientInterface, ApplicationListene
     }
 
 
-    public void configNew(String token, String userid) {
-        request.newBuilder()
-                .addHeader("X-Auth-Token", rocketConfig.getToken())
-                .addHeader("X-User-Id", rocketConfig.getUserID())
-                .build();
+
+    public void configNew(String token,String userid){
+          request.newBuilder()
+                 .addHeader("X-Auth-Token",  rocketConfig.getToken())
+                 .addHeader("X-User-Id", rocketConfig.getUserID())
+                 .build();
     }
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         httpClient = new OkHttpClient();
         request = new Request.Builder()
-                .url("https://localhost")
+              .url("https://localhost")
                 .addHeader("Accept", "application/json")
                 .addHeader("Content-Type", "application/json")
-                .addHeader("X-Auth-Token", rocketConfig.getToken())
+                .addHeader("X-Auth-Token",  rocketConfig.getToken())
                 .addHeader("X-User-Id", rocketConfig.getUserID())
                 .addHeader("cache-control", "no-cache")
                 .build();
     }
 
-    public Response postNetMessage(String url, MessageContent data) throws IOException {
+    public Response postNetMessage(String url,MessageContent data) throws IOException {
         MediaType mediaType = MediaType.parse("application/json");
         RequestBody body = RequestBody.create(mediaType, data.getContent());
         Request request = new Request.Builder()
@@ -95,10 +98,12 @@ public class RocketHttpClient implements HttpClientInterface, ApplicationListene
                 .build();
         OkHttpClient client = new OkHttpClient();
         Response response = client.newCall(request).execute();
+        response.close();
         return response;
     }
 
-    public int postRocketMessage(MessageContent data) throws IOException {
+    public int     postRocketMessage(MessageContent data) throws IOException {
+
 
         MediaType mediaType = MediaType.parse("application/json");
         String str = "{ \"channel\": \"" + rocketConfig.getChanel() + "\", \"text\": \"" + data.getContent() + "\"}";
@@ -115,7 +120,11 @@ public class RocketHttpClient implements HttpClientInterface, ApplicationListene
                 .build();
         OkHttpClient client = new OkHttpClient();
         Response response = client.newCall(request).execute();
+        response.close();
         return response.code();
     }
+
+
+
 
 }
