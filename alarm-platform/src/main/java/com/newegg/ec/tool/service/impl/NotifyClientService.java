@@ -2,7 +2,7 @@ package com.newegg.ec.tool.service.impl;
 
 
 import com.newegg.ec.tool.entity.*;
-import com.newegg.ec.tool.notify.rocket.DefaultHttpClient;
+import com.newegg.ec.tool.notify.rocket.RocketHttpClient;
 import com.newegg.ec.tool.notify.wechat.api.WechatSendMessageAPI;
 import com.newegg.ec.tool.service.INotifyService;
 import com.newegg.ec.tool.utils.CommonUtils;
@@ -28,7 +28,7 @@ public class NotifyClientService implements INotifyService {
     private WechatSendMessageAPI wechatSendMessageAPI;
 
     @Autowired
-    private DefaultHttpClient defaultHttpClient;
+    private RocketHttpClient rocketHttpClient;
 
     @Override
     public void notifyClient(ServiceModel serviceModel, ServiceUrl url, Rule rule, String realData) {
@@ -44,12 +44,13 @@ public class NotifyClientService implements INotifyService {
                 case "WECHAT":
                     try {
                         logger.info("*************************** Send Message ***************************");
-                        MessageContent messageContent = buildTextMessageContent(serviceModel, url, rule, realData);
+                        // MessageContent messageContent = buildTextMessageContent(serviceModel, url, rule, realData);
+                        MessageContent messageContent = buildTextCardMessage(serviceModel, url, rule, realData);
                         if (StringUtils.isNotBlank(wechatAppName)) {
                             List<String> apppNameList = CommonUtils.stringToList(wechatAppName);
                             for (String appName : apppNameList) {
                                 if (StringUtils.isNotBlank(appName)) {
-                                    boolean status = wechatSendMessageAPI.sendTextMessage(appName, messageContent);
+                                    boolean status = wechatSendMessageAPI.sendCardMessage(appName, messageContent);
                                     if (!status) {
                                         logger.warn("send wechat message failed, appName=" + appName + ", messageContent=" + messageContent);
                                     }
@@ -63,7 +64,7 @@ public class NotifyClientService implements INotifyService {
                 case "ROCKETCHAT":
                     try {
                         MessageContent rocketMessage = buildRocketMessageContent(serviceModel, url, rule, realData);
-                        int code = defaultHttpClient.postRocketMessage(rocketMessage);
+                        int code = rocketHttpClient.postRocketMessage(rocketMessage);
                     } catch (IOException e) {
                         logger.error("send rocketchat error", e);
                     }
@@ -119,14 +120,17 @@ public class NotifyClientService implements INotifyService {
         StringBuffer description = new StringBuffer();
         description.append("<div class=\"gray\">")
                 .append(CommonUtils.formatTime(System.currentTimeMillis()))
-                .append("</div> <div class=\"highlight\">")
+                .append("</div>")
                 .append(rule.getRuleAlias())
-                .append(": ")
+                .append(": <div class=\"highlight\">")
                 .append(rule.getFormula())
-                .append(" ")
+                .append("</div></div><div>")
+                .append(rule.getDescription())
+                .append(": <div class=\"highlight\">")
                 .append(realData)
-                .append("</div>");
+                .append("</div></div>");
         messageContent.setDescription(description.toString());
+        System.err.println(description);
         return messageContent;
     }
 }

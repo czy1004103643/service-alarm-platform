@@ -6,6 +6,7 @@ import com.newegg.ec.tool.entity.RequestMethod;
 import com.newegg.ec.tool.entity.Rule;
 import com.newegg.ec.tool.entity.ServiceUrl;
 import com.newegg.ec.tool.service.impl.RuleService;
+import com.newegg.ec.tool.service.impl.UrlService;
 import com.newegg.ec.tool.utils.JsonUtils;
 import com.newegg.ec.tool.utils.RegexNum;
 import com.newegg.ec.tool.utils.http.HttpClientUtil;
@@ -22,9 +23,9 @@ import java.util.*;
  * @author Jay.H.Zou
  * @date 2019/3/8
  */
-public abstract class CollectionDataAbstractI implements ICollectData {
+public abstract class CollectionDataAbstract implements ICollectData {
 
-    protected static final Logger logger = LoggerFactory.getLogger(CollectionDataAbstractI.class);
+    protected static final Logger logger = LoggerFactory.getLogger(CollectionDataAbstract.class);
 
     @Autowired
     private IUrlService urlService;
@@ -52,12 +53,17 @@ public abstract class CollectionDataAbstractI implements ICollectData {
         String response = null;
         try {
             if (Objects.equals(requestType, RequestMethod.GET.toString())) {
-                String params = newServiceUrl.getParamContent();
+                String params = JsonUtils.jsonToParam(newServiceUrl.getParamContent());
+
                 if (StringUtils.isNotBlank(params)) {
                     urlContent += "?";
                     urlContent += params;
                 }
-                response = HttpClientUtil.getGetResponse(urlContent);
+                Map<String, String> headers = new HashMap<>();
+                if (urlContent.contains(UrlService.K_NEWEGG_ORG)) {
+                    headers.put("Cookie", UrlService.COOKIE);
+                }
+                response = HttpClientUtil.getGetResponse(urlContent, headers);
 
             } else if (Objects.equals(requestType, RequestMethod.POST.toString())) {
                 String bodyContent = newServiceUrl.getBodyContent();
@@ -67,46 +73,14 @@ public abstract class CollectionDataAbstractI implements ICollectData {
                 return result;
             }
             List<Rule> ruleList = ruleService.getRuleList(urlId);
-            for(Rule rule:ruleList){
-                String r = rule.getFormula();
-                JSONArray array= JsonPath.read(response,rule.getFormula());
+            for (Rule rule : ruleList) {
+                JSONArray array = JsonPath.read(response, rule.getFormula());
                 if (array.size() > 0) {
                     result.put(rule, array);
                 }
             }
-
-
         } catch (Exception e) {
             logger.error("collect data error, serviceUrl=" + newServiceUrl, e);
-        }
-        return result;
-    }
-
-    /**
-     * 处理请求结果，如果报错，则记 log ，返回空list
-     *
-     * @param response
-     * @return
-     */
-    public Map<String, List<BigDecimal>> processResult(String response, List<Rule> ruleList) {
-        Map<String, List<BigDecimal>> result = new HashMap<>();
-        if (StringUtils.isBlank(response) || ruleList == null || ruleList.size() == 0) {
-            return result;
-        }
-        try {
-            JSONObject responseJson = JSONObject.parseObject(response);
-            for (Rule rule : ruleList) {
-                String formula = rule.getFormula();
-                String formulaKey = RegexNum.getFormulaKey(formula);
-                if (StringUtils.isNotBlank(formulaKey)) {
-                    List<BigDecimal> valueList = JsonUtils.getValue(responseJson, formulaKey);
-                    if (valueList.size() > 0) {
-                        result.put(formula, valueList);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            logger.error("process result error.", e);
         }
         return result;
     }

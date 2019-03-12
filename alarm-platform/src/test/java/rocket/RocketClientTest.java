@@ -1,7 +1,7 @@
 package rocket;
 
 import com.newegg.ec.tool.AlarmPlatformApplication;
-import com.newegg.ec.tool.notify.rocket.DefaultHttpClient;
+import com.newegg.ec.tool.notify.rocket.RocketHttpClient;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import java.util.TimeZone;
 
 public class RocketClientTest {
 @Autowired
-DefaultHttpClient defaultRocketChatClient;
+RocketHttpClient defaultRocketChatClient;
 
     @Test
     public void Test() throws IOException {

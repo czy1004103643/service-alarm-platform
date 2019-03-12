@@ -19,8 +19,10 @@ import java.io.IOException;
  * @create: 2019-02-27 13:51
  **/
 @Component
-public class DefaultHttpClient implements HttpClientInterface, ApplicationListener<ContextRefreshedEvent> {
-    private static final Logger loger = LoggerFactory.getLogger(DefaultHttpClient.class);
+public class RocketHttpClient implements HttpClientInterface, ApplicationListener<ContextRefreshedEvent> {
+
+    private static final Logger loger = LoggerFactory.getLogger(RocketHttpClient.class);
+
     @Autowired
     RocketConfig rocketConfig;
 

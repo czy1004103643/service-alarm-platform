@@ -20,6 +20,7 @@ import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -39,11 +40,6 @@ public class HttpClientUtil {
     private static final String APPLICATION_JSON = "application/json";
 
     private static final String UTF8 = "utf-8";
-
-    /**
-     * just for rocketchat
-     */
-    private static final String COOKIE = "JSESSIONID=node0ckl4d6ucq5oeg7a26fqjlzdd523.node0; _ga=GA1.2.1198764541.1542369946; _gid=GA1.2.512651626.1551750181; _hprkt=/ESQueryReportWeb/; _tid=149fgcdmsc9ze245xmhb24hy790e5e516hsxxek265eol8eio5jz; _tname=gz75|Gump.G.Zhao";
 
     private static CloseableHttpClient httpclient;
 
@@ -110,7 +106,11 @@ public class HttpClientUtil {
      * @throws IOException
      */
     public static String getPostResponse(String url, JSONObject postJson) throws IOException {
-        HttpPost httpPost = postForm(url, postJson);
+        return getPostResponse(url, postJson, null);
+    }
+
+    public static String getPostResponse(String url, JSONObject postJson, Map<String, String> headers) throws IOException {
+        HttpPost httpPost = postForm(url, postJson, headers);
         HttpResponse response;
         String result = null;
         try {
@@ -130,12 +130,17 @@ public class HttpClientUtil {
      * @param postJson
      * @return
      */
-    private static HttpPost postForm(String url, JSONObject postJson) {
+    private static HttpPost postForm(String url, JSONObject postJson, Map<String, String> headers) {
         HttpPost httpPost = new HttpPost(url);
         httpPost.setConfig(getRequestConfig());
         httpPost.setHeader(CONNECTION, KEEP_ALIVE);
         httpPost.setHeader(CONTENT_TYPE, APPLICATION_JSON);
         httpPost.setHeader(ACCEPT, APPLICATION_JSON);
+        if (headers != null && headers.size() > 0) {
+            for (Map.Entry<String, String> header : headers.entrySet()) {
+                httpPost.setHeader(header.getKey(), header.getValue());
+            }
+        }
         try {
             //解决中文乱码问题
             StringEntity entity = new StringEntity(postJson.toString(), UTF8);
@@ -145,9 +150,8 @@ public class HttpClientUtil {
         }
         return httpPost;
     }
-
-    public static String getGetResponse(String url) throws IOException {
-        HttpGet httpGet = getForm(url);
+    public static String getGetResponse(String url, Map<String, String> headers) throws IOException {
+        HttpGet httpGet = getForm(url, headers);
         HttpResponse response;
         try {
             response = httpclient.execute(httpGet);
@@ -160,18 +164,25 @@ public class HttpClientUtil {
         }
         return null;
     }
+    public static String getGetResponse(String url) throws IOException {
+        return getGetResponse(url, null);
+    }
 
     /**
      * @param url
      * @return
      */
-    private static HttpGet getForm(String url) {
+    private static HttpGet getForm(String url, Map<String, String> headers) {
         HttpGet httpGet = new HttpGet(url);
         httpGet.setConfig(getRequestConfig());
-        httpGet.addHeader("Accept", APPLICATION_JSON);
+        httpGet.addHeader(ACCEPT, APPLICATION_JSON);
         httpGet.addHeader(CONNECTION, KEEP_ALIVE);
         httpGet.addHeader(CONTENT_TYPE, APPLICATION_JSON);
-        httpGet.addHeader("Cookie",COOKIE);
+        if (headers != null && headers.size() > 0) {
+            for (Map.Entry<String, String> header : headers.entrySet()) {
+                httpGet.setHeader(header.getKey(), header.getValue());
+            }
+        }
         return httpGet;
     }
 

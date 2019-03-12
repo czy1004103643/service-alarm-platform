@@ -62,7 +62,7 @@ public class WechatSendMessageAPI {
     }
 
     private WechatAppInfo prepareData(String appName, MessageContent messageContent) {
-        if (messageContent == null || StringUtils.isBlank(messageContent.getContent())) {
+        if (messageContent == null) {
             return null;
         }
 

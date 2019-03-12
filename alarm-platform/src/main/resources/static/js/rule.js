@@ -48,7 +48,11 @@ function buildRuleTable(ruleList) {
 
 $("#request-url").on("click", function () {
     var urlId = getUrlParam("urlId")
+    layer.load(2)
     get("/rule/requestUrl?urlId=" + urlId, function (result) {
+        setTimeout(function () {
+            layer.closeAll('loading');
+        }, 10)
         var data = result.data
         if (data.key) {
             $("#response-data").JSONView(data.value);
@@ -128,8 +132,11 @@ $("#rule-save").on("click", function () {
         "formula": formula,
         "description": description
     }
-    console.log(ruleJson)
+    layer.load(2)
     post("/rule/checkRule", ruleJson, function (result) {
+        setTimeout(function () {
+            layer.closeAll('loading');
+        }, 10)
         if (result.code == 0) {
             post("/rule/saveRule", ruleJson, function (result2) {
                 if (result2.code == 0) {
@@ -149,7 +156,7 @@ $("#rule-save").on("click", function () {
 
 })
 
-$("#formula-tip").on("click", function() {
+$("#formula-tip").on("click", function () {
     $("#formula-tip-content").show()
 })
 

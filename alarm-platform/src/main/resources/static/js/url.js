@@ -26,7 +26,6 @@ $("#url-save").on("click", function () {
 $("body").delegate(".url-edit", "click", function () {
     var urlId = $(this).attr("data-id")
     $("#url-save").attr("data-id", urlId)
-    console.log(urlId)
     get("/url/getUrlById?urlId=" + urlId, function (result) {
         var url = result.data
 
@@ -87,9 +86,7 @@ function buildParamList(paramJson) {
 }
 
 function initUrlPage(serviceId) {
-    console.log(serviceId)
     get("/url/getUrlList?serviceId=" + serviceId, function (result) {
-        console.log(result)
         if (result.code == 0) {
             var urlList = result.data
             buildUrlTable(urlList)
@@ -130,9 +127,12 @@ $("#url-test").on("click", function () {
     var urlJson = getInputValues()
     if (!isEmpty(urlJson)) {
         post("/url/checkUrl", urlJson, function (result) {
-            console.log(result)
+            llayer.load(2)
             var data = result.data
             if (data.key) {
+                setTimeout(function () {
+                    layer.closeAll('loading');
+                }, 10)
                 $("#response-data").JSONView(data.value);
             } else {
                 layer.msg("request error, please check url and params")
@@ -186,7 +186,6 @@ function getInputValues() {
     }
     var paramContent = JSON.stringify(paramJSON)
 
-    console.log(paramContent)
     var urlJson = {
         "serviceId": serviceId,
         "urlId": urlId,
@@ -196,7 +195,6 @@ function getInputValues() {
         "paramContent": paramContent,
         "description": description
     }
-    console.log(urlJson)
     return urlJson
 }
 

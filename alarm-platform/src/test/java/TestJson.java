@@ -45,4 +45,15 @@ public class TestJson {
         System.out.println(read);
     }
 
+    @Test
+    public void testOne() {
+        String json = "{\n" +
+                "\"errcode\": 0,\n" +
+                "\"errmsg\": \"ok\",\n" +
+                "\"access_token\": \"412hbgxT31XK4KPSH1covOn_HxxpetCvvkCFHA4eryUQgUAY18eJKQOU12X1xswTK2uhjylR5o3XhMxbn3B2v-lJPkD1UwcvYOPUyAHXYEJYWpQefUa_y6IHWU7tj4UAv0grwNW7fD8A37fSnHv0QKH5D5bWi58jFhrOHsyjvapHPhjuh-7X5BM-0MVBFuhwA4O97gY0FOryIdhq9ZvRTw\",\n" +
+                "\"expires_in\": 7200\n" +
+                "}";
+        Object read = JsonPath.read(json, "$(?(@.errmsg == \"ok\"))");
+        System.out.println(read);
+    }
 }

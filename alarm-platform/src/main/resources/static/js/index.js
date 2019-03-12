@@ -6,7 +6,6 @@ $(function () {
 function initGroupPage() {
     get("/group/getGroupList", function (result) {
         var groupList = result.data
-        console.log(groupList)
         buildPage(groupList)
     }, function (e) {
         console.log(e)

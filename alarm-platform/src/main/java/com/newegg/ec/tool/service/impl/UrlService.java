@@ -3,22 +3,23 @@ package com.newegg.ec.tool.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.newegg.ec.tool.dao.ServiceUrlDao;
 import com.newegg.ec.tool.entity.ServiceUrl;
-import com.newegg.ec.tool.notify.rocket.DefaultHttpClient;
 import com.newegg.ec.tool.service.IUrlService;
 import com.newegg.ec.tool.utils.CommonUtils;
+import com.newegg.ec.tool.utils.JsonUtils;
 import com.newegg.ec.tool.utils.http.HttpClientUtil;
 import javafx.util.Pair;
-import okhttp3.Response;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
+import static com.newegg.ec.tool.utils.JsonUtils.jsonToParam;
 
 /**
  * @author Jay.H.Zou
@@ -27,16 +28,16 @@ import java.util.Objects;
 @Service
 public class UrlService implements IUrlService {
 
-    @Autowired
-    DefaultHttpClient defaultHttpClient;
-
-
-
     private static final Logger logger = LoggerFactory.getLogger(UrlService.class);
 
     private static final String GET = "GET";
 
     private static final String POST = "POST";
+
+    public static final String K_NEWEGG_ORG = "k.newegg.org";
+
+    public static final String COOKIE = "JSESSIONID=node0ckl4d6ucq5oeg7a26fqjlzdd523.node0; _ga=GA1.2.1198764541.1542369946; _gid=GA1.2.512651626.1551750181; _hprkt=/ESQueryReportWeb/; _tid=149fgcdmsc9ze245xmhb24hy790e5e516hsxxek265eol8eio5jz; _tname=gz75|Gump.G.Zhao";
+
 
     @Autowired
     private ServiceUrlDao serviceUrlDao;
@@ -94,8 +95,8 @@ public class UrlService implements IUrlService {
         }
         try {
             ServiceUrl serviceUrl = serviceUrlDao.selectUrlById(urlId);
-            if (serviceUrl != null) {
-                serviceUrl.setParamContent(paramsToJson(serviceUrl.getParamContent()));
+            if (serviceUrl != null && StringUtils.isNotBlank(serviceUrl.getParamContent())) {
+                serviceUrl.setParamContent(JsonUtils.paramsToJson(serviceUrl.getParamContent()));
             }
             return serviceUrl;
         } catch (Exception e) {
@@ -123,15 +124,21 @@ public class UrlService implements IUrlService {
         if (!checkRequestParam(serviceUrl)) {
             return statusAndResponse;
         }
+        String response = "";
         String requestType = serviceUrl.getRequestType();
         if (Objects.equals(requestType, GET)) {
-            String paramContent = serviceUrl.getParamContent();
+            String paramContent = JsonUtils.jsonToParam(serviceUrl.getParamContent());
             String urlContent = serviceUrl.getUrlContent();
-            String url = urlContent + "?" + jsonToParam(paramContent);
+            String url = urlContent;
+            if (StringUtils.isNotBlank(paramContent)) {
+                url = url + "?" + JsonUtils.jsonToParam(paramContent);
+            }
             try {
-
-                Response response = defaultHttpClient.getMessage(url);
-                statusAndResponse = new Pair<>(true, response.body().string());
+                Map<String, String> headers = new HashMap<>();
+                if (url.contains(K_NEWEGG_ORG)) {
+                    headers.put("Cookie", COOKIE);
+                }
+                response = HttpClientUtil.getGetResponse(url, headers);
             } catch (Exception e) {
                 logger.error("check get url error.", e);
             }
@@ -139,11 +146,17 @@ public class UrlService implements IUrlService {
             try {
                 String bodyContent = serviceUrl.getBodyContent();
                 String urlContent = serviceUrl.getUrlContent();
-                String response = HttpClientUtil.getPostResponse(urlContent, JSONObject.parseObject(bodyContent));
-                statusAndResponse = new Pair<>(true, response);
+                 response= HttpClientUtil.getPostResponse(urlContent, JSONObject.parseObject(bodyContent));
+
             } catch (Exception e) {
                 logger.error("check post url error.", e);
             }
+        }
+        try {
+            JSONObject jsonObject = JSONObject.parseObject(response);
+            statusAndResponse = new Pair<>(true, jsonObject);
+        } catch (Exception e) {
+            logger.error("response error, response: " + response, e);
         }
         return statusAndResponse;
     }
@@ -160,39 +173,4 @@ public class UrlService implements IUrlService {
         return true;
     }
 
-    private String jsonToParam(String paramJson) {
-        StringBuffer paramContent = new StringBuffer();
-        if (StringUtils.isNotBlank(paramJson)) {
-            try {
-                JSONObject jsonObject = JSONObject.parseObject(paramJson);
-                Iterator<Map.Entry<String, Object>> iterator = jsonObject.entrySet().iterator();
-                int size = jsonObject.size();
-                int index = 0;
-                while (iterator.hasNext()) {
-                    index++;
-                    Map.Entry<String, Object> next = iterator.next();
-                    paramContent.append(next.getKey()).append("=").append(next.getValue());
-                    if (index < size) {
-                        paramContent.append("&");
-                    }
-                }
-            } catch (Exception e) {
-                logger.error("parse json error.", e);
-            }
-        }
-        return paramContent.toString();
-    }
-
-    private String paramsToJson(String paramContent) {
-        if (StringUtils.isBlank(paramContent)) {
-            return null;
-        }
-        String[] split = paramContent.split("\\&");
-        JSONObject jsonObject = new JSONObject();
-        for (String keyAndVal : split) {
-            String[] keyAndValArray = keyAndVal.split("\\=");
-            jsonObject.put(keyAndValArray[0], keyAndValArray[1]);
-        }
-        return jsonObject.toJSONString();
-    }
 }

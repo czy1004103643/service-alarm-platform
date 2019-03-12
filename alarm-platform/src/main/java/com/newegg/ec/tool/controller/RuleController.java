@@ -71,7 +71,6 @@ public class RuleController {
     @ResponseBody
     public Result checkRule(@RequestBody Rule rule) {
         boolean status = ruleService.checkRule(rule);
-        //return status ? Result.successResult() : Result.failResult();
-        return Result.successResult();
+        return status ? Result.successResult() : Result.failResult();
     }
 }

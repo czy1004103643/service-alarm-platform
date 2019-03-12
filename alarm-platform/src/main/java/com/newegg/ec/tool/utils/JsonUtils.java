@@ -3,11 +3,10 @@ package com.newegg.ec.tool.utils;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jayway.jsonpath.JsonPath;
+import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author Jay.H.Zou
@@ -16,6 +15,39 @@ import java.util.Objects;
 public class JsonUtils {
 
     private JsonUtils() {
+    }
+
+    public static String jsonToParam(String paramJson) {
+        StringBuffer paramContent = new StringBuffer();
+        if (StringUtils.isNotBlank(paramJson)) {
+            JSONObject jsonObject = JSONObject.parseObject(paramJson);
+            Iterator<Map.Entry<String, Object>> iterator = jsonObject.entrySet().iterator();
+            int size = jsonObject.size();
+            int index = 0;
+            while (iterator.hasNext()) {
+                index++;
+                Map.Entry<String, Object> next = iterator.next();
+                paramContent.append(next.getKey()).append("=").append(next.getValue());
+                if (index < size) {
+                    paramContent.append("&");
+                }
+            }
+
+        }
+        return paramContent.toString();
+    }
+
+    public static String paramsToJson(String paramContent) {
+        if (StringUtils.isBlank(paramContent)) {
+            return null;
+        }
+        String[] split = paramContent.split("\\&");
+        JSONObject jsonObject = new JSONObject();
+        for (String keyAndVal : split) {
+            String[] keyAndValArray = keyAndVal.split("\\=");
+            jsonObject.put(keyAndValArray[0], keyAndValArray[1]);
+        }
+        return jsonObject.toJSONString();
     }
 
     public static BigDecimal getSingleValue(JSONObject jsonObject, String path) {

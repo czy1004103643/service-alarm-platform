@@ -111,18 +111,13 @@ public class RuleService implements IRuleService {
             if (statusAndResponse.getKey()) {
                 Object value = statusAndResponse.getValue();
                 if (value != null) {
-                    JSONObject jsonObject = JSONObject.parseObject(value.toString());
                     String formula = rule.getFormula();
-                    List<String> formulaKeyList = RegexNum.getFormulaKeyList(formula);
-                    for (String unit : formulaKeyList) {
-                        List<BigDecimal> valueList = JsonUtils.getValue(jsonObject, unit);
-                        if (valueList.size() == 0) {
-                            return false;
-                        }
-                    }
+                    Object read = JsonPath.read(statusAndResponse.getValue(), formula);
+                    logger.info(read.toString());
+                    return true;
                 }
             }
-            return MathExpressionCalculateUtil.checkRule(rule.getFormula());
+            return false;
         } catch (Exception e) {
             logger.error("check rule error.", e);
             return false;

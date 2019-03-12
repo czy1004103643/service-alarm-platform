@@ -1,7 +1,7 @@
 package com.newegg.ec.tool.service.collection;
 
 import com.newegg.ec.tool.entity.ServiceUrl;
-import com.newegg.ec.tool.service.CollectionDataAbstractI;
+import com.newegg.ec.tool.service.CollectionDataAbstract;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,9 +9,11 @@ import org.springframework.stereotype.Component;
  * @date 2019/3/8
  */
 @Component("commonCollectDataService")
-public class CommonCollectDataService extends CollectionDataAbstractI {
+public class CommonCollectDataService extends CollectionDataAbstract {
+
     @Override
     public ServiceUrl reprocessingRequest(ServiceUrl serviceUrl) {
         return serviceUrl;
     }
+
 }
