@@ -26,6 +26,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Jay.H.Zou
@@ -109,8 +111,15 @@ public class MonitorBackend {
         JSONArray array = entry.getValue();
         LinkedHashMap firElem = (LinkedHashMap) array.get(0);
         String str = rule.getFormula();
-        String realKey = str.substring(str.indexOf("@.") + 2, str.lastIndexOf(">")-1);
-        String realData = realKey +"="+ firElem.get(realKey);
+        Pattern pattern = Pattern.compile(".*@\\.(.*)(<|>|==)");
+        Matcher m = pattern.matcher(str);
+        String realkey = "";
+        if (m.find( )) {
+            realkey= m.group(1).trim();
+        } else {
+            logger.error("============== No match =============="+str);
+        }
+        String realData =realkey +"="+ firElem.get(realkey);
         boolean isSend = filterAlarmMessage(rule, url, realData);
         if (isSend) {
             ServiceModel serviceModel = appService.getServiceModelById(url.getServiceId());
