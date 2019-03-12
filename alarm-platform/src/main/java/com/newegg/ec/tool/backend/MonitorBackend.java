@@ -12,7 +12,6 @@ import com.newegg.ec.tool.service.INotifyService;
 import com.newegg.ec.tool.service.IRuleService;
 import com.newegg.ec.tool.service.impl.AppService;
 import com.newegg.ec.tool.service.impl.MonitorDataService;
-import com.newegg.ec.tool.service.impl.OldApiGatewayService;
 import com.newegg.ec.tool.service.impl.UrlService;
 import net.minidev.json.JSONArray;
 import org.slf4j.Logger;
@@ -63,9 +62,6 @@ public class MonitorBackend {
     private UrlService urlService;
 
     @Autowired
-    private OldApiGatewayService oldApiGatewayService;
-
-    @Autowired
     private INotifyService notifyClientService;
 
     @Autowired
@@ -90,13 +86,13 @@ public class MonitorBackend {
             String urlContent = url.getUrlContent();
             Map<Rule, JSONArray> ruleDataMap = new HashMap<>();
             if (urlContent.contains(API_GATEWAY_PREFIX_1)) {
-               ruleDataMap = apiGateWayService.collectData(urlId);
+                ruleDataMap = apiGateWayService.collectData(urlId);
             } else {
                 ruleDataMap = commonCollectDataService.collectData(urlId);
             }
 
-            if(ruleDataMap.size()>0){
-                processRuleAndData(ruleDataMap,url);
+            if (ruleDataMap.size() > 0) {
+                processRuleAndData(ruleDataMap, url);
             }
 
 
@@ -114,12 +110,12 @@ public class MonitorBackend {
         Pattern pattern = Pattern.compile(".*@\\.(.*)(<|>|==)");
         Matcher m = pattern.matcher(str);
         String realkey = "";
-        if (m.find( )) {
-            realkey= m.group(1).trim();
+        if (m.find()) {
+            realkey = m.group(1).trim();
         } else {
-            logger.error("============== No match =============="+str);
+            logger.error("============== No match ==============" + str);
         }
-        String realData =realkey +"="+ firElem.get(realkey);
+        String realData = realkey + "=" + firElem.get(realkey);
         boolean isSend = filterAlarmMessage(rule, url, realData);
         if (isSend) {
             ServiceModel serviceModel = appService.getServiceModelById(url.getServiceId());
@@ -131,18 +127,18 @@ public class MonitorBackend {
 
     private boolean filterAlarmMessage(Rule rule, ServiceUrl url, String realData) {
 
-        String dataid=rule.getRuleId()+url.getUrlId();
+        String dataid = rule.getRuleId() + url.getUrlId();
 
         List<MonitorData> dataList = monitorDataService.existData(String.valueOf(dataid.hashCode()));
 
-        if(dataList.size()==0){
+        if (dataList.size() == 0) {
             MonitorData monitorData = new MonitorData();
             monitorData.setUrlId(url.getUrlId());
             monitorData.setRuleId(rule.getRuleId());
             monitorData.setDataContent(realData);
             monitorDataService.saveMonitorData(monitorData);
-            return  true;
-        }else {
+            return true;
+        } else {
             List<MonitorData> monitorDataList = monitorDataService.existMonitorData(String.valueOf(dataid.hashCode()));
             if (monitorDataList != null && monitorDataList.size() > 0) {
                 // 半小时内有报警过此规则
@@ -153,8 +149,6 @@ public class MonitorBackend {
             }
 
         }
-
-
 
 
     }
