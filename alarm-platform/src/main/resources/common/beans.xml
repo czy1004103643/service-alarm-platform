@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean name="druidDataSource" class="com.alibaba.druid.pool.DruidDataSource">
-        <property name="url" value="jdbc:mysql://10.16.50.209:3306/alarm_platform?useSSL=false&amp;serverTimezone=Asia/Shanghai" />
+        <property name="url" value="jdbc:mysql://10.16.50.209:3306/alarm_platform?useSSL=false&amp;serverTimezone=Asia/Shanghai;characterEncoding=utf-8" />
         <property name="username" value="root" />
         <property name="password" value="Newegg@1234" />
         <!--<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />-->
