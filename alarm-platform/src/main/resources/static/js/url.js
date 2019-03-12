@@ -127,7 +127,7 @@ $("#url-test").on("click", function () {
     var urlJson = getInputValues()
     if (!isEmpty(urlJson)) {
         post("/url/checkUrl", urlJson, function (result) {
-            llayer.load(2)
+            layer.load(2)
             var data = result.data
             if (data.key) {
                 setTimeout(function () {
