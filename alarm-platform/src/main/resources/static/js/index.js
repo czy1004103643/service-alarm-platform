@@ -8,14 +8,6 @@ function initGroupPage() {
         var groupList = result.data
         console.log(groupList)
         buildPage(groupList)
-        // var html = ''
-        // for (var index = 0; index < groupList.length; index++) {
-        //     var group = groupList[index]
-        //     html += '<li class="list-group-item">' +
-        //         '<a href="/service?groupId=' + group.groupId + '" target="_blank">' + group.groupName + '</a>' +
-        //         '</li>'
-        // }
-        // $("#group-list").html(html)
     }, function (e) {
         console.log(e)
     })
@@ -32,7 +24,7 @@ function buildPage(groupList) {
                 '<div class="card">' +
                 '<div class="view overlay">' +
                 '<img class="card-img-top" src="/static/lib/img/' + imageIndex + '.jpg" alt="">' +
-                '<a href="#!">' +
+                '<a>' +
                 '<div class="mask rgba-white-slight"></div>' +
                 '</a>' +
                 '</div>' +
@@ -53,6 +45,12 @@ function buildPage(groupList) {
         $("#group-list").html(html)
     }
 }
+
+$("#new-group").on("click", function() {
+    $("#group-id").val("")
+    $("#group-name").val("")
+    $("#description").val("")
+})
 
 $("body").delegate(".group-edit", "click", function () {
     var groupId = $(this).attr("data-id")
