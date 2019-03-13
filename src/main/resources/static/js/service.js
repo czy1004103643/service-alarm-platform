@@ -35,12 +35,12 @@ $("#new-service").on("click", function () {
 
 $("body").delegate(".service-edit", "click", function () {
     var serviceId = $(this).attr("data-id")
+    $(".input-title").addClass("active")
     get("/service/getServiceById?serviceId=" + serviceId, function (result) {
         console.log(result)
         var code = result.code
         if (code == 0) {
             var service = result.data
-            $(".input-title").addClass("active")
             $("#service-id").val(service.serviceId)
             $("#service-name").val(service.serviceName)
             $("#description").val(service.description)

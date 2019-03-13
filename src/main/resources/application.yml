@@ -9,8 +9,8 @@ mybatis:
     map-underscore-to-camel-case: true
 
 backend:
+  #monitor: 0 */2 * * * ?
   monitor: 0/5 * * * * ?
-
 alarm:
   notify:
     wechat:
@@ -25,7 +25,7 @@ alarm:
       - appName: SSL
         agentId: 1000002
         corpSecret: Gd55K7N0q2WGEMob-PJ0oz3ePsk9zqndiDVgQyQPgk0
-        users: zouhuajian|zhaoguangsong
+        users: zouhuajian
     rocketchat:
         token: -8Nt7c_lkiA-QFakZER6m09T1m4lYL-oQyHPp1jAbPC
         userID: jAmcTfGvSzWoBzD7Q

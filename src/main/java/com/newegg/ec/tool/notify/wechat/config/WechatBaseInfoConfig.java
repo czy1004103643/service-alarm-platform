@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Configuration
 @ConfigurationProperties(prefix = "alarm.notify.wechat", ignoreInvalidFields = true, ignoreUnknownFields = true)
-public class WechatBaseInfoConfig implements ApplicationListener<ContextRefreshedEvent> {
+public class WechatBaseInfoConfig {
 
     /**
      * 企业ID
@@ -33,13 +33,6 @@ public class WechatBaseInfoConfig implements ApplicationListener<ContextRefreshe
      * appName      corpId  accessToken
      */
     private Map<String, WechatAppInfo> wechatAppInfoMap = new ConcurrentHashMap<>();
-
-    @Override
-    public void onApplicationEvent(ContextRefreshedEvent event) {
-        /*if (StringUtils.isBlank(corpId)) {
-            throw new NullParamException("wechat param is null!");
-        }*/
-    }
 
     public String getCorpId() {
         return corpId;

@@ -198,9 +198,10 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <excludes>
-                        <exclude>mappers/**</exclude>
-                        <!--<exclude>config/**</exclude>-->
+                        <exclude>mapper/**</exclude>
+                        <exclude>common/**</exclude>
                         <exclude>public/**</exclude>
+                        <exclude>static/**</exclude>
                         <exclude>templates/**</exclude>
                         <exclude>*.properties</exclude>
                         <exclude>*.yml</exclude>

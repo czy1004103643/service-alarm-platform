@@ -32,7 +32,6 @@ public class ApiGateWayService extends CollectionDataAbstract {
             Date startDate = sdf.parse(startTime);
             long startTimstamp = startDate.getTime();
 
-
             String endTime = timeDay + " 23:59:59";
             Date endDate = sdf.parse(endTime);
             long endTimestamp = endDate.getTime();
