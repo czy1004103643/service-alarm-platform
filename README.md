@@ -7,21 +7,18 @@
 ![](https://user-gold-cdn.xitu.io/2019/3/13/1697596a32916e42?w=1920&h=937&f=png&s=391442)
 
 ## 微信报警&RocketChat报警
-<table style="margin-left: auto; margin-right: auto;">
-  <tr>
-    <td>
-      ### wechat
-
-      <img src="./docs/images/wechat-monitor.png" width="50%"/>
-    </td>
-    <td>
-      ### rocketchat
-
-      <img src="./docs/images/rocketchat-monitor.png" width="50%"/>
-    </td>
-  </tr>
-</table>
-
+<html>
+  <table style="margin-left: auto; margin-right: auto;">
+    <tr>
+      <td>
+        <img src="./docs/images/wechat-monitor.png" width="50%"/>
+      </td>
+      <td>
+        <img src="./docs/images/rocketchat-monitor.png" width="50%"/>
+      </td>
+    </tr>
+  </table>
+</html>
 
 
 
