@@ -68,6 +68,9 @@ public class MonitorBackend {
     @Scheduled(cron = "${backend.monitor}")
     public void executeCheckRule() {
         List<ServiceUrl> serviceUrlList = urlService.getServiceUrlList();
+        if (serviceUrlList == null || serviceUrlList.size() == 0) {
+            return;
+        }
         for (ServiceUrl url : serviceUrlList) {
             String urlId = url.getUrlId();
             String urlContent = url.getUrlContent();
