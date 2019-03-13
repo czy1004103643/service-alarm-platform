@@ -5,7 +5,6 @@ import com.newegg.ec.tool.entity.MonitorData;
 import com.newegg.ec.tool.entity.Rule;
 import com.newegg.ec.tool.entity.ServiceModel;
 import com.newegg.ec.tool.entity.ServiceUrl;
-import com.newegg.ec.tool.notify.wechat.api.WechatSendMessageAPI;
 import com.newegg.ec.tool.service.ICollectData;
 import com.newegg.ec.tool.service.IGroupService;
 import com.newegg.ec.tool.service.INotifyService;
@@ -64,13 +63,7 @@ public class MonitorBackend {
     private INotifyService notifyClientService;
 
     @Autowired
-    private ICollectData apiGateWayService;
-
-    @Autowired
     private ICollectData commonCollectDataService;
-
-    @Autowired
-    private WechatSendMessageAPI wechatSendMessageAPI;
 
     @Scheduled(cron = "${backend.monitor}")
     public void executeCheckRule() {

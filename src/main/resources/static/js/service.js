@@ -98,12 +98,11 @@ $("#save-service").on("click", function () {
                 if(!isEmpty(wechatAppName)) {
                     alarmWay += oneWay
                     alarmWay += '|'
-                    continue
                 }
+            } else {
+                alarmWay += oneWay
+                alarmWay += '|'
             }
-            alarmWay += oneWay
-            alarmWay += '|'
-            
         }
     })
 

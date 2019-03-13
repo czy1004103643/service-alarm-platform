@@ -33,7 +33,7 @@ function buildPage(groupList) {
                 '<span class="flex-between">' +
                 '<span>' +
                 '<i class="fas fa-edit text-default cursor-pointer group-edit" data-id="' + group.groupId + '" data-toggle="modal" data-target="#modalContactForm"></i>' +
-                '<i class="fas fa-trash-alt text-orange cursor-pointer group-delete" data-id="' + group.groupId + '" data-toggle="modal" data-target="#modalConfirmDelete"></i>' +
+                '<i class="fas fa-trash-alt text-orange cursor-pointer icon-margin group-delete" data-id="' + group.groupId + '" data-toggle="modal" data-target="#modalConfirmDelete"></i>' +
                 '</span>' +
                 '<a href="/service?groupId=' + group.groupId + '" class="btn btn-sm btn-mdb-color">Go >></a>' +
                 '</span>' +
