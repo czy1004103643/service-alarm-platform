@@ -4,9 +4,9 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean name="druidDataSource" class="com.alibaba.druid.pool.DruidDataSource">
-        <property name="url" value="jdbc:mysql://10.16.50.209:3306/alarm_platform?useSSL=false&amp;serverTimezone=Asia/Shanghai&amp;characterEncoding=utf-8" />
+        <property name="url" value="jdbc:mysql://localhost:3306/alarm_platform?useSSL=false&amp;serverTimezone=Asia/Shanghai&amp;characterEncoding=utf-8" />
         <property name="username" value="root" />
-        <property name="password" value="Newegg@1234" />
+        <property name="password" value="root" />
         <!--<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />-->
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
         <!-- 连接池初始化大小 -->

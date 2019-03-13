@@ -59,11 +59,7 @@ public abstract class CollectionDataAbstract implements ICollectData {
                     urlContent += "?";
                     urlContent += params;
                 }
-                Map<String, String> headers = new HashMap<>();
-                if (urlContent.contains(UrlService.K_NEWEGG_ORG)) {
-                    headers.put("Cookie", UrlService.COOKIE);
-                }
-                response = HttpClientUtil.getGetResponse(urlContent, headers);
+                response = HttpClientUtil.getGetResponse(urlContent);
 
             } else if (Objects.equals(requestType, RequestMethod.POST.toString())) {
                 String bodyContent = newServiceUrl.getBodyContent();

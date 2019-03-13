@@ -97,44 +97,4 @@ public class JsonUtils {
         return bigDecimalList;
     }
 
-
-    public static void main(String[] args) {
-        System.out.println(getValue(JSONObject.parseObject(json), "_shards.total"));
-    }
-
-    public static final String json = "{\n" +
-            "    \"took\": 8,\n" +
-            "    \"timed_out\": false,\n" +
-            "    \"_shards\": {\n" +
-            "        \"total\": 85,\n" +
-            "        \"successful\": 85,\n" +
-            "        \"skipped\": 0,\n" +
-            "        \"failed\": 0\n" +
-            "    },\n" +
-            "    \"hits\": {\n" +
-            "        \"total\": 39167164,\n" +
-            "        \"max_score\": 0,\n" +
-            "        \"hits\": []\n" +
-            "    },\n" +
-            "    \"aggregations\": {\n" +
-            "        \"result\": {\n" +
-            "            \"doc_count_error_upper_bound\": 0,\n" +
-            "            \"sum_other_doc_count\": 0,\n" +
-            "            \"buckets\": [\n" +
-            "                {\n" +
-            "                    \"key\": \"2019022721\",\n" +
-            "                    \"doc_count\": 1789666\n" +
-            "                },\n" +
-            "                {\n" +
-            "                    \"key\": \"2019022722\",\n" +
-            "                    \"doc_count\": 1652196\n" +
-            "                },\n" +
-            "                {\n" +
-            "                    \"key\": \"2019022723\",\n" +
-            "                    \"doc_count\": 1687143\n" +
-            "                }\n" +
-            "            ]\n" +
-            "        }\n" +
-            "    }\n" +
-            "}";
 }

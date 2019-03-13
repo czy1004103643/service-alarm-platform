@@ -1,6 +1,5 @@
 package com.newegg.ec.tool.utils;
 
-import com.newegg.ec.tool.entity.Rule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

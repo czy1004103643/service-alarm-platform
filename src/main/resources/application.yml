@@ -15,21 +15,21 @@ alarm:
   notify:
     wechat:
       # company ID
-      corpId: ww0f00cb4440ed3cf1
+      corpId: xxx
       # users: default @all
       appList:
       - appName: BigData
         agentId: 1000003
-        corpSecret: _jUmcToZW-0BnJE9nAT4huTatCfn-dPQeeGq3TrBD34
+        corpSecret: xxx
         users:
-      - appName: SSL
+      - appName: Redis
         agentId: 1000002
-        corpSecret: Gd55K7N0q2WGEMob-PJ0oz3ePsk9zqndiDVgQyQPgk0
+        corpSecret: xxx
         users:
     rocketchat:
-        token: -8Nt7c_lkiA-QFakZER6m09T1m4lYL-oQyHPp1jAbPC
-        userID: jAmcTfGvSzWoBzD7Q
-        chanel: bigdata_monitor
+        token: xxx
+        userID: xxx
+        chanel: xxx
 
 logging:
   config: classpath:common/log4j2.xml

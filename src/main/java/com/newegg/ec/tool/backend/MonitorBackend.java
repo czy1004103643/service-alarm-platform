@@ -72,22 +72,13 @@ public class MonitorBackend {
     @Autowired
     private WechatSendMessageAPI wechatSendMessageAPI;
 
-    private static final String API_GATEWAY_PREFIX_1 = "10.1.54.179";
-
-    private static final String K_NEWEGG_ORG = "k.newegg.org";
-
     @Scheduled(cron = "${backend.monitor}")
     public void executeCheckRule() {
         List<ServiceUrl> serviceUrlList = urlService.getServiceUrlList();
         for (ServiceUrl url : serviceUrlList) {
             String urlId = url.getUrlId();
             String urlContent = url.getUrlContent();
-            Map<Rule, JSONArray> ruleDataMap = new HashMap<>();
-            if (urlContent.contains(API_GATEWAY_PREFIX_1)) {
-                ruleDataMap = apiGateWayService.collectData(urlId);
-            } else {
-                ruleDataMap = commonCollectDataService.collectData(urlId);
-            }
+            Map<Rule, JSONArray> ruleDataMap = commonCollectDataService.collectData(urlId);
 
             if (ruleDataMap.size() > 0) {
                 processRuleAndData(ruleDataMap, url);

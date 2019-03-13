@@ -35,11 +35,6 @@ public class UrlService implements IUrlService {
 
     private static final String POST = "POST";
 
-    public static final String K_NEWEGG_ORG = "k.newegg.org";
-
-    public static final String COOKIE = "JSESSIONID=node0ckl4d6ucq5oeg7a26fqjlzdd523.node0; _ga=GA1.2.1198764541.1542369946; _gid=GA1.2.512651626.1551750181; _hprkt=/ESQueryReportWeb/; _tid=149fgcdmsc9ze245xmhb24hy790e5e516hsxxek265eol8eio5jz; _tname=gz75|Gump.G.Zhao";
-
-
     @Autowired
     private ServiceUrlDao serviceUrlDao;
 
@@ -191,11 +186,7 @@ public class UrlService implements IUrlService {
                 url = url + "?" + paramContent;
             }
             try {
-                Map<String, String> headers = new HashMap<>();
-                if (url.contains(K_NEWEGG_ORG)) {
-                    headers.put("Cookie", COOKIE);
-                }
-                response = HttpClientUtil.getGetResponse(url, headers);
+                response = HttpClientUtil.getGetResponse(url);
             } catch (Exception e) {
                 logger.error("check get url error.", e);
             }

@@ -1,10 +1,5 @@
 package com.newegg.ec.tool.utils;
 
-import com.newegg.ec.tool.entity.MessageContent;
-import com.newegg.ec.tool.entity.Rule;
-import com.newegg.ec.tool.entity.ServiceModel;
-import com.newegg.ec.tool.entity.ServiceUrl;
-
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
