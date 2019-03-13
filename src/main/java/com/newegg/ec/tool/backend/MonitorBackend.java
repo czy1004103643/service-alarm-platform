@@ -73,7 +73,7 @@ public class MonitorBackend {
             String urlContent = url.getUrlContent();
             Map<Rule, JSONArray> ruleDataMap = commonCollectDataService.collectData(urlId);
 
-            if (ruleDataMap.size() > 0) {
+            if (ruleDataMap != null && ruleDataMap.size() > 0) {
                 processRuleAndData(ruleDataMap, url);
             }
         }
