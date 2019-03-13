@@ -78,7 +78,6 @@ public class MonitorBackend {
 
     @Scheduled(cron = "${backend.monitor}")
     public void executeCheckRule() {
-        logger.info("============== backend monitor start ==============");
         List<ServiceUrl> serviceUrlList = urlService.getServiceUrlList();
         for (ServiceUrl url : serviceUrlList) {
             String urlId = url.getUrlId();
@@ -135,10 +134,7 @@ public class MonitorBackend {
             } else {
                 return false;
             }
-
         }
-
-
     }
 
 }

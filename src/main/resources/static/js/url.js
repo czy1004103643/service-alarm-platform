@@ -139,17 +139,18 @@ $("#url-test").on("click", function () {
             layer.load(2)
             var data = result.data
             if (data.key) {
-                setTimeout(function () {
-                    layer.closeAll('loading');
-                }, 10)
+                $("#url-save").show()
                 $("#response-data").JSONView(data.value);
             } else {
                 layer.msg("request error, please check url and params")
             }
+            setTimeout(function () {
+                layer.closeAll('loading');
+            }, 10)
         }, function (e) {
             console.log(e)
         })
-        $("#url-save").show()
+        
     }
 })
 
