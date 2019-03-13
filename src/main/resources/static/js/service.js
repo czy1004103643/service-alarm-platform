@@ -88,8 +88,6 @@ $("#save-service").on("click", function () {
     $(".check-box-container").find('input:checkbox').each(function () { //遍历所有复选框
         if ($(this).prop('checked') == true) {
             var oneWay = $(this).val().toUpperCase()
-            alarmWay += oneWay
-            alarmWay += '|'
             if (oneWay == 'WECHAT') {
                 $(".wechat-app-container").find('input:checkbox').each(function () { //遍历所有复选框
                     if ($(this).prop('checked') == true) {
@@ -97,7 +95,15 @@ $("#save-service").on("click", function () {
                         wechatAppName += '|'
                     }
                 })
+                if(!isEmpty(wechatAppName)) {
+                    alarmWay += oneWay
+                    alarmWay += '|'
+                    continue
+                }
             }
+            alarmWay += oneWay
+            alarmWay += '|'
+            
         }
     })
 
