@@ -24,4 +24,6 @@ public interface AppServiceDao {
     int updateService(ServiceModel serviceModel);
 
     int deleteServiceById(@Param("serviceId") String serviceId);
+
+    int deleteServiceByGroupId(@Param("groupId") String groupId);
 }

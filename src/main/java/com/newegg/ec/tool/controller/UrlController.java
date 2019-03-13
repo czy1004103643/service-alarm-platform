@@ -46,6 +46,13 @@ public class UrlController {
         return Result.successResult(serviceUrl);
     }
 
+    @RequestMapping(value = "/copyUrl", method = RequestMethod.POST)
+    @ResponseBody
+    public Result copyUrl(@RequestBody ServiceUrl serviceUrl) {
+        urlService.copyServiceUrl(serviceUrl);
+        return Result.successResult(serviceUrl);
+    }
+
     @RequestMapping(value = "/checkUrl", method = RequestMethod.POST)
     @ResponseBody
     public Result checkUrl(@RequestBody ServiceUrl serviceUrl) {

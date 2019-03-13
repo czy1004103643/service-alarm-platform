@@ -96,4 +96,11 @@
             service_id = #{serviceId}
     </delete>
 
+    <delete id="deleteServiceByGroupId" parameterType="java.lang.String">
+        DELETE FROM
+            service
+        WHERE
+            group_id = #{groupId}
+    </delete>
+
 </mapper>

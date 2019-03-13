@@ -76,4 +76,11 @@
             url_id = #{urlId}
     </delete>
 
+    <delete id="deleteServiceUrlByServiceId" parameterType="java.lang.String">
+        DELETE FROM
+            service_url
+        WHERE
+            service_id = #{serviceId}
+    </delete>
+
 </mapper>

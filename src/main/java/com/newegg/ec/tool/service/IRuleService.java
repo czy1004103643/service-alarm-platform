@@ -18,5 +18,7 @@ public interface IRuleService {
 
     boolean deleteRuleById(String ruleId);
 
+    public boolean deleteRuleByUrlId(String urlId);
+
     boolean checkRule(Rule rule);
 }

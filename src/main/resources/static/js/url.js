@@ -7,52 +7,86 @@ $("#add-new-url").on("click", function () {
     $(this).attr("data-id", "")
     $("#modalContactForm input").val("")
     $("#modalContactForm textarea").val("")
+    $("#url-save").attr("save-type", "")
 })
 
 $("#url-save").on("click", function () {
     var urlJson = getInputValues()
     layer.load(2)
-    post("/url/saveUrl", urlJson, function (result) {
-        if (result.code == 0) {
-            window.location.reload()
-        } else {
-            layer.msg("save url error")
-        }
-        setTimeout(function () {
-            layer.closeAll('loading');
-        }, 10)
-    }, function (e) {
-        console.log(e)
-    })
+    var saveType = $(this).attr("save-type")
+    if (saveType == 'copy') {
+        post("/url/copyUrl", urlJson, function (result) {
+            if (result.code == 0) {
+                window.location.reload()
+            } else {
+                layer.msg("save url error")
+            }
+            setTimeout(function () {
+                layer.closeAll('loading');
+            }, 10)
+        }, function (e) {
+            console.log(e)
+        })
+    } else {
+        post("/url/saveUrl", urlJson, function (result) {
+            if (result.code == 0) {
+                window.location.reload()
+            } else {
+                layer.msg("save url error")
+            }
+            setTimeout(function () {
+                layer.closeAll('loading');
+            }, 10)
+        }, function (e) {
+            console.log(e)
+        })
+    }
+    
 })
-
-$("body").delegate(".url-edit", "click", function () {
+$("body").delegate(".url-copy", "click", function () {
     $('#modalContactForm').addClass('show')
     $("add-new-url").attr("aria-expanded", true)
     var urlId = $(this).attr("data-id")
     $("#url-save").attr("data-id", urlId)
     get("/url/getUrlById?urlId=" + urlId, function (result) {
         var url = result.data
-
-        $("#url-content").val(url.urlContent)
-        $("#description").val(url.description)
-        var requestType = url.requestType
-        if (requestType == "GET") {
-            var paramCoantent = url.paramContent
-            if (!isEmpty(paramCoantent)) {
-                var paramJson = JSON.parse(paramCoantent)
-                buildParamList(paramJson)
-            }
-
-        } else if (requestType == "POST") {
-            $("#url-post").click()
-            $("#body-content").val(url.bodyContent)
-        }
-
+        setData(url)
+        $("#url-save").attr("save-type", "copy")
     }, function (e) {
         console.log(e)
     })
 })
+
+$("body").delegate(".url-edit", "click", function () {
+    $("#url-save").attr("save-type", "")
+    $('#modalContactForm').addClass('show')
+    $("add-new-url").attr("aria-expanded", true)
+    var urlId = $(this).attr("data-id")
+    $("#url-save").attr("data-id", urlId)
+    get("/url/getUrlById?urlId=" + urlId, function (result) {
+        var url = result.data
+        setData(url)
+    }, function (e) {
+        console.log(e)
+    })
+})
+
+function setData(url) {
+    $("#url-content").val(url.urlContent)
+    $("#description").val(url.description)
+    var requestType = url.requestType
+    if (requestType == "GET") {
+        var paramCoantent = url.paramContent
+        if (!isEmpty(paramCoantent)) {
+            var paramJson = JSON.parse(paramCoantent)
+            buildParamList(paramJson)
+        }
+
+    } else if (requestType == "POST") {
+        $("#url-post").click()
+        $("#body-content").val(url.bodyContent)
+    }
+}
 
 $("body").delegate(".url-delete", "click", function () {
     var urlId = $(this).attr("data-id")
@@ -122,8 +156,9 @@ function buildUrlTable(urlList) {
                 '<td>' + url.description + '</td>' +
                 '<td>' + time + '</td>' +
                 '<td>' +
-                '<i class="fas fa-edit text-default url-edit" data-id="' + urlId + '"></i>' +
-                '<i class="fas fa-trash-alt text-orange url-delete" data-toggle="modal" data-target="#modalConfirmDelete" data-id="' + urlId + '"></i>' +
+                '<i class="fas fa-edit text-default icon-margin url-edit" data-id="' + urlId + '"></i>' +
+                '<i class="fas fa-trash-alt text-orange icon-margin url-delete" data-toggle="modal" data-target="#modalConfirmDelete" data-id="' + urlId + '"></i>' +
+                '<i class="far fa-copy text-info icon-margin url-copy" data-id="' + urlId + '"></i>' +
                 '</td>' +
                 '</tr>'
         }
@@ -140,7 +175,13 @@ $("#url-test").on("click", function () {
             var data = result.data
             if (data.key) {
                 $("#url-save").show()
-                $("#response-data").JSONView(data.value);
+                var response = data.value
+                if (!isEmpty(response)) {
+                    $("#response-data").JSONView(response)
+                } else {
+                    layer.msg("response is null, please check url and params")
+                }
+                
             } else {
                 layer.msg("request error, please check url and params")
             }

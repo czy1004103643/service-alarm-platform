@@ -24,4 +24,6 @@ public interface ServiceUrlDao {
 
     int deleteServiceUrlById(String urlId);
 
+    int deleteServiceUrlByServiceId(String serviceId);
+
 }

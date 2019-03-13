@@ -2,6 +2,7 @@ package com.newegg.ec.tool.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.newegg.ec.tool.dao.ServiceUrlDao;
+import com.newegg.ec.tool.entity.Rule;
 import com.newegg.ec.tool.entity.ServiceUrl;
 import com.newegg.ec.tool.service.IUrlService;
 import com.newegg.ec.tool.utils.CommonUtils;
@@ -42,6 +43,9 @@ public class UrlService implements IUrlService {
     @Autowired
     private ServiceUrlDao serviceUrlDao;
 
+    @Autowired
+    private RuleService ruleService;
+
     @Override
     public List<ServiceUrl> getServiceUrlList() {
         try {
@@ -63,6 +67,38 @@ public class UrlService implements IUrlService {
             logger.error("get url list error.", e);
             return null;
         }
+    }
+
+    @Override
+    public boolean copyServiceUrl(ServiceUrl serviceUrl) {
+        if (!checkRequestParam(serviceUrl)) {
+            return false;
+        }
+        if (StringUtils.isBlank(serviceUrl.getUrlId())) {
+            return false;
+        }
+        try {
+            String originUrlId = serviceUrl.getUrlId();
+            serviceUrl.setUpdateTime(CommonUtils.getCurrentTimestamp());
+            String paramContent = serviceUrl.getParamContent();
+            if (StringUtils.isNotBlank(paramContent)) {
+                serviceUrl.setParamContent(jsonToParam(paramContent));
+            }
+            String newUrlId = CommonUtils.getUUID();
+            serviceUrl.setUrlId(newUrlId);
+            serviceUrlDao.addServiceUrl(serviceUrl);
+            List<Rule> ruleList = ruleService.getRuleList(originUrlId);
+            if (ruleList != null && ruleList.size() > 0) {
+                for (Rule rule : ruleList) {
+                    rule.setUrlId(newUrlId);
+                    ruleService.saveRule(rule);
+                }
+            }
+        } catch (
+                Exception e) {
+            logger.error("save url error.", e);
+        }
+        return false;
     }
 
     @Override
@@ -111,7 +147,28 @@ public class UrlService implements IUrlService {
             return false;
         }
         try {
-            return serviceUrlDao.deleteServiceUrlById(urlId) > 0;
+            ruleService.deleteRuleByUrlId(urlId);
+            serviceUrlDao.deleteServiceUrlById(urlId);
+            return true;
+        } catch (Exception e) {
+            logger.error("delete url error.", e);
+            return false;
+        }
+    }
+
+    @Override
+    public boolean deleteServiceUrlByServiceId(String serviceId) {
+        if (StringUtils.isBlank(serviceId)) {
+            return false;
+        }
+        try {
+            List<ServiceUrl> serviceUrlList = serviceUrlDao.selectUrlByServiceId(serviceId);
+            if (serviceUrlList != null && serviceUrlList.size() > 0) {
+                for (ServiceUrl serviceUrl : serviceUrlList) {
+                    deleteServiceUrlById(serviceUrl.getUrlId());
+                }
+            }
+            return true;
         } catch (Exception e) {
             logger.error("delete url error.", e);
             return false;

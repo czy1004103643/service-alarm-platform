@@ -125,3 +125,7 @@ body > input, textarea, input:focus, textarea:focus {
     justify-content: space-between;
     display: flex;
 }
+
+.icon-margin {
+    margin: 0 0.4rem;
+}

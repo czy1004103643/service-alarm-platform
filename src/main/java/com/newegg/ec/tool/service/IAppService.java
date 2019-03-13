@@ -18,4 +18,6 @@ public interface IAppService {
 
     boolean deleteServiceModelById(String serviceId);
 
+    boolean deleteServiceModelByGroupId(String groupId);
+
 }

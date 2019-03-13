@@ -17,9 +17,13 @@ public interface IUrlService {
 
     boolean saveServiceUrl(ServiceUrl serviceUrl);
 
+    boolean copyServiceUrl(ServiceUrl serviceUrl);
+
     ServiceUrl getServiceUrlById(String urlId);
 
     boolean deleteServiceUrlById(String urlId);
+
+    boolean deleteServiceUrlByServiceId(String serviceId);
 
     Pair<Boolean, Object> checkUrl(ServiceUrl serviceUrl);
 

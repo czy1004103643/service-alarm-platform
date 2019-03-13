@@ -26,6 +26,9 @@ public class GroupService implements IGroupService {
     @Autowired
     private GroupDao groupDao;
 
+    @Autowired
+    private AppService appService;
+
     @Override
     public List<Group> getGroupList() {
         try {
@@ -79,7 +82,9 @@ public class GroupService implements IGroupService {
             return false;
         }
         try {
-            return groupDao.deleteGroupById(groupId) > 0;
+            appService.deleteServiceModelByGroupId(groupId);
+            groupDao.deleteGroupById(groupId);
+            return true;
         } catch (Exception e) {
             logger.error("delete group error, groupId=" + groupId, e);
             return false;

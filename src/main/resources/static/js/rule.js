@@ -36,8 +36,8 @@ function buildRuleTable(ruleList) {
                 '<td>' + rule.description + '</td>' +
                 '<td>' + time + '</td>' +
                 '<td>' +
-                '<i class="fas fa-edit text-default rule-edit" data-id="' + ruleId + '"></i>' +
-                '<i class="fas fa-trash-alt text-orange rule-delete" data-toggle="modal" data-target="#modalConfirmDelete" data-id="' + ruleId + '"></i>' +
+                '<i class="fas fa-edit text-default icon-margin rule-edit" data-id="' + ruleId + '"></i>' +
+                '<i class="fas fa-trash-alt text-orange icon-margin rule-delete" data-toggle="modal" data-target="#modalConfirmDelete" data-id="' + ruleId + '"></i>' +
                 '</td>' +
                 '</tr>'
         }

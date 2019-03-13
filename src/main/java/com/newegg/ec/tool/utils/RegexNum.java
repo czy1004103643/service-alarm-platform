@@ -50,7 +50,7 @@ public class RegexNum {
     }
 
     public static String getRealKey(String formula) {
-        Pattern pattern = Pattern.compile(".*@\\.(.*)(<|>|==)");
+        Pattern pattern = Pattern.compile(".*@\\.(.*)(<|>|==|!=)");
         Matcher m = pattern.matcher(formula);
         String realKey = null;
         if (m.find()) {

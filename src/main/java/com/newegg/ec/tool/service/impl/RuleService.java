@@ -101,6 +101,20 @@ public class RuleService implements IRuleService {
     }
 
     @Override
+    public boolean deleteRuleByUrlId(String urlId) {
+        if (StringUtils.isBlank(urlId)) {
+            return false;
+        }
+        try {
+            ruleDao.deleteRulesByUrlId(urlId);
+            return true;
+        } catch (Exception e) {
+            logger.error("delete rule by url id.", e);
+            return false;
+        }
+    }
+
+    @Override
     public boolean checkRule(Rule rule) {
         if (rule == null || StringUtils.isBlank(rule.getUrlId()) || StringUtils.isBlank(rule.getFormula())) {
             return false;

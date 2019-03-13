@@ -195,8 +195,8 @@ function buildServiceTable(serviceList) {
             '<td>' + serviceModel.description + '</td>' +
             '<td>' + time + '</td>' +
             '<td>' +
-            '<i class="fas fa-edit text-default service-edit" data-toggle="modal" data-target="#modalContactForm" data-id="' + serviceId + '"></i>' +
-            '<i class="fas fa-trash-alt text-orange service-delete" data-toggle="modal" data-target="#modalConfirmDelete" data-id="' + serviceId + '"></i>' +
+            '<i class="fas fa-edit text-default icon-margin service-edit" data-toggle="modal" data-target="#modalContactForm" data-id="' + serviceId + '"></i>' +
+            '<i class="fas fa-trash-alt text-orange icon-margin service-delete" data-toggle="modal" data-target="#modalConfirmDelete" data-id="' + serviceId + '"></i>' +
             '</td>' +
             '</tr>'
     }

@@ -27,6 +27,9 @@ public class AppService implements IAppService {
     @Autowired
     private AppServiceDao appServiceDao;
 
+    @Autowired
+    private UrlService urlService;
+
     @Override
     public List<ServiceModel> getServiceModelList(String groupId) {
         if (StringUtils.isBlank(groupId)) {
@@ -87,7 +90,28 @@ public class AppService implements IAppService {
             return false;
         }
         try {
-            return appServiceDao.deleteServiceById(serviceId) > 0;
+            urlService.deleteServiceUrlByServiceId(serviceId);
+            appServiceDao.deleteServiceById(serviceId);
+            return true;
+        } catch (Exception e) {
+            logger.error("delete service error.", e);
+            return false;
+        }
+    }
+
+    @Override
+    public boolean deleteServiceModelByGroupId(String groupId) {
+        if (StringUtils.isBlank(groupId)) {
+            return false;
+        }
+        try {
+            List<ServiceModel> serviceModelList = appServiceDao.selectServiceByGroupId(groupId);
+            if (serviceModelList != null && serviceModelList.size() > 0) {
+                for (ServiceModel serviceModel : serviceModelList) {
+                    deleteServiceModelById(serviceModel.getServiceId());
+                }
+            }
+            return true;
         } catch (Exception e) {
             logger.error("delete service error.", e);
             return false;
