@@ -11,10 +11,10 @@
   <table style="margin-left: auto; margin-right: auto;">
     <tr>
       <td>
-        <img src="./docs/images/wechat-monitor.png" width="50%"/>
+        <img src="./docs/images/wechat-monitor.png"/>
       </td>
       <td>
-        <img src="./docs/images/rocketchat-monitor.png" width="50%"/>
+        <img src="./docs/images/rocketchat-monitor.png"/>
       </td>
     </tr>
   </table>
