@@ -56,6 +56,7 @@
     <select id="createMonitorDataTable">
         CREATE TABLE IF NOT EXISTS monitor_data (
             data_id varchar(255) NOT NULL,
+            service_id varchar(255) NOT NULL,
             url_id varchar(255) NOT NULL,
             rule_id varchar(255) NOT NULL,
             data_content text  NOT NULL,

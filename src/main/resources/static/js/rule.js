@@ -2,6 +2,12 @@ $(function () {
     //$("#response-data").JSONView(jsonStr)
     var urlId = getUrlParam("urlId")
     initRulePage(urlId)
+    get("/rule/getServiceNameByUrl?urlId=" + urlId, function (result) {
+        var service = result.data
+        $("#service-name").text(service.serviceName)
+    }, function (e) {
+        console.log(e)
+    })
 })
 
 function initRulePage(urlId) {

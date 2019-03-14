@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ public class MonitorDataService implements IMonitorDataService {
             return false;
         }
         try {
-            String dataid=monitorData.getRuleId()+monitorData.getUrlId();
+            String dataid = monitorData.getRuleId() + monitorData.getUrlId();
             monitorData.setDataId(String.valueOf(dataid.hashCode()));
             monitorData.setUpdateTime(CommonUtils.getCurrentTimestamp());
             return monitorDataDao.addMonitorData(monitorData) > 0;
@@ -44,7 +45,7 @@ public class MonitorDataService implements IMonitorDataService {
 
     @Override
     public MonitorData getDataById(String dataId) {
-        if (StringUtils.isBlank(dataId)){
+        if (StringUtils.isBlank(dataId)) {
             return null;
         }
         try {
@@ -68,6 +69,20 @@ public class MonitorDataService implements IMonitorDataService {
         return null;
     }
 
+    @Override
+    public List<MonitorData> getMonitorDataList(String serviceId) {
+        List<MonitorData> monitorDataList = new ArrayList<>();
+        if (StringUtils.isBlank(serviceId)) {
+            return monitorDataList;
+        }
+        try {
+            monitorDataList = monitorDataDao.selectDataByServiceId(serviceId);
+        } catch (Exception e) {
+            logger.error("get monitor data list by service id error.", e);
+        }
+        return monitorDataList;
+    }
+
     public List<MonitorData> existData(String dataId) {
         if (StringUtils.isBlank(dataId)) {
             return null;
@@ -85,15 +100,12 @@ public class MonitorDataService implements IMonitorDataService {
             return false;
         }
         try {
-            return monitorDataDao.updataMonitorData(monitorData.getDataId());
+            return monitorDataDao.updateMonitorData(monitorData.getDataId());
         } catch (Exception e) {
             logger.error("get monitor data via rule id error.", e);
         }
         return false;
     }
-
-
-
 
 
 }

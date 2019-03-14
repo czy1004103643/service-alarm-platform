@@ -4,6 +4,7 @@ $(function () {
     get("/group/getGroupById?groupId=" + groupId, function (result) {
         var group = result.data
         $("#group-name").val(group.groupName)
+        $("#group-name2").text(group.groupName)
     }, function () {
 
     })
@@ -95,7 +96,7 @@ $("#save-service").on("click", function () {
                         wechatAppName += '|'
                     }
                 })
-                if(!isEmpty(wechatAppName)) {
+                if (!isEmpty(wechatAppName)) {
                     alarmWay += oneWay
                     alarmWay += '|'
                 }
@@ -125,7 +126,7 @@ $("#save-service").on("click", function () {
                 layer.msg('Save Success')
             })
         } else {
-            layer.msg('save error', function(){})
+            layer.msg('save error', function () { })
         }
 
     }, function (e) {
@@ -202,6 +203,7 @@ function buildServiceTable(serviceList) {
             '<td>' +
             '<i class="fas fa-edit text-default icon-margin service-edit" data-toggle="modal" data-target="#modalContactForm" data-id="' + serviceId + '"></i>' +
             '<i class="fas fa-trash-alt text-orange icon-margin service-delete" data-toggle="modal" data-target="#modalConfirmDelete" data-id="' + serviceId + '"></i>' +
+            '<a target="_blank" href="/monitor/getAlarmList?serviceId=' + serviceId + '"><i class="far fa-bell text-orange icon-margin service-delete" ></i></a>' +
             '</td>' +
             '</tr>'
     }

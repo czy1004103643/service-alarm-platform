@@ -12,6 +12,16 @@
         WHERE
           data_id = #{dataId}
     </select>
+
+    <select id="selectDataByServiceId" parameterType="java.lang.String" resultType="com.newegg.ec.tool.entity.MonitorData">
+        SELECT
+          *
+        FROM
+          monitor_data
+        WHERE
+          service_id = #{serviceId}
+    </select>
+
     <select id="existMonitorData" parameterType="java.lang.String" resultType="com.newegg.ec.tool.entity.MonitorData">
 
         SELECT
@@ -36,7 +46,7 @@
 
 
 
-    <update id="updataMonitorData" parameterType="java.lang.String" >
+    <update id="updateMonitorData" parameterType="java.lang.String" >
 
        UPDATE monitor_data SET update_time=NOW() WHERE   data_id = #{dataId}
     </update>
@@ -47,6 +57,7 @@
             monitor_data
         (
             data_id,
+            service_id,
             url_id,
             rule_id,
             data_content,
@@ -54,10 +65,12 @@
         )
         VALUES (
             #{dataId},
+            #{serviceId},
             #{urlId},
             #{ruleId},
             #{dataContent},
             NOW()
         )
     </insert>
+
 </mapper>

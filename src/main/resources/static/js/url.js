@@ -1,6 +1,12 @@
 $(function () {
     var serviceId = getUrlParam("serviceId")
     initUrlPage(serviceId)
+    get("/service/getServiceById?serviceId=" + serviceId, function (result) {
+        var service = result.data
+        $("#service-name").text(service.serviceName)
+    }, function (e) {
+        console.log(e)
+    })
 })
 
 $("#add-new-url").on("click", function () {
@@ -41,7 +47,7 @@ $("#url-save").on("click", function () {
             console.log(e)
         })
     }
-    
+
 })
 $("body").delegate(".url-copy", "click", function () {
     $('#modalContactForm').addClass('show')
@@ -181,7 +187,7 @@ $("#url-test").on("click", function () {
                 } else {
                     layer.msg("response is null, please check url and params")
                 }
-                
+
             } else {
                 layer.msg("request error, please check url and params")
             }
@@ -191,7 +197,7 @@ $("#url-test").on("click", function () {
         }, function (e) {
             console.log(e)
         })
-        
+
     }
 })
 

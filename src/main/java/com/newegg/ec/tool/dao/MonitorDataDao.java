@@ -16,10 +16,14 @@ public interface MonitorDataDao {
 
     MonitorData selectDataById(String dataId);
 
+    List<MonitorData> selectDataByServiceId(String serviceId);
+
     List<MonitorData> existMonitorData(String ruleId);
 
     List<MonitorData> existData(String dataId);
 
-    boolean updataMonitorData(String dataId);
+    boolean updateMonitorData(String dataId);
+
+
 
 }

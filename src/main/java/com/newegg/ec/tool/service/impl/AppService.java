@@ -77,7 +77,8 @@ public class AppService implements IAppService {
             return null;
         }
         try {
-            return appServiceDao.selectServiceById(serviceId);
+            ServiceModel serviceModel = appServiceDao.selectServiceById(serviceId);
+            return serviceModel;
         } catch (Exception e) {
             logger.error("get service by id error.", e);
             return null;

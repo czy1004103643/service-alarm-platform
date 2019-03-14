@@ -16,4 +16,6 @@ public interface IMonitorDataService {
 
     List<MonitorData> existMonitorData(String ruleId);
 
+    List<MonitorData> getMonitorDataList(String serviceId);
+
 }

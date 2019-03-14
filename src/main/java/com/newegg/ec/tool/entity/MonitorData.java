@@ -10,6 +10,8 @@ public class MonitorData {
 
     private String dataId;
 
+    private String serviceId;
+
     private String urlId;
 
     private String ruleId;
@@ -26,12 +28,28 @@ public class MonitorData {
         this.dataId = dataId;
     }
 
+    public String getServiceId() {
+        return serviceId;
+    }
+
+    public void setServiceId(String serviceId) {
+        this.serviceId = serviceId;
+    }
+
     public String getUrlId() {
         return urlId;
     }
 
     public void setUrlId(String urlId) {
         this.urlId = urlId;
+    }
+
+    public String getRuleId() {
+        return ruleId;
+    }
+
+    public void setRuleId(String ruleId) {
+        this.ruleId = ruleId;
     }
 
     public String getDataContent() {
@@ -48,13 +66,5 @@ public class MonitorData {
 
     public void setUpdateTime(Timestamp updateTime) {
         this.updateTime = updateTime;
-    }
-
-    public String getRuleId() {
-        return ruleId;
-    }
-
-    public void setRuleId(String ruleId) {
-        this.ruleId = ruleId;
     }
 }

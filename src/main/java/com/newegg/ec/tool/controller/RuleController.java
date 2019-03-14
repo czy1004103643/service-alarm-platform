@@ -2,9 +2,11 @@ package com.newegg.ec.tool.controller;
 
 import com.newegg.ec.tool.entity.Result;
 import com.newegg.ec.tool.entity.Rule;
+import com.newegg.ec.tool.entity.ServiceModel;
 import com.newegg.ec.tool.entity.ServiceUrl;
 import com.newegg.ec.tool.service.IRuleService;
 import com.newegg.ec.tool.service.IUrlService;
+import com.newegg.ec.tool.service.impl.AppService;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,12 +32,27 @@ public class RuleController {
     @Autowired
     private IUrlService urlService;
 
+    @Autowired
+    private AppService appService;
+
 
     @RequestMapping(value = "/getRuleList", method = RequestMethod.GET)
     @ResponseBody
     public Result getUrlListByServiceId(@PathParam("urlId") String urlId) {
         List<Rule> ruleList = ruleService.getRuleList(urlId);
         return Result.successResult(ruleList);
+    }
+
+    @RequestMapping(value = "/getServiceNameByUrl", method = RequestMethod.GET)
+    @ResponseBody
+    public Result getServiceNameByUrl(@PathParam("urlId") String urlId) {
+        ServiceUrl url = urlService.getServiceUrlById(urlId);
+        Result result = Result.successResult();
+        if (url != null) {
+            ServiceModel serviceModel = appService.getServiceModelById(url.getServiceId());
+            result.setData(serviceModel);
+        }
+        return result;
     }
 
     @RequestMapping(value = "/getRuleById", method = RequestMethod.GET)

@@ -107,6 +107,7 @@ public class MonitorBackend {
 
         if (dataList.size() == 0) {
             MonitorData monitorData = new MonitorData();
+            monitorData.setServiceId(url.getServiceId());
             monitorData.setUrlId(url.getUrlId());
             monitorData.setRuleId(rule.getRuleId());
             monitorData.setDataContent(realData);
