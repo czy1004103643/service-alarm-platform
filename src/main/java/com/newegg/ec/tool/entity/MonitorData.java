@@ -16,6 +16,14 @@ public class MonitorData {
 
     private String ruleId;
 
+    private String urlDescription;
+
+    private String ruleAlias;
+
+    private String formula;
+
+    private String ruleDescription;
+
     private String dataContent;
 
     private Timestamp updateTime;
@@ -52,6 +60,38 @@ public class MonitorData {
         this.ruleId = ruleId;
     }
 
+    public String getUrlDescription() {
+        return urlDescription;
+    }
+
+    public void setUrlDescription(String urlDescription) {
+        this.urlDescription = urlDescription;
+    }
+
+    public String getRuleAlias() {
+        return ruleAlias;
+    }
+
+    public void setRuleAlias(String ruleAlias) {
+        this.ruleAlias = ruleAlias;
+    }
+
+    public String getFormula() {
+        return formula;
+    }
+
+    public void setFormula(String formula) {
+        this.formula = formula;
+    }
+
+    public String getRuleDescription() {
+        return ruleDescription;
+    }
+
+    public void setRuleDescription(String ruleDescription) {
+        this.ruleDescription = ruleDescription;
+    }
+
     public String getDataContent() {
         return dataContent;
     }
@@ -66,5 +106,22 @@ public class MonitorData {
 
     public void setUpdateTime(Timestamp updateTime) {
         this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("MonitorData{");
+        sb.append("dataId='").append(dataId).append('\'');
+        sb.append(", serviceId='").append(serviceId).append('\'');
+        sb.append(", urlId='").append(urlId).append('\'');
+        sb.append(", ruleId='").append(ruleId).append('\'');
+        sb.append(", urlDescription='").append(urlDescription).append('\'');
+        sb.append(", ruleAlias='").append(ruleAlias).append('\'');
+        sb.append(", formula='").append(formula).append('\'');
+        sb.append(", ruleDescription='").append(ruleDescription).append('\'');
+        sb.append(", dataContent='").append(dataContent).append('\'');
+        sb.append(", updateTime=").append(updateTime);
+        sb.append('}');
+        return sb.toString();
     }
 }

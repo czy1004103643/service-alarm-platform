@@ -1,27 +1,29 @@
-$(function () {
+$(function() {
     //$("#response-data").JSONView(jsonStr)
     var urlId = getUrlParam("urlId")
     initRulePage(urlId)
-    get("/rule/getServiceNameByUrl?urlId=" + urlId, function (result) {
+    get("/rule/getServiceNameByUrl?urlId=" + urlId, function(result) {
         var service = result.data
         $("#service-name").text(service.serviceName)
-    }, function (e) {
+    }, function(e) {
         console.log(e)
     })
 })
 
 function initRulePage(urlId) {
-    get("/rule/getRuleList?urlId=" + urlId, function (result) {
+    get("/rule/getRuleList?urlId=" + urlId, function(result) {
 
         if (result.code == 0) {
             buildRuleTable(result.data)
+            $('#rule-table').DataTable()
+            $('.dataTables_length').addClass('bs-select')
         }
-    }, function (e) {
+    }, function(e) {
         console.log(e)
     })
-    get("/url/getUrlById?urlId=" + urlId, function (result) {
+    get("/url/getUrlById?urlId=" + urlId, function(result) {
         $("#current-url").text(result.data.urlContent)
-    }, function (e) {
+    }, function(e) {
         console.log(e)
     })
 }
@@ -52,70 +54,70 @@ function buildRuleTable(ruleList) {
 }
 
 
-$("#request-url").on("click", function () {
+$("#request-url").on("click", function() {
     var urlId = getUrlParam("urlId")
     layer.load(2)
-    get("/rule/requestUrl?urlId=" + urlId, function (result) {
+    get("/rule/requestUrl?urlId=" + urlId, function(result) {
         var data = result.data
         if (data.key) {
             $("#response-data").JSONView(data.value);
         } else {
             layer.msg("request error, please check url and params")
         }
-        setTimeout(function () {
+        setTimeout(function() {
             layer.closeAll('loading');
         }, 10)
-    }, function (e) {
+    }, function(e) {
         console.log(e)
     })
 })
 
-$("body").delegate(".rule-edit", "click", function () {
+$("body").delegate(".rule-edit", "click", function() {
     $('#modalContactForm').addClass('show')
     $("add-new-rule").attr("aria-expanded", true)
     var ruleId = $(this).attr("data-id")
     $("#rule-save").attr("data-id", ruleId)
-    get("/rule/getRuleById?ruleId=" + ruleId, function (result) {
+    get("/rule/getRuleById?ruleId=" + ruleId, function(result) {
         var rule = result.data
         $("#modalContactForm label").addClass("active")
         $("#rule-alias").val(rule.ruleAlias)
         $("#formula").val(rule.formula)
         $("#description").val(rule.description)
-    }, function (e) {
+    }, function(e) {
 
     })
 })
 
-$("body").delegate(".rule-delete", "click", function () {
+$("body").delegate(".rule-delete", "click", function() {
     var ruleId = $(this).attr("data-id")
     $("#delete-yes").attr("data-id", ruleId)
 
 })
 
-$("#delete-yes").on("click", function () {
+$("#delete-yes").on("click", function() {
     var ruleId = $(this).attr("data-id")
     var dataJson = { "ruleId": ruleId }
-    del("/rule/deleteRuleById", dataJson, function (result) {
+    del("/rule/deleteRuleById", dataJson, function(result) {
         if (result.code == 0) {
             $("#close").click()
         } else {
             layer.msg("delete error")
         }
-        message(1000, function () {
+        message(1000, function() {
             layer.msg("Delete Success")
         })
-    }, function (e) {
+    }, function(e) {
         console.log(e)
     })
 })
 
-$("#add-new-rule").on("click", function () {
+$("#add-new-rule").on("click", function() {
     $("#modalContactForm label").removeClass("active")
     $("#modalContactForm input").val("")
     $("#response-data").text("")
 })
 
-$("#rule-save").on("click", function () {
+$("#rule-save").on("click", function() {
     var urlId = getUrlParam("urlId")
     var ruleId = $(this).attr("data-id")
     var ruleAlias = $("#rule-alias").val()
@@ -140,37 +142,37 @@ $("#rule-save").on("click", function () {
         "description": description
     }
     layer.load(2)
-    post("/rule/checkRule", ruleJson, function (result) {
-        setTimeout(function () {
+    post("/rule/checkRule", ruleJson, function(result) {
+        setTimeout(function() {
             layer.closeAll('loading');
         }, 10)
         if (result.code == 0) {
-            post("/rule/saveRule", ruleJson, function (result2) {
+            post("/rule/saveRule", ruleJson, function(result2) {
                 if (result2.code == 0) {
                     window.location.reload()
                 } else {
                     layer.msg("save rule error")
                 }
-            }, function (e) {
+            }, function(e) {
                 console.log(e)
             })
         } else {
             layer.msg("formula verification failed, please check")
         }
-    }, function (e) {
+    }, function(e) {
 
     })
 
 })
 
-$("#formula-tip").on("click", function () {
+$("#formula-tip").on("click", function() {
     $("#formula-tip-content").show()
 })
 
 var keyStr = ''
 var keyType = ''
 var keyValue
-$("body").delegate(".prop", "click", function () {
+$("body").delegate(".prop", "click", function() {
 
     var currentDom = $(this)
     var keyType = currentDom.next().attr("class")

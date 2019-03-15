@@ -1,78 +1,78 @@
-$(function () {
+$(function() {
     var serviceId = getUrlParam("serviceId")
     initUrlPage(serviceId)
-    get("/service/getServiceById?serviceId=" + serviceId, function (result) {
+    get("/service/getServiceById?serviceId=" + serviceId, function(result) {
         var service = result.data
         $("#service-name").text(service.serviceName)
-    }, function (e) {
+    }, function(e) {
         console.log(e)
     })
 })
 
-$("#add-new-url").on("click", function () {
+$("#add-new-url").on("click", function() {
     $(this).attr("data-id", "")
     $("#modalContactForm input").val("")
     $("#modalContactForm textarea").val("")
     $("#url-save").attr("save-type", "")
 })
 
-$("#url-save").on("click", function () {
+$("#url-save").on("click", function() {
     var urlJson = getInputValues()
     layer.load(2)
     var saveType = $(this).attr("save-type")
     if (saveType == 'copy') {
-        post("/url/copyUrl", urlJson, function (result) {
+        post("/url/copyUrl", urlJson, function(result) {
             if (result.code == 0) {
                 window.location.reload()
             } else {
                 layer.msg("save url error")
             }
-            setTimeout(function () {
+            setTimeout(function() {
                 layer.closeAll('loading');
             }, 10)
-        }, function (e) {
+        }, function(e) {
             console.log(e)
         })
     } else {
-        post("/url/saveUrl", urlJson, function (result) {
+        post("/url/saveUrl", urlJson, function(result) {
             if (result.code == 0) {
                 window.location.reload()
             } else {
                 layer.msg("save url error")
             }
-            setTimeout(function () {
+            setTimeout(function() {
                 layer.closeAll('loading');
             }, 10)
-        }, function (e) {
+        }, function(e) {
             console.log(e)
         })
     }
 
 })
-$("body").delegate(".url-copy", "click", function () {
+$("body").delegate(".url-copy", "click", function() {
     $('#modalContactForm').addClass('show')
     $("add-new-url").attr("aria-expanded", true)
     var urlId = $(this).attr("data-id")
     $("#url-save").attr("data-id", urlId)
-    get("/url/getUrlById?urlId=" + urlId, function (result) {
+    get("/url/getUrlById?urlId=" + urlId, function(result) {
         var url = result.data
         setData(url)
         $("#url-save").attr("save-type", "copy")
-    }, function (e) {
+    }, function(e) {
         console.log(e)
     })
 })
 
-$("body").delegate(".url-edit", "click", function () {
+$("body").delegate(".url-edit", "click", function() {
     $("#url-save").attr("save-type", "")
     $('#modalContactForm').addClass('show')
     $("add-new-url").attr("aria-expanded", true)
     var urlId = $(this).attr("data-id")
     $("#url-save").attr("data-id", urlId)
-    get("/url/getUrlById?urlId=" + urlId, function (result) {
+    get("/url/getUrlById?urlId=" + urlId, function(result) {
         var url = result.data
         setData(url)
-    }, function (e) {
+    }, function(e) {
         console.log(e)
     })
 })
@@ -94,26 +94,26 @@ function setData(url) {
     }
 }
 
-$("body").delegate(".url-delete", "click", function () {
+$("body").delegate(".url-delete", "click", function() {
     var urlId = $(this).attr("data-id")
     $("#delete-yes").attr("data-id", urlId)
 
 })
 
-$("#delete-yes").on("click", function () {
+$("#delete-yes").on("click", function() {
     var urlId = $(this).attr("data-id")
     var dataJson = { "urlId": urlId }
-    del("/url/deleteUrlById", dataJson, function (result) {
+    del("/url/deleteUrlById", dataJson, function(result) {
         if (result.code == 0) {
             $("#close").click()
-            message(1000, function () {
+            message(1000, function() {
                 layer.msg("Delete Success")
             })
         } else {
             layer.msg("delete error")
         }
 
-    }, function (e) {
+    }, function(e) {
         console.log(e)
     })
 })
@@ -135,12 +135,14 @@ function buildParamList(paramJson) {
 }
 
 function initUrlPage(serviceId) {
-    get("/url/getUrlList?serviceId=" + serviceId, function (result) {
+    get("/url/getUrlList?serviceId=" + serviceId, function(result) {
         if (result.code == 0) {
             var urlList = result.data
             buildUrlTable(urlList)
+            $('#url-table').DataTable()
+            $('.dataTables_length').addClass('bs-select')
         }
-    }, function (e) {
+    }, function(e) {
         console.log(e)
     })
 }
@@ -173,10 +175,10 @@ function buildUrlTable(urlList) {
     $("#url-table tbody").html(html)
 }
 
-$("#url-test").on("click", function () {
+$("#url-test").on("click", function() {
     var urlJson = getInputValues()
     if (!isEmpty(urlJson)) {
-        post("/url/checkUrl", urlJson, function (result) {
+        post("/url/checkUrl", urlJson, function(result) {
             layer.load(2)
             var data = result.data
             if (data.key) {
@@ -191,10 +193,10 @@ $("#url-test").on("click", function () {
             } else {
                 layer.msg("request error, please check url and params")
             }
-            setTimeout(function () {
+            setTimeout(function() {
                 layer.closeAll('loading');
             }, 10)
-        }, function (e) {
+        }, function(e) {
             console.log(e)
         })
 
@@ -255,7 +257,7 @@ function getInputValues() {
     return urlJson
 }
 
-$("#add-param").on("click", function () {
+$("#add-param").on("click", function() {
 
     var keyValHtml = '<div class="row margin-top-10">' +
         '<div class="col-2">' +
@@ -271,7 +273,7 @@ $("#add-param").on("click", function () {
 
 
 
-$("#url-get").on("click", function () {
+$("#url-get").on("click", function() {
     $("#url-btn").text("GET")
     var paramTab = $("#param-tab")
     var paramContent = $("#param")
@@ -292,7 +294,7 @@ $("#url-get").on("click", function () {
     $("#url-content").attr("request-type", "GET")
 })
 
-$("#url-post").on("click", function () {
+$("#url-post").on("click", function() {
     $("#url-btn").text("POST")
 
     var bodyTab = $("#body-tab")

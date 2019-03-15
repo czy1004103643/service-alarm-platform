@@ -30,4 +30,9 @@ public class ViewController {
         return "rule";
     }
 
+    @RequestMapping("/monitor")
+    public String monitor() {
+        return "monitor";
+    }
+
 }

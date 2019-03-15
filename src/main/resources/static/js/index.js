@@ -1,13 +1,13 @@
-$(function () {
+$(function() {
     initGroupPage()
 })
 
 
 function initGroupPage() {
-    get("/group/getGroupList", function (result) {
+    get("/group/getGroupList", function(result) {
         var groupList = result.data
         buildPage(groupList)
-    }, function (e) {
+    }, function(e) {
         console.log(e)
     })
 }
@@ -51,9 +51,9 @@ $("#new-group").on("click", function() {
     $("#description").val("")
 })
 
-$("body").delegate(".group-edit", "click", function () {
+$("body").delegate(".group-edit", "click", function() {
     var groupId = $(this).attr("data-id")
-    get("/group/getGroupById?groupId=" + groupId, function (result) {
+    get("/group/getGroupById?groupId=" + groupId, function(result) {
         var code = result.code
         if (code == 0) {
             var group = result.data
@@ -62,12 +62,12 @@ $("body").delegate(".group-edit", "click", function () {
             $("#group-name").val(group.groupName)
             $("#description").val(group.description)
         }
-    }, function (e) {
+    }, function(e) {
         console.log(e)
     })
 })
 
-$("#save-group").on("click", function () {
+$("#save-group").on("click", function() {
     var groupId = $("#group-id").val()
     var groupName = $("#group-name").val()
     var description = $("#description").val()
@@ -81,40 +81,40 @@ $("#save-group").on("click", function () {
         "groupName": groupName,
         "description": description
     }
-    post("/group/saveGroup", serviceModel, function (result) {
+    post("/group/saveGroup", serviceModel, function(result) {
         if (result.code == 0) {
             $("#close-edit").click()
-            message(1000, function () {
+            message(1000, function() {
                 layer.msg('save success')
             })
         } else {
-            layer.msg('save error', function(){})
+            layer.msg('save error', function() {})
         }
 
-    }, function (e) {
+    }, function(e) {
         console.log(e)
     })
 })
 
-$("body").delegate(".group-delete", "click", function () {
+$("body").delegate(".group-delete", "click", function() {
     var groupId = $(this).attr("data-id")
     $("#delete-yes").attr("data-id", groupId)
 })
 
-$("#delete-yes").on("click", function () {
+$("#delete-yes").on("click", function() {
     var groupId = $(this).attr("data-id")
     var dataJson = { "groupId": groupId }
-    del("/group/deleteGroupById", dataJson, function (result) {
+    del("/group/deleteGroupById", dataJson, function(result) {
         if (result.code == 0) {
             $("#close").click()
-            message(1000, function () {
+            message(1000, function() {
                 layer.msg("delete success")
             })
         } else {
             layer.msg("delete error")
         }
 
-    }, function (e) {
+    }, function(e) {
         console.log(e)
     })
 })

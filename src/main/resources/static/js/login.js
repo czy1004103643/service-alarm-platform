@@ -1,9 +1,9 @@
-$(function () {
+$(function() {
 
 });
 
 // user login
-$("#login").on("click", function () {
+$("#login").on("click", function() {
     var userName = $("#userName").val();
     var password = $("#password").val();
     var user = {};
@@ -15,14 +15,14 @@ $("#login").on("click", function () {
         contentType: "application/json",
         dataType: "JSON",
         data: JSON.stringify(user),
-        success: function (result) {
+        success: function(result) {
             if (result.code == 0) {
                 window.location.href = "/index";
             } else {
                 console.log(result)
             }
         },
-        error: function (e) {
+        error: function(e) {
             console.log(e)
         }
     })

@@ -1,15 +1,15 @@
-$(function () {
+$(function() {
     var groupId = getUrlParam("groupId")
     initServiceList(groupId)
-    get("/group/getGroupById?groupId=" + groupId, function (result) {
+    get("/group/getGroupById?groupId=" + groupId, function(result) {
         var group = result.data
         $("#group-name").val(group.groupName)
         $("#group-name2").text(group.groupName)
-    }, function () {
+    }, function() {
 
     })
 
-    get("/service/getWechatAppList", function (result) {
+    get("/service/getWechatAppList", function(result) {
         var appNameList = result.data
         var html = ''
         if (appNameList != null && appNameList.length > 0) {
@@ -22,22 +22,22 @@ $(function () {
             }
             $("#wechat-app-list").html(html)
         }
-    }, function (e) {
+    }, function(e) {
 
     })
 })
 
-$("#new-service").on("click", function () {
+$("#new-service").on("click", function() {
     $("#group-name").next().addClass("active")
     $("#service-name").val("")
     $("#description").val("")
     $("#service-id").val("")
 })
 
-$("body").delegate(".service-edit", "click", function () {
+$("body").delegate(".service-edit", "click", function() {
     var serviceId = $(this).attr("data-id")
     $(".input-title").addClass("active")
-    get("/service/getServiceById?serviceId=" + serviceId, function (result) {
+    get("/service/getServiceById?serviceId=" + serviceId, function(result) {
         console.log(result)
         var code = result.code
         if (code == 0) {
@@ -74,23 +74,23 @@ $("body").delegate(".service-edit", "click", function () {
             }
         }
 
-    }, function (e) {
+    }, function(e) {
         console.log(e)
     })
 })
 
-$("#save-service").on("click", function () {
+$("#save-service").on("click", function() {
     var serviceId = $("#service-id").val()
     var grouId = getUrlParam("groupId")
     var serviceName = $("#service-name").val()
     var description = $("#description").val()
     var alarmWay = ''
     var wechatAppName = ''
-    $(".check-box-container").find('input:checkbox').each(function () { //遍历所有复选框
+    $(".check-box-container").find('input:checkbox').each(function() { //遍历所有复选框
         if ($(this).prop('checked') == true) {
             var oneWay = $(this).val().toUpperCase()
             if (oneWay == 'WECHAT') {
-                $(".wechat-app-container").find('input:checkbox').each(function () { //遍历所有复选框
+                $(".wechat-app-container").find('input:checkbox').each(function() { //遍历所有复选框
                     if ($(this).prop('checked') == true) {
                         wechatAppName += $(this).val()
                         wechatAppName += '|'
@@ -119,52 +119,54 @@ $("#save-service").on("click", function () {
         "wechatAppName": wechatAppName,
         "description": description
     }
-    post("/service/saveServiceModel", serviceModel, function (result) {
+    post("/service/saveServiceModel", serviceModel, function(result) {
         if (result.code == 0) {
             $("#close-edit").click()
-            message(1000, function () {
+            message(1000, function() {
                 layer.msg('Save Success')
             })
         } else {
-            layer.msg('save error', function () { })
+            layer.msg('save error', function() {})
         }
 
-    }, function (e) {
+    }, function(e) {
         console.log(e)
     })
 })
 
-$("body").delegate(".service-delete", "click", function () {
+$("body").delegate(".service-delete", "click", function() {
     var serviceId = $(this).attr("data-id")
     $("#delete-yes").attr("data-id", serviceId)
 })
 
-$("#delete-yes").on("click", function () {
+$("#delete-yes").on("click", function() {
     var serviceId = $(this).attr("data-id")
     var dataJson = { "serviceId": serviceId }
-    del("/service/deleteServiceById", dataJson, function (result) {
+    del("/service/deleteServiceById", dataJson, function(result) {
         if (result.code == 0) {
             $("#close").click()
-            message(1000, function () {
+            message(1000, function() {
                 layer.msg("Delete Success")
             })
         } else {
             layer.msg("delete error")
         }
 
-    }, function (e) {
+    }, function(e) {
         console.log(e)
     })
 })
 
 function initServiceList(groupId) {
-    get("/service/getServiceModelList?groupId=" + groupId, function (result) {
+    get("/service/getServiceModelList?groupId=" + groupId, function(result) {
         var code = result.code;
         if (code == 0) {
             var serviceList = result.data
             buildServiceTable(serviceList)
+            $('#service-table').DataTable();
+            $('.dataTables_length').addClass('bs-select');
         }
-    }, function (e) {
+    }, function(e) {
         console.log(e)
     })
 }
@@ -203,14 +205,14 @@ function buildServiceTable(serviceList) {
             '<td>' +
             '<i class="fas fa-edit text-default icon-margin service-edit" data-toggle="modal" data-target="#modalContactForm" data-id="' + serviceId + '"></i>' +
             '<i class="fas fa-trash-alt text-orange icon-margin service-delete" data-toggle="modal" data-target="#modalConfirmDelete" data-id="' + serviceId + '"></i>' +
-            '<a target="_blank" href="/monitor/getAlarmList?serviceId=' + serviceId + '"><i class="far fa-bell text-orange icon-margin service-delete" ></i></a>' +
+            '<a target="_blank" href="/monitor?serviceId=' + serviceId + '"><i class="far fa-bell text-warning icon-margin" ></i></a>' +
             '</td>' +
             '</tr>'
     }
     $("#service-table tbody").html(html)
 }
 
-$("input[type=checkbox]").on("click", function () {
+$("input[type=checkbox]").on("click", function() {
     if ($(this).attr('checked') == 'checked') {
         $(this).removeAttr('checked')
         var id = $(this).attr("id")
@@ -226,7 +228,7 @@ $("input[type=checkbox]").on("click", function () {
     }
 })
 
-$("body").delegate(".wechat-app-container input[type=checkbox]", "click", function () {
+$("body").delegate(".wechat-app-container input[type=checkbox]", "click", function() {
     if ($(this).attr('checked') == 'checked') {
         $(this).removeAttr('checked')
     } else {
