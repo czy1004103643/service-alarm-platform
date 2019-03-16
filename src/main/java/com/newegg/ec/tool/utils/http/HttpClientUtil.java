@@ -2,6 +2,7 @@ package com.newegg.ec.tool.utils.http;
 
 
 import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.*;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
@@ -142,9 +143,11 @@ public class HttpClientUtil {
             }
         }
         try {
-            //解决中文乱码问题
-            StringEntity entity = new StringEntity(postJson.toString(), UTF8);
-            httpPost.setEntity(entity);
+            if (postJson != null &&StringUtils.isNotBlank(postJson.toJSONString())) {
+                //解决中文乱码问题
+                StringEntity entity = new StringEntity(postJson.toString(), UTF8);
+                httpPost.setEntity(entity);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
