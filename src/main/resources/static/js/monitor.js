@@ -31,7 +31,6 @@ function buildUrlTable(monitorDataList) {
             var updateTime = monitorData.updateTime
             var time = formatTime(updateTime)
             html += '<tr>' +
-                '<td></td>' +
                 '<td>' + monitorData.urlDescription + '</td>' +
                 '<td>' + monitorData.ruleAlias + '</td>' +
                 '<td>' + monitorData.formula + '</td>' +
