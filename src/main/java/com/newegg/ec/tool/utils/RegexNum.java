@@ -3,6 +3,7 @@ package com.newegg.ec.tool.utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -48,17 +49,19 @@ public class RegexNum {
         return formulaKeyList.size() > 0 ? formulaKeyList.get(0) : null;
     }
 
-    public static String getRealKey(String formula) {
-        Pattern pattern = Pattern.compile(".*@\\.(.*)(<|>|==|!=)");
+    public static List<String> getRealKey(String formula) {
+        List<String> list = new ArrayList<>();
+        Pattern pattern = Pattern.compile("@\\.(.*?)(>|<|==|!=)");
         Matcher m = pattern.matcher(formula);
         String realKey = null;
-        if (m.find()) {
+        while (m.find()) {
             realKey = m.group(1).trim();
-        } else {
-            logger.error("============== No match ==============" + formula);
+            list.add(realKey);
         }
-        return realKey;
+        return list;
     }
+
+
 
 
     public static List<String> getFormulaKeyList(String formula) {

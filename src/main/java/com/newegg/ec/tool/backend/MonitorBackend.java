@@ -20,7 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -88,9 +91,18 @@ public class MonitorBackend {
         Rule rule = entry.getKey();
         JSONArray array = entry.getValue();
         LinkedHashMap firElem = (LinkedHashMap) array.get(0);
-        String realKey = RegexNum.getRealKey(rule.getFormula());
+        List<String> realKey = RegexNum.getRealKey(rule.getFormula());
+        String realData = "";
         if (realKey != null) {
-            String realData = realKey + "=" + firElem.get(realKey);
+            if (realKey.size() == 1) {
+                String ks = realKey.get(0);
+                realData = realData + ks + "=" + firElem.get(ks);
+            } else {
+                for (String ks : realKey) {
+                    realData = realData + ks + "=" + firElem.get(ks) + "\\n";
+                }
+            }
+
             boolean isSend = filterAlarmMessage(rule, url, realData);
             if (isSend) {
                 ServiceModel serviceModel = appService.getServiceModelById(url.getServiceId());
